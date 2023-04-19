@@ -75,11 +75,11 @@
 				Our Work
 			</h2>
 			<div
-				class="flex flex-col items-center justify-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-8 mt-10"
+				class="flex flex-col items-center justify-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-8 mt-12"
 			>
 				<title>Jazz</title>
 				<iframe
-					class="w-96 lg:w-1/5"
+					class="w-96 h-96 lg:w-1/5"
 					style="border-radius: 12px"
 					src="https://open.spotify.com/embed/album/6FCzvataOZh68j8OKzOt9a?utm_source=generator"
 					width="20%"
@@ -91,7 +91,7 @@
 
 				<title>Pop</title>
 				<iframe
-					class="w-96 lg:w-1/5"
+					class="w-96 h-96 lg:w-1/5"
 					style="border-radius: 12px"
 					src="https://open.spotify.com/embed/playlist/37i9dQZF1DX7D8GQsPKGvy?utm_source=generator"
 					width="20%"
@@ -103,7 +103,7 @@
 
 				<title>Hip-Hop</title>
 				<iframe
-					class="w-96 lg:w-1/5"
+					class="w-96 h-96 lg:w-1/5"
 					style="border-radius: 12px"
 					src="https://open.spotify.com/embed/playlist/6ddS6zsEjzvf0NgPOzSrL1?utm_source=generator"
 					width="20%"
@@ -115,7 +115,7 @@
 
 				<title>Electro</title>
 				<iframe
-					class="w-96 lg:w-1/5"
+					class="w-96 h-96 lg:w-1/5"
 					style="border-radius: 12px"
 					src="https://open.spotify.com/embed/album/5wBz69rJgZF0s2y2KWQXfV?utm_source=generator"
 					width="20%"

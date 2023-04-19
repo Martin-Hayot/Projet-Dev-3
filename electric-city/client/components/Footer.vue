@@ -14,7 +14,7 @@
 						class="flex flex-col items-center space-y-4 font-bold text-white md:flex-row md:space-y-0 md:space-x-6 md:ml-3"
 					>
 						<div class="h-10 group">
-							<a href="#">About</a>
+							<a href="#">About Us</a>
 							<div
 								class="mx-2 group-hover:border-b group-hover:border-blue-50"
 							></div>
