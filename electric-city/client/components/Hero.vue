@@ -73,18 +73,18 @@
 			</nav>
 			<div class="text-white text-center m-auto my-40 z-40">
 				<h1
-					class="text-5xl font-bold tracking-wide leading-tight font-sans z-10"
+					class="text-4xl font-bold tracking-wide leading-tight font-sans z-10"
 				>
-					<strong class="font-bold text-7xl z-10">Electric City</strong><br />
+					<strong class="font-bold text-6xl z-10">Electric City</strong><br />
 					Mastering Studio
 				</h1>
-				<p class="text-2xl font-normal mt-5 font-sans z-10">
+				<p class="text-2xl font-semibold mt-5 font-sans z-10">
 					Depuis 1985 <br />
 					nous sommes au service de la scène musicale belge et internationale
 					<br />pour du mastering analogue sans compromis
 				</p>
 				<button
-					class="font-sans p-3 bg-transparent text-base text-white font-semibold mt-4 rounded-md border-2 border-white hover:bg-white hover:text-black hover: transition duration-500 ease-in-out"
+					class="font-sans p-3 bg-[#00000067] text-base text-white font-semibold mt-4 rounded-md border-2 border-white hover:bg-white hover:text-black hover: transition duration-500 ease-in-out"
 				>
 					En savoir plus ...
 				</button>
