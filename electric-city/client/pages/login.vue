@@ -1,14 +1,39 @@
+<script setup>
+	const handleSubmit = (e) => {
+		$fetch("http://localhost:3001/api/auth/login", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				email: e.target.email.value,
+				password: e.target.password.value,
+			}),
+		})
+			.then((data) => {
+				if (data.error) {
+					alert(data.message);
+				} else {
+					localStorage.setItem("token", data.accesToken);
+					localStorage.setItem("user", JSON.stringify(data.user));
+					navigateTo("/");
+				}
+			})
+			.catch((err) => console.log(err));
+	};
+</script>
+
 <template>
-	<section class="bg-gray-600">
+	<section class="bg-gray-50 dark:bg-gray-900">
 		<div
 			class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
 		>
-			<a
-				href="/"
+			<NuxtLink
+				to="/"
 				class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
 			>
 				<img class="w-40 h-20 mr-2" src="/logo-white-cropped.png" alt="logo" />
-			</a>
+			</NuxtLink>
 			<div
 				class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
 			>
@@ -18,7 +43,7 @@
 					>
 						Sign in to your account
 					</h1>
-					<form class="space-y-4 md:space-y-6" action="#">
+					<form class="space-y-4 md:space-y-6" @submit.prevent="handleSubmit">
 						<div>
 							<label
 								for="email"
@@ -54,6 +79,7 @@
 								<div class="flex items-center h-5">
 									<input
 										id="remember"
+										name="remember"
 										aria-describedby="remember"
 										type="checkbox"
 										class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
@@ -65,11 +91,11 @@
 									>
 								</div>
 							</div>
-							<a
-								href="#"
+							<NuxtLink
+								to="/password-reset"
 								class="text-sm font-medium text-blue-600 hover:underline"
-								>Forgot password?</a
-							>
+								>Forgot password?
+							</NuxtLink>
 						</div>
 						<button
 							type="submit"
@@ -79,11 +105,12 @@
 						</button>
 						<p class="text-sm font-light text-gray-500 dark:text-gray-400">
 							Don't have an account yet?
-							<a
-								href="/signup"
+							<NuxtLink
+								to="/signup"
 								class="font-medium text-blue-600 hover:underline"
-								>Sign up</a
 							>
+								Sign up
+							</NuxtLink>
 						</p>
 					</form>
 				</div>
