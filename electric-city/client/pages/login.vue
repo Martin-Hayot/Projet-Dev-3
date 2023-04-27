@@ -1,7 +1,7 @@
 <script setup>
 	const store = useAuthStore();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		$fetch("http://localhost:3001/api/auth/login", {
 			method: "POST",
 			headers: {
@@ -20,8 +20,8 @@
 						store.token = data.accessToken;
 						store.user = data.user;
 						store.saveDataToLocalStorage();
-						navigateTo("/user/");
 					}
+					navigateTo({ path: "/user/dashboard" });
 				}
 			})
 			.catch((err) => console.log(err));

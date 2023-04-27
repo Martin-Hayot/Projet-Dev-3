@@ -92,14 +92,14 @@
 					Mastering Studio
 				</h1>
 				<p class="text-2xl font-semibold mt-5 font-sans z-10">
-					Depuis 1985 <br />
-					nous sommes au service de la scène musicale belge et internationale
-					<br />pour du mastering analogue sans compromis
+					Since 1985 <br />
+					we have been serving the Belgian and international music scene
+					<br />for analog mastering without compromise
 				</p>
 				<button
 					class="font-sans p-3 bg-[#00000067] text-base text-white font-semibold mt-4 rounded-md border-2 border-white hover:bg-white hover:text-black hover: transition duration-500 ease-in-out"
 				>
-					En savoir plus ...
+					Learn more ...
 				</button>
 			</div>
 		</div>

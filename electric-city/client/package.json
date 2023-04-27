@@ -16,6 +16,7 @@
 		"@nuxt/image-edge": "^1.0.0-28004510.a0dc8e8",
 		"@pinia/nuxt": "^0.4.9",
 		"pinia": "^2.0.35",
-		"pinia-plugin-persistedstate": "^3.1.0"
+		"pinia-plugin-persistedstate": "^3.1.0",
+		"vue-meeting-selector": "^3.0.2"
 	}
 }
