@@ -1,3 +1,15 @@
+<script>
+	export default {
+		setup() {
+			const store = useAuthStore();
+			onMounted(() => {
+				store.loadDataFromLocalStorage();
+			});
+			const isLoggedIn = store.token;
+		},
+	};
+</script>
+
 <template>
 	<section class="relative">
 		<img
@@ -44,20 +56,21 @@
 							class="opacity-0 group-hover:opacity-100 mt-1 duration-200 group-hover:border-b group-hover:border-blue-50"
 						></div>
 					</div>
-					<div class="group">
+					<div v-if="!isLoggedIn" class="group">
 						<NuxtLink
 							class="text-white pb-2 no-underline text-2xl font-semibold z-10 border-2 rounded-lg px-4 py-1 hover:bg-white hover:text-black duration-200"
 							to="/login"
 							>Login</NuxtLink
 						>
 					</div>
-					<div class="group">
+					<div v-if="!isLoggedIn" class="group">
 						<NuxtLink
 							class="text-white border-2 rounded-lg px-4 py-1 hover:bg-white hover:text-black duration-200 pb-2 no-underline text-2xl font-semibold z-10"
 							to="/signup"
 							>Sign Up</NuxtLink
 						>
 					</div>
+					<div v-else>Profile</div>
 				</div>
 				<div class="md:hidden z-50 mt-6">
 					<button

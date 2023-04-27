@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const [authenticateToken, generateAccessToken] = require("../middleware/auth");
 const users = [];
 
@@ -24,7 +23,7 @@ router.post("/login", async (req, res) => {
 	try {
 		if (await bcrypt.compare(req.body.password, user.password)) {
 			const accessToken = generateAccessToken(user);
-			res.json({ accessToken: accessToken });
+			res.json({ accessToken: accessToken, user: user });
 		} else {
 			res.json({ errors: [{ msg: "Invalid credentials" }] });
 		}

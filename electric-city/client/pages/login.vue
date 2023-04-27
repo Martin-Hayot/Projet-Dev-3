@@ -1,4 +1,6 @@
 <script setup>
+	const store = useAuthStore();
+
 	const handleSubmit = (e) => {
 		$fetch("http://localhost:3001/api/auth/login", {
 			method: "POST",
@@ -14,9 +16,12 @@
 				if (data.error) {
 					alert(data.message);
 				} else {
-					localStorage.setItem("token", data.accesToken);
-					localStorage.setItem("user", JSON.stringify(data.user));
-					navigateTo("/");
+					if (process.client) {
+						store.token = data.accessToken;
+						store.user = data.user;
+						store.saveDataToLocalStorage();
+						navigateTo("/user/");
+					}
 				}
 			})
 			.catch((err) => console.log(err));

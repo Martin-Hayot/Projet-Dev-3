@@ -14,9 +14,11 @@
 				if (data.error) {
 					alert(data.message);
 				} else {
-					localStorage.setItem("token", data.accessToken);
-					localStorage.setItem("user", JSON.stringify(data.user));
-					navigateTo("/");
+					if (process.client) {
+						localStorage.setItem("token", data.accessToken);
+						localStorage.setItem("user", JSON.stringify(data.user));
+						navigateTo("/login");
+					}
 				}
 			})
 			.catch((err) => console.log(err));
