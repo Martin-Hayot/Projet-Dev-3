@@ -12,7 +12,7 @@ router.post("/signup", async (req, res) => {
 	user.password = await bcrypt.hash(password, 10);
 	users.push(user);
 	const accessToken = generateAccessToken(user);
-	res.json({ accessToken: accessToken, user: user });
+	res.json({ accessToken: accessToken, user: user.email });
 });
 
 router.post("/login", async (req, res) => {
@@ -23,7 +23,7 @@ router.post("/login", async (req, res) => {
 	try {
 		if (await bcrypt.compare(req.body.password, user.password)) {
 			const accessToken = generateAccessToken(user);
-			res.json({ accessToken: accessToken, user: user });
+			res.json({ accessToken: accessToken, user: user.email });
 		} else {
 			res.json({ errors: [{ msg: "Invalid credentials" }] });
 		}

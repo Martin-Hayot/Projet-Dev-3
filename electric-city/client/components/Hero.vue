@@ -11,93 +11,98 @@
 </script>
 
 <template>
-	<section class="relative">
+	<section class="tw-relative">
 		<img
 			src="StudioFond.jpg"
-			class="absolute -z-20 top-0 left-0 h-full w-full object-cover brightness-75"
+			class="tw-absolute -tw-z-20 tw-top-0 tw-left-0 tw-h-full tw-w-full tw-object-cover tw-brightness-75"
 		/>
 		<div
-			class="absolute -z-10 h-full w-full bg-gradient-to-b from-transparent via-transparent to-black"
+			class="tw-absolute -tw-z-10 tw-h-full tw-w-full tw-bg-gradient-to-b tw-from-transparent tw-via-transparent tw-to-black"
 		></div>
-		<div class="container max-w-7xl mx-auto px-6 py-6 z-50">
-			<nav class="flex items-center justify-between font-bold text-white z-50">
+		<div class="tw-container tw-max-w-7xl tw-mx-auto tw-px-6 tw-py-6 tw-z-50">
+			<nav
+				class="tw-flex tw-items-center tw-justify-between tw-font-bold tw-text-white tw-z-50"
+			>
 				<NuxtImg
 					src="./logo-white-cropped.png"
-					class="z-10 h-20 w-44 ml-2 -mt-4"
+					class="tw-z-10 tw-h-20 tw-w-44 tw-ml-2 -tw-mt-4"
 				></NuxtImg>
-				<div class="hidden h-10 font-alata mt-2 md:flex md:space-x-6 z-10">
-					<div class="group">
+				<div
+					class="tw-hidden tw-h-10 tw-font-alata tw-mt-2 md:tw-flex md:tw-space-x-6 tw-z-10"
+				>
+					<div class="tw-group">
 						<NuxtLink
-							class="text-white no-underline text-2xl font-semibold z-10"
+							class="tw-text-white tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
 							to="/"
 							>Home</NuxtLink
 						>
 						<div
-							class="opacity-0 group-hover:opacity-100 mt-1 duration-200 group-hover:border-b group-hover:border-blue-50"
+							class="tw-opacity-0 group-hover:tw-opacity-100 tw-mt-1 tw-duration-200 group-hover:tw-border-b group-hover:tw-border-blue-50"
 						></div>
 					</div>
-					<div class="group">
+					<div class="tw-group">
 						<NuxtLink
-							class="text-white no-underline text-2xl font-semibold z-10"
+							class="tw-text-white tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
 							to="/about"
 							>About</NuxtLink
 						>
 						<div
-							class="opacity-0 group-hover:opacity-100 mt-1 duration-200 group-hover:border-b group-hover:border-blue-50"
+							class="tw-opacity-0 group-hover:tw-opacity-100 tw-mt-1 tw-duration-200 group-hover:tw-border-b group-hover:tw-border-blue-50"
 						></div>
 					</div>
-					<div class="group">
+					<div class="tw-group">
 						<NuxtLink
-							class="text-white no-underline text-2xl font-semibold z-10"
+							class="tw-text-white tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
 							to="/contact"
 							>Contact</NuxtLink
 						>
 						<div
-							class="opacity-0 group-hover:opacity-100 mt-1 duration-200 group-hover:border-b group-hover:border-blue-50"
+							class="tw-opacity-0 group-hover:tw-opacity-100 tw-mt-1 tw-duration-200 group-hover:tw-border-b group-hover:tw-border-blue-50"
 						></div>
 					</div>
-					<div v-if="!isLoggedIn" class="group">
+					<div v-if="!isLoggedIn" class="tw-group">
 						<NuxtLink
-							class="text-white pb-2 no-underline text-2xl font-semibold z-10 border-2 rounded-lg px-4 py-1 hover:bg-white hover:text-black duration-200"
+							class="tw-text-white tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10 tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200"
 							to="/login"
 							>Login</NuxtLink
 						>
 					</div>
-					<div v-if="!isLoggedIn" class="group">
+					<div v-if="!isLoggedIn" class="tw-group">
 						<NuxtLink
-							class="text-white border-2 rounded-lg px-4 py-1 hover:bg-white hover:text-black duration-200 pb-2 no-underline text-2xl font-semibold z-10"
+							class="tw-text-white tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
 							to="/signup"
 							>Sign Up</NuxtLink
 						>
 					</div>
 					<div v-else>Profile</div>
 				</div>
-				<div class="md:hidden z-50 mt-6">
+				<div class="md:tw-hidden tw-z-50 tw-mt-6">
 					<button
 						id="menu-btn"
 						type="button"
-						class="z-50 hamburger md:hidden focus:outline-none"
+						class="tw-z-50 hamburger md:tw-hidden focus:tw-outline-none"
 					>
-						<span class="hamburger-top z-40"></span>
-						<span class="hamburger-middle z-40"></span>
-						<span class="hamburger-bottom z-40"></span>
+						<span class="hamburger-top tw-z-40"></span>
+						<span class="hamburger-middle tw-z-40"></span>
+						<span class="hamburger-bottom tw-z-40"></span>
 					</button>
 				</div>
 			</nav>
-			<div class="text-white text-center m-auto my-40 z-40">
+			<div class="tw-text-white tw-text-center tw-m-auto tw-my-40 tw-z-40">
 				<h1
-					class="text-4xl font-bold tracking-wide leading-tight font-sans z-10"
+					class="tw-text-4xl tw-font-bold tw-tracking-wide tw-leading-tight tw-font-sans tw-z-10"
 				>
-					<strong class="font-bold text-6xl z-10">Electric City</strong><br />
+					<strong class="tw-font-bold tw-text-6xl tw-z-10">Electric City</strong
+					><br />
 					Mastering Studio
 				</h1>
-				<p class="text-2xl font-semibold mt-5 font-sans z-10">
+				<p class="tw-text-2xl tw-font-semibold tw-mt-5 tw-font-sans tw-z-10">
 					Since 1985 <br />
 					we have been serving the Belgian and international music scene
 					<br />for analog mastering without compromise
 				</p>
 				<button
-					class="font-sans p-3 bg-[#00000067] text-base text-white font-semibold mt-4 rounded-md border-2 border-white hover:bg-white hover:text-black hover: transition duration-500 ease-in-out"
+					class="tw-font-sans tw-p-3 tw-bg-white tw-text-base tw-text-black tw-font-semibold tw-mt-4 tw-rounded-md hover:tw-bg-black hover:tw-text-white tw-transition tw-duration-500 tw-ease-in-out"
 				>
 					Learn more ...
 				</button>

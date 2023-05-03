@@ -24,12 +24,14 @@
 <script>
 	definePageMeta({
 		middleware: function (to, from) {
-			const store = useAuthStore();
-			store.loadDataFromLocalStorage();
-			const user = store.user;
+			if (process.client) {
+				const store = useAuthStore();
+				store.loadDataFromLocalStorage();
+				const user = store.user;
 
-			if (!user.value) {
-				navigateTo("/login");
+				if (!user.value) {
+					navigateTo("/login");
+				}
 			}
 		},
 	});

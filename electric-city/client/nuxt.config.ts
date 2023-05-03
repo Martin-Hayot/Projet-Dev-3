@@ -2,12 +2,16 @@
 export default defineNuxtConfig({
 	modules: ["@nuxt/image-edge", "@nuxtjs/tailwindcss", "@pinia/nuxt"],
 	plugins: [{ src: "~/plugins/pinia.client.js" }],
-	head: {
-		link: [
-			{
-				rel: "stylesheet",
-				href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap",
-			},
-		],
+	css: ["vuetify/lib/styles/main.sass"],
+	build: {
+		transpile: ["vuetify"],
+	},
+	vite: {
+		define: {
+			"process.env.DEBUG": false,
+		},
+	},
+	tailwindcss: {
+		configPath: "~/config/tailwind.config.js",
 	},
 });
