@@ -1,64 +1,64 @@
 <template>
-	<footer class="bg-zinc-900 pb-10">
-		<div class="container max-w-6xl pt-10 mx-auto">
+	<footer class="tw-bg-zinc-900 tw-pb-10">
+		<div class="tw-container tw-max-w-6xl tw-pt-10 tw-mx-auto">
 			<div
-				class="flex flex-col items-center justify-between space-y-6 md:flex-row md:space-y-0 md:justify-between md:items-start"
+				class="tw-flex tw-flex-col tw-items-center tw-justify-between tw-space-y-6 md:tw-flex-row md:tw-space-y-0 md:tw-justify-between md:tw-items-start"
 			>
 				<div
-					class="flex flex-col items-center space-y-8 md:items-start md:space-y-4"
+					class="tw-flex tw-flex-col tw-items-center tw-space-y-8 md:tw-items-start md:tw-space-y-4"
 				>
-					<div class="h-8 ml-4 text-white text-2xl font-bold">
+					<div class="tw-h-8 tw-ml-4 tw-text-white tw-text-2xl tw-font-bold">
 						Electric city
 					</div>
 					<div
-						class="flex flex-col items-center space-y-4 font-bold text-white md:flex-row md:space-y-0 md:space-x-6 md:ml-3"
+						class="tw-flex tw-flex-col tw-items-center tw-space-y-4 tw-font-bold tw-text-white md:tw-flex-row md:tw-space-y-0 md:tw-space-x-6 md:tw-ml-3"
 					>
-						<div class="h-10 group">
+						<div class="tw-h-10 tw-group">
 							<a href="#">About Us</a>
 							<div
-								class="mx-2 group-hover:border-b group-hover:border-blue-50"
+								class="tw-mx-2 group-hover:tw-border-b group-hover:tw-border-blue-50"
 							></div>
 						</div>
-						<div class="h-10 group">
+						<div class="tw-h-10 tw-group">
 							<a href="#">Equipment</a>
 							<div
-								class="mx-2 group-hover:border-b group-hover:border-blue-50"
+								class="tw-mx-2 group-hover:tw-border-b group-hover:tw-border-blue-50"
 							></div>
 						</div>
-						<div class="h-10 group">
+						<div class="tw-h-10 tw-group">
 							<a href="#">Services</a>
 							<div
-								class="mx-2 group-hover:border-b group-hover:border-blue-50"
+								class="tw-mx-2 group-hover:tw-border-b group-hover:tw-border-blue-50"
 							></div>
 						</div>
-						<div class="h-10 group">
+						<div class="tw-h-10 tw-group">
 							<a href="#">Contact Us</a>
 							<div
-								class="mx-2 group-hover:border-b group-hover:border-blue-50"
+								class="tw-mx-2 group-hover:tw-border-b group-hover:tw-border-blue-50"
 							></div>
 						</div>
 					</div>
 				</div>
 				<div
-					class="flex flex-col items-start justify-between space-y-4 text-gray-500"
+					class="tw-flex tw-flex-col tw-items-start tw-justify-between tw-space-y-4 tw-text-gray-500"
 				>
 					<div
-						class="flex items-center justify-center space-x-4 mx-auto md:justify-end"
+						class="tw-flex tw-items-center tw-justify-center tw-space-x-4 tw-mx-auto md:tw-justify-end"
 					>
-						<div class="h-8 group">
+						<div class="tw-h-8 tw-group">
 							<a href="#"><img src="/icon-facebook.svg" alt="" /></a>
 						</div>
-						<div class="h-8 group">
+						<div class="tw-h-8 tw-group">
 							<a href="#"><img src="/icon-twitter.svg" alt="" /></a>
 						</div>
-						<div class="h-8 group">
+						<div class="tw-h-8 tw-group">
 							<a href="#"><img src="/icon-pinterest.svg" alt="" /></a>
 						</div>
-						<div class="h-8 group">
+						<div class="tw-h-8 tw-group">
 							<a href="#"><img src="/icon-instagram.svg" alt="" /></a>
 						</div>
 					</div>
-					<div class="font-bold">
+					<div class="tw-font-bold">
 						&copy; 2023 Electric City. All rights reserved.
 					</div>
 				</div>
