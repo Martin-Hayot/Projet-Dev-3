@@ -1,24 +1,26 @@
 <template>
-	<div class="box">
-		<h1>Order history</h1>
-		<button class="bouton">Order now</button>
-		<table>
-			<thead>
-				<tr>
-					<th>Order id</th>
-					<th>Musique track name</th>
-					<th>Date of the order</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="commande in commandes" :key="commande.id">
-					<td>{{ commande.id }}</td>
-					<td>{{ commande.nomMusique }}</td>
-					<td>{{ formatDate(commande.dateCommande) }}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<NuxtLayout>
+		<div class="box">
+			<h1>Order history</h1>
+			<button class="bouton">Order now</button>
+			<table>
+				<thead>
+					<tr>
+						<th>Order id</th>
+						<th>Musique track name</th>
+						<th>Date of the order</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="commande in commandes" :key="commande.id">
+						<td>{{ commande.id }}</td>
+						<td>{{ commande.nomMusique }}</td>
+						<td>{{ formatDate(commande.dateCommande) }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</NuxtLayout>
 </template>
 
 <script>
@@ -66,6 +68,12 @@
 			},
 		},
 	};
+</script>
+
+<script setup>
+	definePageMeta({
+		layout: "custom",
+	});
 </script>
 
 <style scoped>
