@@ -31,17 +31,19 @@
         </div>
     </div>
 </template>
-<script setup>
-definePageMeta({
-    middleware: function (to,from){
-        const store = useAuthStore();
-        store.loadDataFromLocalStorage();
-        const user = store.user;
-        if(!user.value){
-            navigateTo("/login");
-        }
-    },
-});
+
+<script>
+	definePageMeta({
+		middleware: function (to, from) {
+			const store = useAuthStore();
+			store.loadDataFromLocalStorage();
+			const user = store.user;
+
+			if (!user.value) {
+				navigateTo("/login");
+			}
+		},
+	});
 </script>
 
 
