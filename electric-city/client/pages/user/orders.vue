@@ -1,3 +1,11 @@
 <template>
-	<div>Order page</div>
+	<NuxtLayout>
+		<div>Order page</div>
+	</NuxtLayout>
 </template>
+
+<script setup>
+	definePageMeta({
+		layout: "custom",
+	});
+</script>

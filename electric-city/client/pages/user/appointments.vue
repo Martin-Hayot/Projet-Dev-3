@@ -1,5 +1,13 @@
 <template>
-	<div>
-		<Calendar></Calendar>
-	</div>
+	<NuxtLayout>
+		<ClientOnly>
+			<Calendar></Calendar>
+		</ClientOnly>
+	</NuxtLayout>
 </template>
+
+<script setup>
+	definePageMeta({
+		layout: "custom",
+	});
+</script>

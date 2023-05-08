@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	modules: ["@nuxt/image-edge", "@nuxtjs/tailwindcss", "@pinia/nuxt"],
+	modules: [
+		"@nuxt/image-edge",
+		"@nuxtjs/tailwindcss",
+		"@pinia/nuxt",
+		"@vueuse/nuxt",
+	],
 	plugins: [{ src: "~/plugins/pinia.client.js" }],
 	css: ["vuetify/lib/styles/main.sass"],
 	build: {

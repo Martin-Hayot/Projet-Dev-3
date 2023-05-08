@@ -53,6 +53,38 @@
 						class="tw-space-y-4 md:tw-space-y-6"
 						@submit.prevent="handleSubmit"
 					>
+						<div class="tw-flex tw-justify-between">
+							<div>
+								<label
+									for="firstname"
+									class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white"
+									>First Name</label
+								>
+								<input
+									type="text"
+									name="firstname"
+									id="firstname"
+									class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-blue-600 focus:border-blue-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:tw-ring-blue-500 dark:focus:tw-border-blue-500"
+									placeholder="First Name"
+									required
+								/>
+							</div>
+							<div>
+								<label
+									for="lastname"
+									class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white"
+									>Last Name</label
+								>
+								<input
+									type="text"
+									name="lastname"
+									id="lastname"
+									class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-blue-600 focus:border-blue-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:tw-ring-blue-500 dark:focus:tw-border-blue-500"
+									placeholder="Last Name"
+									required
+								/>
+							</div>
+						</div>
 						<div>
 							<label
 								for="email"
