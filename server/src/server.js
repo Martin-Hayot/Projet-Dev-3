@@ -5,8 +5,18 @@ const cors = require("cors")
 const app = express();
 const port = 3000
 
+const userRouter = require("./routes/user")
+const orderRouter = require("./routes/order")
+const agendaRouter = require("./routes/agenda")
+const masteringRouter = require("./routes/mastering")
+
 app.use(cors())
 app.use(express.urlencoded({extended: false}))
+
+app.use("/", userRouter);
+app.use("/", orderRouter);
+app.use("/", agendaRouter);
+app.use("/", masteringRouter);
 
 app.get("/users", (req, res) =>{
     res.status(200).json({

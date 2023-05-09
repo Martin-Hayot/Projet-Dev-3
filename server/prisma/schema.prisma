@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      Role     @default(BASIC)
+  firstName String
+  lastName  String
+  email     String   @unique
+  orders    Order[]
+  meeting   Agenda[]
+}
+
+model Order {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  client      User      @relation(fields: [clientId], references: [id])
+  clientId    String
+  feedback    String?
+  price       Int       @default(0)
+  numbOfTrack Int       @default(1)
+  mastering   Mastering @relation(fields: [masteringId], references: [id])
+  masteringId String
+}
+
+model Mastering {
+  id            String  @id @default(uuid())
+  masteringType String  @unique
+  price         Float
+  orders        Order[]
+}
+
+model Agenda {
+  id       String   @id @default(uuid())
+  date     DateTime
+  client   User     @relation(fields: [clientId], references: [id])
+  clientId String
+}
+
+enum Role {
+  BASIC
+  ADMIN
+}
