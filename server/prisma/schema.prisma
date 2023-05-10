@@ -18,6 +18,7 @@ model User {
   firstName String
   lastName  String
   email     String   @unique
+  password  String
   orders    Order[]
   meeting   Agenda[]
 }
@@ -33,6 +34,7 @@ model Order {
   numbOfTrack Int       @default(1)
   mastering   Mastering @relation(fields: [masteringId], references: [id])
   masteringId String
+  Agenda      Agenda?
 }
 
 model Mastering {
@@ -47,6 +49,8 @@ model Agenda {
   date     DateTime
   client   User     @relation(fields: [clientId], references: [id])
   clientId String
+  order    Order    @relation(fields: [orderId], references: [id])
+  orderId  String   @unique
 }
 
 enum Role {
