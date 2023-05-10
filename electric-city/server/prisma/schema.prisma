@@ -14,9 +14,12 @@ model users {
   userId    Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  fullName  String   @db.VarChar(255)
+  firstname String
+  lastname  String
   email     String   @unique
+  password  String
   isAdmin   Boolean  @default(false)
+  access_token String?
   admins    admins?
   orders    orders?
   agenda    agenda?
@@ -51,5 +54,9 @@ model agenda {
   meetingId Int      @id @default(autoincrement())
   user      users    @relation(fields: [userId], references: [userId])
   userId    Int      @unique
+  description String
+  date        DateTime
+  nbrOfTracks Int
   createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

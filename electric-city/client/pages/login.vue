@@ -1,6 +1,5 @@
 <script setup>
-	const store = useAuthStore();
-
+	const accessToken = useCookie("access_token");
 	const handleSubmit = async (e) => {
 		$fetch("http://localhost:3001/api/auth/login", {
 			method: "POST",
@@ -16,11 +15,7 @@
 				if (data.error) {
 					alert(data.message);
 				} else {
-					if (process.client) {
-						store.token = data.accessToken;
-						store.user = data.user;
-						store.saveDataToLocalStorage();
-					}
+					accessToken.value = data.accessToken;
 					navigateTo({ path: "/user/dashboard" });
 				}
 			})
