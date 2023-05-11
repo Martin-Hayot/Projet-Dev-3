@@ -3,6 +3,7 @@
 		data() {
 			const date = new Date();
 			const days = [];
+			const thisDate = new Date().toISOString().slice(0, 10);
 			const currYear = date.getFullYear();
 			const currMonth = date.getMonth();
 			const thisMonth = date.getMonth();
@@ -22,18 +23,19 @@
 				"November",
 				"December",
 			];
-			let selectedDate = "";
+			let price = 85;
 			return {
 				isActive: false,
 				days,
 				currYear,
+				thisDate,
 				currMonth,
 				today,
 				thisYear,
 				thisMonth,
 				months,
+				price,
 				currentDate: `${months[currMonth]} ${currYear}`,
-				selectedDate,
 			};
 		},
 		methods: {
@@ -60,6 +62,13 @@
 				for (let i = first_day; i > 0; i--) {
 					this.days.push({
 						day: lastDateofLastMonth - i + 1,
+						date: new Date(
+							this.currYear,
+							this.currMonth - 1,
+							lastDateofLastMonth - i + 2
+						)
+							.toISOString()
+							.slice(0, 10),
 						isInCurrMonth: "prev",
 						isToday: false,
 						isTaken: false,
@@ -74,6 +83,9 @@
 						this.days.push({
 							day: i,
 							isInCurrMonth: "curr",
+							date: new Date(this.currYear, this.currMonth, i + 1)
+								.toISOString()
+								.slice(0, 10),
 							isToday: true,
 							isTaken: false,
 						});
@@ -82,6 +94,9 @@
 					this.days.push({
 						day: i,
 						isInCurrMonth: "curr",
+						date: new Date(this.currYear, this.currMonth, i + 1)
+							.toISOString()
+							.slice(0, 10),
 						isToday: false,
 						isTaken: false,
 					});
@@ -89,6 +104,13 @@
 				for (let i = lastDayOfMonth; i < 7; i++) {
 					this.days.push({
 						day: i - lastDayOfMonth + 1,
+						date: new Date(
+							this.currYear,
+							this.currMonth + 1,
+							i - lastDayOfMonth + 2
+						)
+							.toISOString()
+							.slice(0, 10),
 						isInCurrMonth: "next",
 						isToday: false,
 						isTaken: false,
@@ -120,21 +142,6 @@
 				this.days = [];
 				this.days = this.renderCalendar();
 			},
-			SelectDate(day, month, year, isInCurrMonth) {
-				if (isInCurrMonth == "prev")
-					this.selectedDate = `${day}/${month}/${year}`;
-				else if (isInCurrMonth == "curr")
-					this.selectedDate = `${day}/${month + 1}/${year}`;
-				else if (isInCurrMonth == "next")
-					this.selectedDate = `${day}/${month + 2}/${year}`;
-			},
-			TakeDate() {
-				this.days.forEach((day) => {
-					if (day.day == this.selectedDate.split("/")[0]) {
-						day.isTaken = true;
-					}
-				});
-			},
 		},
 		computed: {
 			daysInMonth() {
@@ -144,6 +151,40 @@
 		beforeMount() {
 			this.days = this.renderCalendar();
 		},
+	};
+</script>
+
+<script setup>
+	const selectedDate = ref("");
+	const nbrTrack = ref(1);
+	const SelectDate = (day, month, year, isInCurrMonth) => {
+		if (isInCurrMonth == "prev")
+			selectedDate.value = new Date(year, month - 1, day + 1)
+				.toISOString()
+				.slice(0, 10);
+		else if (isInCurrMonth == "curr")
+			selectedDate.value = new Date(year, month, day + 1)
+				.toISOString()
+				.slice(0, 10);
+		else if (isInCurrMonth == "next")
+			selectedDate.value = new Date(year, month + 1, day + 1)
+				.toISOString()
+				.slice(0, 10);
+	};
+	const takeDate = async (e) => {
+		$fetch("http://localhost:3001/api/agenda/appointments", {
+			method: "POST",
+			body: JSON.stringify({
+				date: selectedDate.value,
+				nbrTrack: nbrTrack.value,
+				description: e.target.description.value,
+				accessToken: localStorage.getItem("accessToken"),
+			}),
+		}).then((res) => {
+			if (res.status == "success") {
+				console.log("success");
+			}
+		});
 	};
 </script>
 
@@ -289,14 +330,21 @@
 									inactive:
 										day.isInCurrMonth == 'prev' ||
 										day.isInCurrMonth == 'next' ||
-										day.isTaken,
+										day.isTaken ||
+										day.date < thisDate,
 									'hover:tw-rounded-full hover:tw-bg-slate-900 tw-cursor-pointer':
-										day.isInCurrMonth == 'curr' && !day.isTaken,
+										day.isInCurrMonth == 'curr' &&
+										!day.isTaken &&
+										day.date >= thisDate,
 									'tw-bg-blue-500': day.isToday,
 									'tw-rounded-full': day.isToday,
 								}"
 								@click="
-									if (day.isInCurrMonth == 'curr' && !day.isTaken) {
+									if (
+										day.isInCurrMonth == 'curr' &&
+										!day.isTaken &&
+										day.date >= thisDate
+									) {
 										isActive = true;
 										SelectDate(day.day, currMonth, currYear, day.isInCurrMonth);
 									}
@@ -316,22 +364,33 @@
 			<div
 				class="md:tw-p-6 tw-p-4 dark:tw-bg-gray-800 tw-bg-white tw-rounded-t"
 			>
-				<form @submit.prevent="TakeDate">
-					<p>
+				<form @submit.prevent="takeDate">
+					<p class="tw-text-3xl tw-bg-slate-600 tw-text-center tw-rounded-lg">
 						{{ selectedDate }}
 					</p>
-					<div class="tw-flex tw-flex-col tw-my-2 tw-mb-6">
-						<label for="nbrTrack">Number of tracks</label>
-						<input
-							type="number"
-							name="nbrTrack"
-							max="3"
-							min="1"
-							value="1"
-							required
-							class="tw-bg-slate-100 tw-w-32 tw-py-2 tw-px-4 tw-text-gray-700 tw-border tw-border-gray-300 tw-rounded tw-shadow-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-slate-500"
-						/>
+					<div class="tw-flex-row tw-flex align-center tw-gap-5">
+						<div class="tw-flex tw-flex-col tw-my-2 tw-mb-6">
+							<label for="nbrTrack">Number of tracks</label>
+							<input
+								type="number"
+								name="nbrTrack"
+								max="3"
+								min="1"
+								required
+								v-model="nbrTrack"
+								class="tw-bg-slate-100 tw-w-32 tw-py-2 tw-px-4 tw-text-gray-700 tw-border tw-border-gray-300 tw-rounded tw-shadow-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-slate-500"
+							/>
+						</div>
+						<p class="tw-text-2xl tw-mt-2">{{ price * nbrTrack }} €</p>
 					</div>
+					<textarea
+						name="description"
+						id=""
+						cols="30"
+						rows="6"
+						placeholder="Add a comment"
+						class="tw-bg-white tw-rounded-md tw-shadow-sm tw-border tw-border-gray-300 tw-p-2 tw-mb-4 tw-w-full tw-text-gray-700 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-slate-500"
+					></textarea>
 					<v-btn type="submit">Confirm</v-btn>
 				</form>
 			</div>
