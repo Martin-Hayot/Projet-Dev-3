@@ -31,7 +31,7 @@ async function main() {
             }
         }
     });
-    const julie = await prisma.user.upsert({
+    /*const julie = await prisma.user.upsert({
         where: {},
         update: {},
         create: {
@@ -57,7 +57,7 @@ async function main() {
                 }
             }
         }
-    });
+    });*/
     //console.log({ antoine, julie});
 }
 

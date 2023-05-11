@@ -1,3 +1,4 @@
+
 <template>
 	<section class="relative">
 		<img
@@ -85,8 +86,20 @@
                             >
                                 Contact us
                             </h1>
-                            <form class="tw-space-y-4 md:tw-space-y-6" action="https://formsubmit.co/ba.huwart@gmail.com" method="POST">
+                            <form class="tw-space-y-4 md:tw-space-y-6" action="http://localhost:3001/submit" method="POST">
                                 <div>
+									<label
+                                        for="email"
+                                        class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white"
+                                        >Your email</label
+                                    >
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        id="email"
+										class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-blue-600 focus:tw-border-blue-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:tw-focus:ring-blue-500 dark:tw-focus:border-blue-500"
+                                        required="true"
+                                    />
                                     <label
                                         for="message"
                                         class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white"
@@ -99,7 +112,6 @@
                                         class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-primary-600 focus:tw-border-primary-600 tw-block tw-w-full tw-p-20 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:tw-ring-blue-500 dark:focus:tw-border-blue-500"
                                         required="true"
                                     />
-                                    <input type="hidden" name="_captcha" value="false">
                                 </div>
                                 <div class="tw-flex tw-items-center tw-justify-between">
                                 </div>
