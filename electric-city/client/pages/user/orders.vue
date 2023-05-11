@@ -100,8 +100,8 @@
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({
-						userId: "Antoine",
-						orderId: 1423
+						userId: "7d966d58-247a-48e9-8468-64d2ce3b1ea7", // Valeur mise manuellement temporairement pour montrer que le US fonctionnne
+						orderId: "551035bd-0fde-4fb2-afb1-e975a1d5af00" // Valeur mise manuellement temporairement pour montrer que le US fonctionnne
 					})
 				};
 				const response = await fetch("http://localhost:3001/api/order/mail", requestOptions);

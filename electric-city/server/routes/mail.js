@@ -11,12 +11,12 @@ router.post("/mail", async (req, res) => {
 
         const users = await db.user.findFirst({
             where: {
-                firstName: "Antoine"
+                id: userId
             },
             include: {
                 orders: {
                     where: {
-                        feedback: "An order"
+                        id: orderId
                     }
                 }
             }
