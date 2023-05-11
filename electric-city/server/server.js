@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const auth = require("./routes/auth");
 const command = require("./routes/user");
+const mail = require("./routes/mail");
 const [authenticateToken, generateAccessToken] = require("./middleware/auth");
 const multer = require("multer");
 const upload = multer({ dest: "storage/" });
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use("/api/auth", auth);
 app.use("/api/user", command);
+app.use("/api/order", mail);
 
 app.post(
 	"/api/upload",
