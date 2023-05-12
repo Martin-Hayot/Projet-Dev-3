@@ -1,162 +1,152 @@
-<script>
-	export default {
-		data() {
-			const date = new Date();
-			const days = [];
-			const thisDate = new Date().toISOString().slice(0, 10);
-			const currYear = date.getFullYear();
-			const currMonth = date.getMonth();
-			const thisMonth = date.getMonth();
-			const thisYear = date.getFullYear();
-			const today = date.getDate();
-			const months = [
-				"January",
-				"February",
-				"March",
-				"April",
-				"May",
-				"June",
-				"July",
-				"August",
-				"September",
-				"October",
-				"November",
-				"December",
-			];
-			let price = 85;
-			return {
-				isActive: false,
-				days,
-				currYear,
-				thisDate,
-				currMonth,
-				today,
-				thisYear,
-				thisMonth,
-				months,
-				price,
-				currentDate: `${months[currMonth]} ${currYear}`,
-			};
-		},
-		methods: {
-			renderCalendar() {
-				let first_day = new Date(this.currYear, this.currMonth, 1).getDay() - 1;
-				if (first_day === -1) {
-					first_day = 6; // Sunday
-				}
-				let lastDateOfMonth = new Date(
-					this.currYear,
-					this.currMonth + 1,
-					0
-				).getDate();
-				let lastDateofLastMonth = new Date(
-					this.currYear,
-					this.currMonth,
-					0
-				).getDate();
-				let lastDayOfMonth = new Date(
-					this.currYear,
-					this.currMonth,
-					lastDateOfMonth
-				).getDay();
-				for (let i = first_day; i > 0; i--) {
-					this.days.push({
-						day: lastDateofLastMonth - i + 1,
-						date: new Date(
-							this.currYear,
-							this.currMonth - 1,
-							lastDateofLastMonth - i + 2
-						)
-							.toISOString()
-							.slice(0, 10),
-						isInCurrMonth: "prev",
-						isToday: false,
-						isTaken: false,
-					});
-				}
-				for (let i = 1; i <= lastDateOfMonth; i++) {
-					if (
-						i == this.today &&
-						this.currMonth == this.thisMonth &&
-						this.currYear == this.thisYear
-					) {
-						this.days.push({
-							day: i,
-							isInCurrMonth: "curr",
-							date: new Date(this.currYear, this.currMonth, i + 1)
-								.toISOString()
-								.slice(0, 10),
-							isToday: true,
-							isTaken: false,
-						});
-						continue;
-					}
-					this.days.push({
-						day: i,
-						isInCurrMonth: "curr",
-						date: new Date(this.currYear, this.currMonth, i + 1)
-							.toISOString()
-							.slice(0, 10),
-						isToday: false,
-						isTaken: false,
-					});
-				}
-				for (let i = lastDayOfMonth; i < 7; i++) {
-					this.days.push({
-						day: i - lastDayOfMonth + 1,
-						date: new Date(
-							this.currYear,
-							this.currMonth + 1,
-							i - lastDayOfMonth + 2
-						)
-							.toISOString()
-							.slice(0, 10),
-						isInCurrMonth: "next",
-						isToday: false,
-						isTaken: false,
-					});
-				}
-				return this.days;
-			},
-			PreviousMonth() {
-				if (this.currMonth < 11) {
-					this.currMonth++;
-					this.currentDate = `${this.months[this.currMonth]} ${this.currYear}`;
-				} else {
-					this.currMonth = 0;
-					this.currYear++;
-					this.currentDate = `${this.months[this.currMonth]} ${this.currYear}`;
-				}
-				this.days = [];
-				this.days = this.renderCalendar();
-			},
-			NextMonth() {
-				if (this.currMonth > 0) {
-					this.currMonth--;
-					this.currentDate = `${this.months[this.currMonth]} ${this.currYear}`;
-				} else {
-					this.currMonth = 11;
-					this.currYear--;
-					this.currentDate = `${this.months[this.currMonth]} ${this.currYear}`;
-				}
-				this.days = [];
-				this.days = this.renderCalendar();
-			},
-		},
-		computed: {
-			daysInMonth() {
-				return this.renderCalendar();
-			},
-		},
-		beforeMount() {
-			this.days = this.renderCalendar();
-		},
-	};
-</script>
-
 <script setup>
 	const selectedDate = ref("");
 	const nbrTrack = ref(1);
+	const date = new Date();
+	const days = ref([]);
+	const isActive = ref(false);
+	const thisDate = new Date().toISOString().slice(0, 10);
+	const currYear = ref(date.getFullYear());
+	const currMonth = ref(date.getMonth());
+	const thisMonth = ref(date.getMonth());
+	const thisYear = ref(date.getFullYear());
+	const today = date.getDate();
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	const price = ref(85);
+	const currentDate = computed(
+		() => `${months[currMonth.value]} ${currYear.value}`
+	);
+
+	function renderCalendar() {
+		let first_day = new Date(currYear.value, currMonth.value, 1).getDay() - 1;
+		if (first_day === -1) {
+			first_day = 6; // Sunday
+		}
+		let lastDateOfMonth = new Date(
+			currYear.value,
+			currMonth.value + 1,
+			0
+		).getDate();
+		let lastDateofLastMonth = new Date(
+			currYear.value,
+			currMonth.value,
+			0
+		).getDate();
+		let lastDayOfMonth = new Date(
+			currYear.value,
+			currMonth.value,
+			lastDateOfMonth
+		).getDay();
+		for (let i = first_day; i > 0; i--) {
+			days.value.push({
+				day: lastDateofLastMonth - i + 1,
+				date: new Date(
+					currYear.value,
+					currMonth.value - 1,
+					lastDateofLastMonth - i + 2
+				)
+					.toISOString()
+					.slice(0, 10),
+				isInCurrMonth: "prev",
+				isToday: false,
+				isTaken: false,
+			});
+		}
+		for (let i = 1; i <= lastDateOfMonth; i++) {
+			if (
+				i == today &&
+				currMonth.value == thisMonth.value &&
+				currYear.value == thisYear.value
+			) {
+				days.value.push({
+					day: i,
+					isInCurrMonth: "curr",
+					date: new Date(currYear.value, currMonth.value, i + 1)
+						.toISOString()
+						.slice(0, 10),
+					isToday: true,
+					isTaken: false,
+				});
+				continue;
+			}
+			days.value.push({
+				day: i,
+				isInCurrMonth: "curr",
+				date: new Date(currYear.value, currMonth.value, i + 1)
+					.toISOString()
+					.slice(0, 10),
+				isToday: false,
+				isTaken: false,
+			});
+		}
+		for (let i = lastDayOfMonth; i < 7; i++) {
+			days.value.push({
+				day: i - lastDayOfMonth + 1,
+				date: new Date(
+					currYear.value,
+					currMonth.value + 1,
+					i - lastDayOfMonth + 2
+				)
+					.toISOString()
+					.slice(0, 10),
+				isInCurrMonth: "next",
+				isToday: false,
+				isTaken: false,
+			});
+		}
+		return days.value;
+	}
+	function NextMonth() {
+		if (currMonth.value > 0) {
+			currMonth.value--;
+			currentDate.value = `${months[currMonth.value]} ${currYear.value}`;
+		} else {
+			currMonth.value = 11;
+			currYear.value--;
+			currentDate.value = `${months[currMonth.value]} ${currYear.value}`;
+		}
+		days.value = [];
+		days.value = renderCalendar();
+	}
+
+	function UpdateDate(date) {
+		days.value.forEach((day) => {
+			if (day.date == date) {
+				day.isTaken = true;
+			}
+		});
+	}
+
+	const daysInMonth = computed(() => renderCalendar());
+
+	onBeforeMount(() => {
+		days.value = renderCalendar();
+	});
+
+	function PreviousMonth() {
+		if (currMonth.value < 11) {
+			currMonth.value++;
+			currentDate.value = `${months[currMonth.value]} ${currYear.value}`;
+		} else {
+			currMonth.value = 0;
+			currYear.value++;
+			currentDate.value = `${months[currMonth.value]} ${currYear.value}`;
+		}
+		days.value = [];
+		days.value = renderCalendar();
+	}
 	const SelectDate = (day, month, year, isInCurrMonth) => {
 		if (isInCurrMonth == "prev")
 			selectedDate.value = new Date(year, month - 1, day + 1)
@@ -182,7 +172,8 @@
 			}),
 		}).then((res) => {
 			if (res.status == "success") {
-				console.log("success");
+				alert("Appointment taken");
+				UpdateDate(selectedDate.value);
 			}
 		});
 	};
