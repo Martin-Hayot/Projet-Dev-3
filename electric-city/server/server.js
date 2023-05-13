@@ -8,6 +8,7 @@ const [authenticateToken, generateAccessToken] = require("./middleware/auth");
 const multer = require("multer");
 const upload = multer({ dest: "storage/" });
 const app = express();
+const adminMessages = require("./routes/adminMessages");
 
 
 app.set('view engine', 'ejs');
@@ -18,6 +19,8 @@ app.use(cors());
 app.use("/api/auth", auth);
 app.use("/api/user", command);
 app.use("/submit", messages);
+app.use("/display", adminMessages);
+
 
 app.post(
 	"/api/upload",

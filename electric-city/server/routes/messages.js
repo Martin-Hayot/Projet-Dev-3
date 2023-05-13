@@ -1,7 +1,8 @@
 // dans le fichier routes.js
 const express = require('express');
 const router = express.Router();
-const db = require("../utils/db.server.ts")
+const db = require("../utils/db.server.ts");
+
 
 router.post('/', async (req, res) => {
   const { email, message } = req.body;
@@ -14,6 +15,7 @@ router.post('/', async (req, res) => {
         message : message,
       },
     });
+
     res.json(newMessage);
   } catch (error) {
         res.status(500).json({
@@ -22,4 +24,4 @@ router.post('/', async (req, res) => {
     }
 })
 
-module.exports = router 
+module.exports = router;

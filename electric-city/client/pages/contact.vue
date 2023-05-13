@@ -1,4 +1,3 @@
-
 <template>
 	<section class="relative">
 		<img
@@ -86,7 +85,8 @@
                             >
                                 Contact us
                             </h1>
-                            <form class="tw-space-y-4 md:tw-space-y-6" action="http://localhost:3001/submit" method="POST">
+							<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                            <form class="tw-space-y-4 md:tw-space-y-6" id="form" action="http://localhost:3001/submit" method="POST" target="dummyframe">
                                 <div>
 									<label
                                         for="email"
@@ -117,11 +117,14 @@
                                 </div>
                                 <button
                                     type="submit"
-                                    class="tw-w-full tw-text-white tw-bg-blue-600 hover:tw-bg-slate-900 tw-duration-200 focus:tw-ring-4 focus:tw-outline-none focus:tw-ring-slate-300 tw-font-medium tw-rounded-lg tw-text-sm tw-px-5 tw-py-2.5 tw-text-center"
-                                    onclick="alert('the message was sent')"
+									onclick="alert('the message was sent')"
+									class="tw-w-full tw-text-white tw-bg-blue-600 hover:tw-bg-slate-900 tw-duration-200 focus:tw-ring-4 focus:tw-outline-none focus:tw-ring-slate-300 tw-font-medium tw-rounded-lg tw-text-sm tw-px-5 tw-py-2.5 tw-text-center"
                                 >
                                     Send
                                 </button>
+								<div id="confirmation" style="display:none;">
+    								<p>Votre demande a bien été prise en compte.</p>
+								</div>
                             </form>
                         </div>
                     </div>
@@ -162,4 +165,5 @@
 		transform: translateY(14px);
 	}
 </style>
-
+<script scoped>
+</script>
