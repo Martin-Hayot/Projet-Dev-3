@@ -10,53 +10,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  userId    Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  firstname String
-  lastname  String
-  email     String   @unique
-  password  String
-  isAdmin   Boolean  @default(false)
-  access_token String?
-  admins    admins?
-  orders    orders?
-  agenda    agenda?
+model User {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  role        Role?    @default(BASIC)
+  firstname   String
+  lastname    String
+  email       String   @unique
+  password    String
+  accessToken String?
+  orders      Order[]
+  meeting     Agenda[]
 }
 
-model admins {
-  admin   users  @relation(fields: [adminId], references: [userId])
-  adminId Int    @unique
-  order   orders @relation(fields: [orderId], references: [orderId])
-  orderId Int    @unique
-}
-
-model orders {
-  orderId       Int       @id @default(autoincrement())
-  user          users     @relation(fields: [userId], references: [userId])
-  userId        Int       @unique
-  feedback      String    @db.VarChar(255)
-  price         Int       @default(0)
-  numbOfOrders  Int       @default(1)
-  mastering     mastering @relation(fields: [masteringType], references: [masteringType])
+model Order {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  client      User      @relation(fields: [clientId], references: [id])
+  clientId    String
+  feedback    String?
+  price       Int       @default(0)
+  songName    String
   masteringType String
-  admins        admins?
+  Agenda      Agenda?
 }
 
-model mastering {
-  masteringType String   @id @db.VarChar(255)
-  price         Int      @default(0)
-  orders        orders[]
+model Agenda {
+  id          String  @id @default(uuid())
+  date        String
+  description String?
+  nbrOfTrack  Int     @default(1)
+  client      User    @relation(fields: [clientId], references: [id])
+  clientId    String
+  order       Order?  @relation(fields: [orderId], references: [id])
+  orderId     String? @unique
 }
 
-model agenda {
-  meetingId Int      @id @default(autoincrement())
-  user      users    @relation(fields: [userId], references: [userId])
-  userId    Int      @unique
-  description String
-  date        DateTime
-  nbrOfTracks Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+enum Role {
+  BASIC
+  ADMIN
 }

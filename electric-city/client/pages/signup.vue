@@ -16,11 +16,7 @@
 				if (data.error) {
 					alert(data.message);
 				} else {
-					if (process.client) {
-						localStorage.setItem("token", data.accessToken);
-						localStorage.setItem("user", JSON.stringify(data.user));
-						navigateTo("/login");
-					}
+					navigateTo("/login");
 				}
 			})
 			.catch((err) => console.log(err));

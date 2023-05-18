@@ -4,10 +4,10 @@ const [authenticateToken, generateAccessToken] = require("../middleware/auth");
 const db = require("../utils/db.server.ts");
 
 router.post("/signup", async (req, res) => {
-	const { email, password, firstname, lastname } = req.body;
-	const user = { email, password, user_type: "user", firstname, lastname };
+	let { email, password, firstname, lastname } = req.body;
+	const user = { email, user_type: "user" };
 	try {
-		const searchedUser = await db.users.findUnique({
+		const searchedUser = await db.User.findUnique({
 			where: {
 				email: email,
 			},
@@ -15,24 +15,24 @@ router.post("/signup", async (req, res) => {
 		if (searchedUser !== null) {
 			return res.status(400).json({ errors: [{ msg: "User already exists" }] });
 		}
-		user.password = await bcrypt.hash(password, 10);
+		password = await bcrypt.hash(password, 10);
 		const accessToken = generateAccessToken(user);
-		const newUser = await db.users.create({
+		const newUser = await db.User.create({
 			data: {
 				firstname: firstname,
 				lastname: lastname,
-				email: user.email,
-				password: user.password,
-				access_token: accessToken,
+				email: email,
+				password: password,
+				accessToken: accessToken,
 			},
 		});
 		console.log(newUser);
 		res.json({
 			accessToken: accessToken,
-			email: user.email,
+			email: email,
 			user_type: user.user_type,
-			firstname: user.firstname,
-			lastname: user.lastname,
+			firstname: firstname,
+			lastname: lastname,
 		});
 	} catch (e) {
 		console.log(e);
@@ -41,34 +41,35 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-	const user = { email: req.body.email, password: req.body.password };
+	const { email, password } = req.body;
+	const user = { email, user_type: "user" };
 	try {
-		const searchedUser = await db.users.findUnique({
+		const searchedUser = await db.User.findUnique({
 			where: {
 				email: user.email,
 			},
 			select: {
 				email: true,
 				password: true,
-				isAdmin: true,
+				role: true,
 			},
 		});
 		if (searchedUser == null) {
 			return res.status(400).json({ errors: [{ msg: "User not found" }] });
 		}
-		if (searchedUser.isAdmin) {
+		if (searchedUser.role === "ADMIN") {
 			user.user_type = "admin";
 		} else {
 			user.user_type = "user";
 		}
-		if (await bcrypt.compare(user.password, searchedUser.password)) {
+		if (await bcrypt.compare(password, searchedUser.password)) {
 			const accessToken = generateAccessToken(user);
-			const updateToken = await db.users.update({
+			const updateToken = await db.User.update({
 				where: {
 					email: user.email,
 				},
 				data: {
-					access_token: accessToken,
+					accessToken: accessToken,
 				},
 			});
 			res.json({

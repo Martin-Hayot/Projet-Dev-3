@@ -1,5 +1,5 @@
 <script setup>
-	const accessToken = useCookie("access_token");
+	const accessTokenLocal = useLocalStorage("accessToken", {});
 	const handleSubmit = async (e) => {
 		$fetch("http://localhost:3001/api/auth/login", {
 			method: "POST",
@@ -15,7 +15,7 @@
 				if (data.error) {
 					alert(data.message);
 				} else {
-					accessToken.value = data.accessToken;
+					accessTokenLocal.value = data.accessToken;
 					navigateTo({ path: "/user/dashboard" });
 				}
 			})

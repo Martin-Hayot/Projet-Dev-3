@@ -62,7 +62,6 @@
 							>Sign Up</NuxtLink
 						>
 					</div>
-					<div>Profile</div>
 				</div>
 				<div class="md:tw-hidden tw-z-50 tw-mt-6">
 					<button
