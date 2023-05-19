@@ -37,4 +37,35 @@ router.post("/order", upload, async (req, res) => {
 		// Do something with the form data and uploaded files
 	}
 });
+
+router.get("/", async (req, res) => {
+	console.log(req.headers);
+	const accessToken = req.headers.authorization;
+	console.log(accessToken);
+	const { email } = jwt.decode(accessToken);
+	console.log(email);
+
+	try {
+		const orders = await db.Order.findMany({
+			where: {
+				client: {
+					email: email,
+				},
+			},
+			select: {
+				id: true,
+				songName: true,
+				feedback: true,
+				price: true,
+				masteringType: true,
+				createdAt: true,
+			},
+		});
+		res.json(orders);
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+	}
+});
+
 module.exports = router;

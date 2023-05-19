@@ -137,9 +137,10 @@
 			}),
 		})
 			.then((res) => {
-				if (res.ok) {
-					console.log(res);
-					return res.json();
+				if (res.error) {
+					alert(res.error);
+				} else {
+					navigateTo({ path: "/user/orders" });
 				}
 			})
 			.catch((err) => console.log(err));
