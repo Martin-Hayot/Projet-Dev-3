@@ -8,6 +8,6 @@
 
 <script setup>
 	definePageMeta({
-		layout: "customAdmin",
+		layout: "custom-admin",
 	});
 </script>

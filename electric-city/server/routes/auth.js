@@ -43,7 +43,7 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
 	const { email, password } = req.body;
-	const user = { email, user_type: "user" };
+	const user = { email, user_type: "USER" };
 	try {
 		const searchedUser = await db.User.findUnique({
 			where: {
@@ -61,7 +61,7 @@ router.post("/login", async (req, res) => {
 		if (searchedUser.role === "ADMIN") {
 			user.user_type = "ADMIN";
 		} else {
-			user.user_type = "user";
+			user.user_type = "USER";
 		}
 		if (await bcrypt.compare(password, searchedUser.password)) {
 			const accessToken = generateAccessToken(user);

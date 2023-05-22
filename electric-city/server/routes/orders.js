@@ -83,6 +83,9 @@ router.get("/admin", async (req, res) => {
 				createdAt: true,
 				filePath: true,
 			},
+			orderBy: {
+				createdAt: "asc",
+			},
 		});
 		res.json(orders);
 	} catch (e) {

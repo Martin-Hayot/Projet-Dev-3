@@ -14,9 +14,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="order in data" :key="order.id">
+					<tr v-for="(order, i) in data" :key="order.id">
 						<td>{{ order.songName }}</td>
-						<td>{{ formatedDate }}</td>
+						<td>{{ formatedDate[i] }}</td>
 						<td>{{ order.feedback }}</td>
 						<td>{{ order.masteringType }}</td>
 						<td>{{ order.price }}€</td>
@@ -31,7 +31,7 @@
 
 <script setup>
 	definePageMeta({
-		layout: "customAdmin",
+		layout: "custom-admin",
 	});
 </script>
 
@@ -41,7 +41,7 @@
 		data() {
 			return {
 				data: [],
-				formatedDate: "",
+				formatedDate: [],
 				dateObj: {},
 			};
 		},
@@ -65,10 +65,10 @@
 			},
 			formatedDateFromData() {
 				for (let i = 0; i < this.data.length; i++) {
-					this.formatedDate = format(
-						new Date(this.data[i].createdAt),
-						"dd/MM/yyyy"
+					this.formatedDate.push(
+						format(new Date(this.data[i].createdAt), "dd/MM/yyyy")
 					);
+					console.log(this.formatedDate);
 				}
 			},
 		},
