@@ -25,23 +25,16 @@ model User {
 }
 
 model Order {
-  id          String    @id @default(uuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  client      User      @relation(fields: [clientId], references: [id])
-  clientId    String
-  feedback    String?
-  price       Int       @default(0)
-  mastering   Mastering @relation(fields: [masteringId], references: [id])
-  masteringId String
-  Agenda      Agenda?
-}
-
-model Mastering {
-  id            String  @id @default(uuid())
-  masteringType String  @unique
-  price         Float
-  orders        Order[]
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  client        User     @relation(fields: [clientId], references: [id])
+  clientId      String
+  feedback      String?
+  songName      String
+  masteringType String
+  price         Int
+  Agenda        Agenda?
 }
 
 model Agenda {

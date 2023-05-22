@@ -25,9 +25,7 @@
 		"December",
 	];
 	const price = ref(85);
-	const currentDate = computed(
-		() => `${months[currMonth.value]} ${currYear.value}`
-	);
+	let currentDate = `${months[currMonth.value]} ${currYear.value}`;
 
 	function renderCalendar() {
 		let first_day = new Date(currYear.value, currMonth.value, 1).getDay() - 1;
@@ -111,14 +109,15 @@
 	function NextMonth() {
 		if (currMonth.value > 0) {
 			currMonth.value--;
-			currentDate.value = `${months[currMonth.value]} ${currYear.value}`;
+			currentDate = `${months[currMonth.value]} ${currYear.value}`;
 		} else {
 			currMonth.value = 11;
 			currYear.value--;
-			currentDate.value = `${months[currMonth.value]} ${currYear.value}`;
+			currentDate = `${months[currMonth.value]} ${currYear.value}`;
 		}
 		days.value = [];
 		days.value = renderCalendar();
+		getDates();
 	}
 
 	function UpdateDate(date) {
@@ -129,23 +128,23 @@
 		});
 	}
 
-	const daysInMonth = computed(() => renderCalendar());
-
 	onBeforeMount(() => {
 		days.value = renderCalendar();
+		getDates();
 	});
 
 	function PreviousMonth() {
 		if (currMonth.value < 11) {
 			currMonth.value++;
-			currentDate.value = `${months[currMonth.value]} ${currYear.value}`;
+			currentDate = `${months[currMonth.value]} ${currYear.value}`;
 		} else {
 			currMonth.value = 0;
 			currYear.value++;
-			currentDate.value = `${months[currMonth.value]} ${currYear.value}`;
+			currentDate = `${months[currMonth.value]} ${currYear.value}`;
 		}
 		days.value = [];
 		days.value = renderCalendar();
+		getDates();
 	}
 	const SelectDate = (day, month, year, isInCurrMonth) => {
 		if (isInCurrMonth == "prev")
@@ -174,6 +173,17 @@
 			if (res.status == "success") {
 				alert("Appointment taken");
 				UpdateDate(selectedDate.value);
+			}
+		});
+	};
+	const getDates = async (e) => {
+		$fetch("http://localhost:3001/api/agenda/appointments", {
+			method: "GET",
+		}).then((res) => {
+			if (res.status == "success") {
+				for (let day of res.data) {
+					UpdateDate(day.date);
+				}
 			}
 		});
 	};

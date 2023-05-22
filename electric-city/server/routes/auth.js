@@ -72,10 +72,6 @@ router.post("/login", async (req, res) => {
 					accessToken: accessToken,
 				},
 			});
-			res.cookie("accessToken", accessToken, {
-				maxAge: 60 * 60,
-				sameSite: "lax",
-			});
 			res.json({
 				accessToken: accessToken,
 				email: email,
