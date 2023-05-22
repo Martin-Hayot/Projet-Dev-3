@@ -25,18 +25,17 @@ model User {
 }
 
 model Order {
-  id          String    @id @default(uuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  client      User      @relation(fields: [clientId], references: [id])
-  clientId    String
-  feedback    String?
-  price       Int       @default(0)
-  songName    String
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  client        User     @relation(fields: [clientId], references: [id])
+  clientId      String
+  feedback      String?
+  price         Int      @default(0)
+  songName      String
   masteringType String
-  filePath    String
-  Agenda      Agenda?
-
+  filePath      String
+  Agenda        Agenda?
 }
 
 model Agenda {

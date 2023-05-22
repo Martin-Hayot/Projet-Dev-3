@@ -2,7 +2,6 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const [authenticateToken, generateAccessToken] = require("../middleware/auth");
 const db = require("../utils/db.server.ts");
-const jwt = require("jsonwebtoken");
 
 router.post("/signup", async (req, res) => {
 	let { email, password, firstname, lastname } = req.body;
@@ -44,6 +43,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
 	const { email, password } = req.body;
 	const user = { email, user_type: "USER" };
+
 	try {
 		const searchedUser = await db.User.findUnique({
 			where: {
@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
 			const accessToken = generateAccessToken(user);
 			const updateToken = await db.User.update({
 				where: {
-					email: user.email,
+					email: email,
 				},
 				data: {
 					accessToken: accessToken,

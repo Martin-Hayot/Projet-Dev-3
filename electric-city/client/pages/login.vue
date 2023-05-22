@@ -10,6 +10,7 @@
 				email: e.target.email.value,
 				password: e.target.password.value,
 			}),
+			mode: "cors",
 		})
 			.then((data) => {
 				if (data.errors) {

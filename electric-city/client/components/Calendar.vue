@@ -1,149 +1,191 @@
-<script>
-	export default {
-		data() {
-			const date = new Date();
-			const days = [];
-			const currYear = date.getFullYear();
-			const currMonth = date.getMonth();
-			const thisMonth = date.getMonth();
-			const thisYear = date.getFullYear();
-			const today = date.getDate();
-			const months = [
-				"January",
-				"February",
-				"March",
-				"April",
-				"May",
-				"June",
-				"July",
-				"August",
-				"September",
-				"October",
-				"November",
-				"December",
-			];
-			let selectedDate = "";
-			return {
-				isActive: false,
-				days,
-				currYear,
-				currMonth,
-				today,
-				thisYear,
-				thisMonth,
-				months,
-				currentDate: `${months[currMonth]} ${currYear}`,
-				selectedDate,
-			};
-		},
-		methods: {
-			renderCalendar() {
-				let first_day = new Date(this.currYear, this.currMonth, 1).getDay() - 1;
-				if (first_day === -1) {
-					first_day = 6; // Sunday
-				}
-				let lastDateOfMonth = new Date(
-					this.currYear,
-					this.currMonth + 1,
-					0
-				).getDate();
-				let lastDateofLastMonth = new Date(
-					this.currYear,
-					this.currMonth,
-					0
-				).getDate();
-				let lastDayOfMonth = new Date(
-					this.currYear,
-					this.currMonth,
-					lastDateOfMonth
-				).getDay();
-				for (let i = first_day; i > 0; i--) {
-					this.days.push({
-						day: lastDateofLastMonth - i + 1,
-						isInCurrMonth: "prev",
-						isToday: false,
-						isTaken: false,
-					});
-				}
-				for (let i = 1; i <= lastDateOfMonth; i++) {
-					if (
-						i == this.today &&
-						this.currMonth == this.thisMonth &&
-						this.currYear == this.thisYear
-					) {
-						this.days.push({
-							day: i,
-							isInCurrMonth: "curr",
-							isToday: true,
-							isTaken: false,
-						});
-						continue;
-					}
-					this.days.push({
-						day: i,
-						isInCurrMonth: "curr",
-						isToday: false,
-						isTaken: false,
-					});
-				}
-				for (let i = lastDayOfMonth; i < 7; i++) {
-					this.days.push({
-						day: i - lastDayOfMonth + 1,
-						isInCurrMonth: "next",
-						isToday: false,
-						isTaken: false,
-					});
-				}
-				return this.days;
-			},
-			PreviousMonth() {
-				if (this.currMonth < 11) {
-					this.currMonth++;
-					this.currentDate = `${this.months[this.currMonth]} ${this.currYear}`;
-				} else {
-					this.currMonth = 0;
-					this.currYear++;
-					this.currentDate = `${this.months[this.currMonth]} ${this.currYear}`;
-				}
-				this.days = [];
-				this.days = this.renderCalendar();
-			},
-			NextMonth() {
-				if (this.currMonth > 0) {
-					this.currMonth--;
-					this.currentDate = `${this.months[this.currMonth]} ${this.currYear}`;
-				} else {
-					this.currMonth = 11;
-					this.currYear--;
-					this.currentDate = `${this.months[this.currMonth]} ${this.currYear}`;
-				}
-				this.days = [];
-				this.days = this.renderCalendar();
-			},
-			SelectDate(day, month, year, isInCurrMonth) {
-				if (isInCurrMonth == "prev")
-					this.selectedDate = `${day}/${month}/${year}`;
-				else if (isInCurrMonth == "curr")
-					this.selectedDate = `${day}/${month + 1}/${year}`;
-				else if (isInCurrMonth == "next")
-					this.selectedDate = `${day}/${month + 2}/${year}`;
-			},
-			TakeDate() {
-				this.days.forEach((day) => {
-					if (day.day == this.selectedDate.split("/")[0]) {
-						day.isTaken = true;
-					}
+<script setup>
+	const selectedDate = ref("");
+	const nbrTrack = ref(1);
+	const date = new Date();
+	const days = ref([]);
+	const isActive = ref(false);
+	const thisDate = new Date().toISOString().slice(0, 10);
+	const currYear = ref(date.getFullYear());
+	const currMonth = ref(date.getMonth());
+	const thisMonth = ref(date.getMonth());
+	const thisYear = ref(date.getFullYear());
+	const today = date.getDate();
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	const price = ref(85);
+	let currentDate = `${months[currMonth.value]} ${currYear.value}`;
+
+	function renderCalendar() {
+		let first_day = new Date(currYear.value, currMonth.value, 1).getDay() - 1;
+		if (first_day === -1) {
+			first_day = 6; // Sunday
+		}
+		let lastDateOfMonth = new Date(
+			currYear.value,
+			currMonth.value + 1,
+			0
+		).getDate();
+		let lastDateofLastMonth = new Date(
+			currYear.value,
+			currMonth.value,
+			0
+		).getDate();
+		let lastDayOfMonth = new Date(
+			currYear.value,
+			currMonth.value,
+			lastDateOfMonth
+		).getDay();
+		for (let i = first_day; i > 0; i--) {
+			days.value.push({
+				day: lastDateofLastMonth - i + 1,
+				date: new Date(
+					currYear.value,
+					currMonth.value - 1,
+					lastDateofLastMonth - i + 2
+				)
+					.toISOString()
+					.slice(0, 10),
+				isInCurrMonth: "prev",
+				isToday: false,
+				isTaken: false,
+			});
+		}
+		for (let i = 1; i <= lastDateOfMonth; i++) {
+			if (
+				i == today &&
+				currMonth.value == thisMonth.value &&
+				currYear.value == thisYear.value
+			) {
+				days.value.push({
+					day: i,
+					isInCurrMonth: "curr",
+					date: new Date(currYear.value, currMonth.value, i + 1)
+						.toISOString()
+						.slice(0, 10),
+					isToday: true,
+					isTaken: false,
 				});
-			},
-		},
-		computed: {
-			daysInMonth() {
-				return this.renderCalendar();
-			},
-		},
-		beforeMount() {
-			this.days = this.renderCalendar();
-		},
+				continue;
+			}
+			days.value.push({
+				day: i,
+				isInCurrMonth: "curr",
+				date: new Date(currYear.value, currMonth.value, i + 1)
+					.toISOString()
+					.slice(0, 10),
+				isToday: false,
+				isTaken: false,
+			});
+		}
+		for (let i = lastDayOfMonth; i < 7; i++) {
+			days.value.push({
+				day: i - lastDayOfMonth + 1,
+				date: new Date(
+					currYear.value,
+					currMonth.value + 1,
+					i - lastDayOfMonth + 2
+				)
+					.toISOString()
+					.slice(0, 10),
+				isInCurrMonth: "next",
+				isToday: false,
+				isTaken: false,
+			});
+		}
+		return days.value;
+	}
+	function NextMonth() {
+		if (currMonth.value > 0) {
+			currMonth.value--;
+			currentDate = `${months[currMonth.value]} ${currYear.value}`;
+		} else {
+			currMonth.value = 11;
+			currYear.value--;
+			currentDate = `${months[currMonth.value]} ${currYear.value}`;
+		}
+		days.value = [];
+		days.value = renderCalendar();
+		getDates();
+	}
+
+	function UpdateDate(date) {
+		days.value.forEach((day) => {
+			if (day.date == date) {
+				day.isTaken = true;
+			}
+		});
+	}
+
+	onBeforeMount(() => {
+		days.value = renderCalendar();
+		getDates();
+	});
+
+	function PreviousMonth() {
+		if (currMonth.value < 11) {
+			currMonth.value++;
+			currentDate = `${months[currMonth.value]} ${currYear.value}`;
+		} else {
+			currMonth.value = 0;
+			currYear.value++;
+			currentDate = `${months[currMonth.value]} ${currYear.value}`;
+		}
+		days.value = [];
+		days.value = renderCalendar();
+		getDates();
+	}
+	const SelectDate = (day, month, year, isInCurrMonth) => {
+		if (isInCurrMonth == "prev")
+			selectedDate.value = new Date(year, month - 1, day + 1)
+				.toISOString()
+				.slice(0, 10);
+		else if (isInCurrMonth == "curr")
+			selectedDate.value = new Date(year, month, day + 1)
+				.toISOString()
+				.slice(0, 10);
+		else if (isInCurrMonth == "next")
+			selectedDate.value = new Date(year, month + 1, day + 1)
+				.toISOString()
+				.slice(0, 10);
+	};
+	const takeDate = async (e) => {
+		$fetch("http://localhost:3001/api/agenda/appointments", {
+			method: "POST",
+			body: JSON.stringify({
+				date: selectedDate.value,
+				nbrTrack: nbrTrack.value,
+				description: e.target.description.value,
+				accessToken: localStorage.getItem("accessToken"),
+			}),
+		}).then((res) => {
+			if (res.status == "success") {
+				alert("Appointment taken");
+				UpdateDate(selectedDate.value);
+			}
+		});
+	};
+	const getDates = async (e) => {
+		$fetch("http://localhost:3001/api/agenda/appointments", {
+			method: "GET",
+		}).then((res) => {
+			if (res.status == "success") {
+				for (let day of res.data) {
+					UpdateDate(day.date);
+				}
+			}
+		});
 	};
 </script>
 
@@ -289,14 +331,21 @@
 									inactive:
 										day.isInCurrMonth == 'prev' ||
 										day.isInCurrMonth == 'next' ||
-										day.isTaken,
+										day.isTaken ||
+										day.date < thisDate,
 									'hover:tw-rounded-full hover:tw-bg-slate-900 tw-cursor-pointer':
-										day.isInCurrMonth == 'curr' && !day.isTaken,
+										day.isInCurrMonth == 'curr' &&
+										!day.isTaken &&
+										day.date >= thisDate,
 									'tw-bg-blue-500': day.isToday,
 									'tw-rounded-full': day.isToday,
 								}"
 								@click="
-									if (day.isInCurrMonth == 'curr' && !day.isTaken) {
+									if (
+										day.isInCurrMonth == 'curr' &&
+										!day.isTaken &&
+										day.date >= thisDate
+									) {
 										isActive = true;
 										SelectDate(day.day, currMonth, currYear, day.isInCurrMonth);
 									}
@@ -316,22 +365,33 @@
 			<div
 				class="md:tw-p-6 tw-p-4 dark:tw-bg-gray-800 tw-bg-white tw-rounded-t"
 			>
-				<form @submit.prevent="TakeDate">
-					<p>
+				<form @submit.prevent="takeDate">
+					<p class="tw-text-3xl tw-bg-slate-600 tw-text-center tw-rounded-lg">
 						{{ selectedDate }}
 					</p>
-					<div class="tw-flex tw-flex-col tw-my-2 tw-mb-6">
-						<label for="nbrTrack">Number of tracks</label>
-						<input
-							type="number"
-							name="nbrTrack"
-							max="3"
-							min="1"
-							value="1"
-							required
-							class="tw-bg-slate-100 tw-w-32 tw-py-2 tw-px-4 tw-text-gray-700 tw-border tw-border-gray-300 tw-rounded tw-shadow-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-slate-500"
-						/>
+					<div class="tw-flex-row tw-flex align-center tw-gap-5">
+						<div class="tw-flex tw-flex-col tw-my-2 tw-mb-6">
+							<label for="nbrTrack">Number of tracks</label>
+							<input
+								type="number"
+								name="nbrTrack"
+								max="3"
+								min="1"
+								required
+								v-model="nbrTrack"
+								class="tw-bg-slate-100 tw-w-32 tw-py-2 tw-px-4 tw-text-gray-700 tw-border tw-border-gray-300 tw-rounded tw-shadow-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-slate-500"
+							/>
+						</div>
+						<p class="tw-text-2xl tw-mt-2">{{ price * nbrTrack }} €</p>
 					</div>
+					<textarea
+						name="description"
+						id=""
+						cols="30"
+						rows="6"
+						placeholder="Add a comment"
+						class="tw-bg-white tw-rounded-md tw-shadow-sm tw-border tw-border-gray-300 tw-p-2 tw-mb-4 tw-w-full tw-text-gray-700 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-slate-500"
+					></textarea>
 					<v-btn type="submit">Confirm</v-btn>
 				</form>
 			</div>
