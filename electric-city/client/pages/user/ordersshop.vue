@@ -30,7 +30,7 @@
 							<input
 								type="text"
 								name="songName"
-								class="tw-text-white tw-bg-gray-700"
+								class="tw-text-white tw-bg-gray-700 tw-rounded-md tw-mb-2"
 								required
 							/>
 							<span
@@ -40,8 +40,7 @@
 
 							<textarea
 								name="description"
-								class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-blue-600 focus:tw-border-blue-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:tw-focus:ring-blue-500 dark:tw-focus:border-blue-500 tw-max-h-40"
-								required
+								class="tw-bg-gray-50 tw-mb-4 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-blue-600 focus:tw-border-blue-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:tw-focus:ring-blue-500 dark:tw-focus:border-blue-500 tw-max-h-40"
 							>
 							</textarea>
 							<legend

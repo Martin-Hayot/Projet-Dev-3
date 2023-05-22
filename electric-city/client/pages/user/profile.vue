@@ -1,6 +1,6 @@
 <template>
 	<NuxtLayout>
-		<v-sheet width="300" class="mx-auto">
+		<v-sheet width="300" class="mx-auto tw-mt-20">
 			<v-form :disabled="toggle" @submit.prevent="handleSubmit">
 				<v-label>First name</v-label>
 				<v-text-field v-model="data.firstname" name="firstname"></v-text-field>

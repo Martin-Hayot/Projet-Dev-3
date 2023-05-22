@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function main() {
 	// ... you will write your Prisma Client queries here
-	const allUsers = await prisma.users.findMany();
+	const allUsers = await prisma.User.findMany();
 	console.log(allUsers);
 }
 
