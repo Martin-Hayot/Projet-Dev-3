@@ -13,7 +13,7 @@
 					to="/admin/orders"
 					class="text-white"
 					:class="{
-						'text-blue': router.currentRoute.value.path == '/user/orders',
+						'text-blue': router.currentRoute.value.path == '/admin/orders',
 					}"
 				>
 					Orders
@@ -22,7 +22,8 @@
 					to="/admin/appointments"
 					class="text-white"
 					:class="{
-						'text-blue': router.currentRoute.value.path == '/user/appointments',
+						'text-blue':
+							router.currentRoute.value.path == '/admin/appointments',
 					}"
 				>
 					Appointments
@@ -31,7 +32,7 @@
 					to="/admin/profile"
 					class="text-white"
 					:class="{
-						'text-blue': router.currentRoute.value.path == '/user/profile',
+						'text-blue': router.currentRoute.value.path == '/admin/profile',
 					}"
 				>
 					Profile
