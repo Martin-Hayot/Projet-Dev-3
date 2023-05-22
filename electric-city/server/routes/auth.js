@@ -13,7 +13,7 @@ router.post("/signup", async (req, res) => {
 			},
 		});
 		if (searchedUser !== null) {
-			return res.status(400).json({ errors: [{ msg: "User already exists" }] });
+			return res.json({ errors: { msg: "User already exists" } });
 		}
 		password = await bcrypt.hash(password, 10);
 		const accessToken = generateAccessToken(user);
@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
 			},
 		});
 		if (searchedUser == null) {
-			return res.status(400).json({ errors: [{ msg: "User not found" }] });
+			return res.json({ errors: { msg: "User not found" } });
 		}
 		if (searchedUser.role === "ADMIN") {
 			user.user_type = "ADMIN";
@@ -79,7 +79,7 @@ router.post("/login", async (req, res) => {
 				role: user.user_type,
 			});
 		} else {
-			res.json({ errors: [{ msg: "Invalid credentials" }] });
+			res.json({ errors: { msg: "Invalid credentials" } });
 		}
 	} catch (e) {
 		console.log(e);

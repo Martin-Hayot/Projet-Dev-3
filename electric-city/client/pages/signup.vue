@@ -1,5 +1,38 @@
 <script setup>
+	let errorStatus = ref("success");
+	let errorMessage = ref("");
+	let toggleAlert = ref(false);
+	let password = ref("");
+	let confirmPassword = ref("");
+	let isCorrect = ref(false);
+
+	function checkPasswordMatch() {
+		if (password.value !== confirmPassword.value) {
+			isCorrect.value = false;
+		} else {
+			isCorrect.value = true;
+		}
+	}
+
+	function showStatus() {
+		toggleAlert.value = true;
+		setTimeout(
+			() => {
+				toggleAlert.value = false;
+				if (errorStatus.value == "success") {
+					navigateTo({ path: "/user/login" });
+				}
+			},
+			errorStatus.value == "success" ? 1000 : 4000
+		);
+	}
 	const handleSubmit = (e) => {
+		if (!isCorrect.value) {
+			errorStatus.value = "error";
+			errorMessage.value = "Passwords do not match!";
+			showStatus();
+			return;
+		}
 		$fetch("http://localhost:3001/api/auth/signup", {
 			method: "POST",
 			headers: {
@@ -13,18 +46,24 @@
 			}),
 		})
 			.then((data) => {
-				if (data.error) {
-					alert(data.message);
+				if (data.errors) {
+					errorStatus.value = "error";
+					errorMessage.value = data.errors.msg;
+					showStatus();
 				} else {
-					navigateTo("/login");
+					errorStatus.value = "success";
+					errorMessage.value = "Account created successfully!";
+					showStatus();
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 </script>
 
 <template>
-	<section class="tw-bg-gray-50 dark:tw-bg-gray-900">
+	<section class="tw-h-screen tw-bg-gray-50 dark:tw-bg-gray-900">
 		<div
 			class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-px-6 tw-py-8 tw-mx-auto md:tw-h-screen lg:tw-py-0"
 		>
@@ -42,12 +81,20 @@
 				class="tw-w-full tw-bg-white tw-rounded-lg tw-shadow dark:tw-border md:tw-mt-0 sm:tw-max-w-md xl:tw-p-0 dark:tw-bg-gray-800 dark:tw-border-gray-700"
 			>
 				<div class="tw-p-6 tw-space-y-4 md:tw-space-y-6 sm:tw-p-8">
+					<v-alert
+						v-if="toggleAlert"
+						:title="errorStatus"
+						density="compact"
+						:type="errorStatus"
+						:text="errorMessage"
+						class="tw-rounded-md tw-max-w-xs tw-mx-auto"
+					></v-alert>
 					<h1
 						class="tw-text-xl tw-font-bold tw-leading-tight tw-tracking-tight tw-text-gray-900 md:tw-text-2xl dark:tw-text-white"
 					>
-						Create and account
+						Create an account
 					</h1>
-					<form
+					<v-form
 						class="tw-space-y-4 md:tw-space-y-6"
 						@submit.prevent="handleSubmit"
 					>
@@ -109,6 +156,8 @@
 								name="password"
 								id="password"
 								placeholder="••••••••"
+								v-model="password"
+								@input="checkPasswordMatch"
 								class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-blue-600 focus:border-blue-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:tw-ring-blue-500 dark:focus:tw-border-blue-500"
 								required
 							/>
@@ -124,6 +173,12 @@
 								name="confirm-password"
 								id="confirm-password"
 								placeholder="••••••••"
+								@input="checkPasswordMatch"
+								:class="{
+									'tw-outline-red-500': !isCorrect,
+									'tw-outline-green-500': isCorrect,
+								}"
+								v-model="confirmPassword"
 								class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-blue-600 focus:tw-border-blue-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:tw-ring-blue-500 dark:focus:tw-border-blue-500"
 								required
 							/>
@@ -167,7 +222,7 @@
 								>Login here</a
 							>
 						</p>
-					</form>
+					</v-form>
 				</div>
 			</div>
 		</div>
