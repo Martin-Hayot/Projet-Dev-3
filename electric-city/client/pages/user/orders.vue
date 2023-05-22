@@ -1,17 +1,18 @@
 <template>
 	<NuxtLayout>
 		<v-container>
-			<v-row align="center" justify="center">
+			<v-row align="center" class="justify-end">
 				<v-col cols="auto">
 					<v-btn
 						@click="navigateTo({ path: '/user/ordersshop' })"
 						size="x-large"
-						>Order now</v-btn
+						class="bg-blue"
+						>+ New order</v-btn
 					>
 				</v-col>
 			</v-row>
 		</v-container>
-		<v-table theme="dark">
+		<v-table theme="light">
 			<thead>
 				<tr>
 					<th class="text-left">Name</th>

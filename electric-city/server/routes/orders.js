@@ -1,13 +1,18 @@
 const router = require("express").Router();
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
-
-const upload = multer({ dest: "storage/" }).single("audioFile");
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, "storage/");
+	},
+});
+const upload = multer({ storage: storage }).single("audioFile");
 const db = require("../utils/db.server.ts");
 
 router.post("/order", upload, async (req, res) => {
 	const { songName, description, typeMastering, price, accessToken } = req.body;
-	const { email } = jwt.decode(JSON.parse(accessToken));
+	const { email } = jwt.decode(accessToken);
+	console.log(email);
 	const track = req.file;
 	try {
 		const getClientId = await db.User.findUnique({
@@ -21,9 +26,10 @@ router.post("/order", upload, async (req, res) => {
 		const newOrder = await db.Order.create({
 			data: {
 				feedback: description,
-				price: price,
+				price: Number(price),
 				masteringType: typeMastering,
 				songName: songName,
+				filePath: track.path,
 				client: {
 					connect: { id: getClientId.id },
 				},
@@ -39,11 +45,8 @@ router.post("/order", upload, async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-	console.log(req.headers);
 	const accessToken = req.headers.authorization;
-	console.log(accessToken);
 	const { email } = jwt.decode(accessToken);
-	console.log(email);
 
 	try {
 		const orders = await db.Order.findMany({
@@ -59,6 +62,26 @@ router.get("/", async (req, res) => {
 				price: true,
 				masteringType: true,
 				createdAt: true,
+			},
+		});
+		res.json(orders);
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+	}
+});
+
+router.get("/admin", async (req, res) => {
+	try {
+		const orders = await db.Order.findMany({
+			select: {
+				id: true,
+				songName: true,
+				feedback: true,
+				price: true,
+				masteringType: true,
+				createdAt: true,
+				filePath: true,
 			},
 		});
 		res.json(orders);

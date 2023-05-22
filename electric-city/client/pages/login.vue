@@ -15,8 +15,14 @@
 				if (data.errors) {
 					alert(data.errors[0].msg);
 				} else {
-					accessTokenLocal.value = data.accessToken;
-					navigateTo({ path: "/user/dashboard" });
+					console.log(data.role);
+					if (data.role === "ADMIN") {
+						accessTokenLocal.value = data.accessToken;
+						navigateTo({ path: "/admin/dashboard" });
+					} else {
+						accessTokenLocal.value = data.accessToken;
+						navigateTo({ path: "/user/dashboard" });
+					}
 				}
 			})
 			.catch((err) => console.log(err));

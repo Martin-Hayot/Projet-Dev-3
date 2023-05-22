@@ -20,7 +20,6 @@
 					<form
 						class="tw-space-y-4 md:tw-space-y-6"
 						@submit.prevent="handleSubmit"
-						enctype="multipart/form-data"
 					>
 						<div>
 							<label
@@ -112,9 +111,7 @@
 		const form = e.target;
 		const formData = new FormData(form);
 		// Retrieve other form data
-		const songName = formData.get("songName");
-		const description = formData.get("description");
-		const typeMastering = formData.get("typeMastering");
+		const typeMastering = form.typeMastering.value;
 		let price = 0;
 		if (typeMastering == "master") {
 			price = 85;
@@ -123,18 +120,15 @@
 		} else if (typeMastering == "mix") {
 			price = 110;
 		}
+		formData.append("price", JSON.stringify(price));
+		formData.append("accessToken", localStorage.getItem("accessToken"));
 		$fetch("http://localhost:3001/api/orders/order", {
 			method: "POST",
 			headers: {
-				"Content-Type": "application/json",
+				Accept: "application/json",
+				"Access-Control-Allow-Origin": "*",
 			},
-			body: JSON.stringify({
-				songName: songName,
-				description: description,
-				typeMastering: typeMastering,
-				price: price,
-				accessToken: localStorage.getItem("accessToken"),
-			}),
+			body: formData,
 		})
 			.then((res) => {
 				if (res.error) {

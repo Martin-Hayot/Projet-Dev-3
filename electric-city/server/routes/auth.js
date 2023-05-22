@@ -2,6 +2,7 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const [authenticateToken, generateAccessToken] = require("../middleware/auth");
 const db = require("../utils/db.server.ts");
+const jwt = require("jsonwebtoken");
 
 router.post("/signup", async (req, res) => {
 	let { email, password, firstname, lastname } = req.body;
@@ -58,7 +59,7 @@ router.post("/login", async (req, res) => {
 			return res.status(400).json({ errors: [{ msg: "User not found" }] });
 		}
 		if (searchedUser.role === "ADMIN") {
-			user.user_type = "admin";
+			user.user_type = "ADMIN";
 		} else {
 			user.user_type = "user";
 		}
@@ -75,7 +76,7 @@ router.post("/login", async (req, res) => {
 			res.json({
 				accessToken: accessToken,
 				email: user.email,
-				user_type: user.user_type,
+				role: user.user_type,
 			});
 		} else {
 			res.json({ errors: [{ msg: "Invalid credentials" }] });

@@ -10,7 +10,7 @@
 					</NuxtImg>
 				</NuxtLink>
 				<v-tab
-					to="/user/orders"
+					to="/admin/orders"
 					class="text-white"
 					:class="{
 						'text-blue': router.currentRoute.value.path == '/user/orders',
@@ -19,7 +19,7 @@
 					Orders
 				</v-tab>
 				<v-tab
-					to="/user/appointments"
+					to="/admin/appointments"
 					class="text-white"
 					:class="{
 						'text-blue': router.currentRoute.value.path == '/user/appointments',
@@ -28,7 +28,7 @@
 					Appointments
 				</v-tab>
 				<v-tab
-					to="/user/profile"
+					to="/admin/profile"
 					class="text-white"
 					:class="{
 						'text-blue': router.currentRoute.value.path == '/user/profile',
