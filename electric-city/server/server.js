@@ -9,7 +9,7 @@ const multer = require("multer");
 const upload = multer({ dest: "storage/" });
 const app = express();
 const adminMessages = require("./routes/adminMessages");
-
+const adminCommandes = require("./routes/adminCommandes");
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -20,6 +20,7 @@ app.use("/api/auth", auth);
 app.use("/api/user", command);
 app.use("/submit", messages);
 app.use("/display", adminMessages);
+app.use("/display2", adminCommandes);
 
 
 app.post(
