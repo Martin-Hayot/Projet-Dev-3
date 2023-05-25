@@ -19,37 +19,29 @@ model User {
   lastName    String
   email       String   @unique
   password    String
-  accessToken String
+  accessToken String?
   orders      Order[]
   meeting     Agenda[]
 }
 
 model Order {
-  id          String    @id @default(uuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  client      User      @relation(fields: [clientId], references: [id])
-  clientId    String
-  feedback    String?
-  price       Int       @default(0)
-  numbOfTrack Int       @default(1)
-  mastering   Mastering @relation(fields: [masteringId], references: [id])
-  masteringId String
-  Agenda      Agenda?
-}
-
-model Mastering {
-  id            String  @id @default(uuid())
-  masteringType String  @unique
-  price         Float
-  orders        Order[]
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  client        User     @relation(fields: [clientId], references: [id])
+  clientId      String
+  feedback      String?
+  songName      String
+  masteringType String
+  price         Int
+  agenda        Agenda?
 }
 
 model Agenda {
   id          String   @id @default(uuid())
   date        DateTime
   description String
-  numbOfTrack Int      @default(1)
+  nbrOfTrack  Int      @default(1)
   client      User     @relation(fields: [clientId], references: [id])
   clientId    String
   order       Order?   @relation(fields: [orderId], references: [id])
