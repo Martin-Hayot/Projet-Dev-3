@@ -1,6 +1,6 @@
 <template>
 	<NuxtLayout>
-		<v-sheet width="300" class="mx-auto">
+		<v-sheet width="300" class="mx-auto tw-mt-32">
 			<v-form @submit.prevent="submit" :disabled="!model">
 				<v-alert
 					v-show="alertShow"
@@ -51,6 +51,7 @@
 			</v-form>
 			<v-switch
 				v-model="model"
+				@click="cancel"
 				hide-details
 				inset
 				:label="model ? 'Editing' : 'Edit'"
@@ -59,8 +60,8 @@
 		</v-sheet>
 	</NuxtLayout>
 </template>
+
 <script>
-	import { ref } from "vue";
 	import { useField, useForm } from "vee-validate";
 	definePageMeta({
 		title: "Mon profil",
@@ -83,7 +84,7 @@
 						return "Name needs to be at least 2 characters.";
 					},
 					email(value) {
-						if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
+						if (/^[a-z0-9.0-9-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
 
 						return "Must be a valid e-mail.";
 					},
@@ -104,7 +105,10 @@
 			const email = useField("email");
 			const password = useField("password");
 			const toggle = useField("toggle");
-			const accessToken = localStorage.getItem("accessToken");
+			let accessToken = "";
+			if (process.client) {
+				accessToken = localStorage.getItem("accessToken");
+			}
 			const alertShow = ref(false);
 			const status = ref("success");
 			const model = ref(false);
@@ -182,6 +186,11 @@
 						this.email.value.value = data.email;
 					})
 					.catch((err) => console.log(err));
+			},
+			cancel() {
+				if (this.model) {
+					this.fetchData();
+				}
 			},
 		},
 	};
