@@ -1,109 +1,173 @@
 <template>
 	<NuxtLayout>
 		<v-sheet width="300" class="mx-auto">
-			<v-form :disabled="toggle" @submit.prevent="handleSubmit">
-				<v-label>First name</v-label>
-				<v-text-field v-model="data.firstname" name="firstname"></v-text-field>
-				<v-label>Last name</v-label>
-				<v-text-field v-model="data.lastname" name="lastname"></v-text-field>
-				<v-label>Email</v-label>
+			<v-form @submit.prevent="submit" :disabled="!model">
+				<v-alert
+					v-show="alertShow"
+					:type="status"
+					:title="status"
+					:text="messageStatus"
+				></v-alert>
 				<v-text-field
-					v-model="data.email"
-					type="email"
-					name="email"
+					v-model="firstname.value.value"
+					:counter="10"
+					:error-messages="firstname.errorMessage.value"
+					label="First Name"
 				></v-text-field>
-				<v-label>Password</v-label>
+
 				<v-text-field
-					placeholder="password"
-					name="password"
+					v-model="lastname.value.value"
+					:counter="10"
+					:error-messages="lastname.errorMessage.value"
+					label="Last Name"
+				></v-text-field>
+
+				<v-text-field
+					v-model="email.value.value"
+					:error-messages="email.errorMessage.value"
+					label="E-mail"
+				></v-text-field>
+
+				<v-text-field
+					v-model="password.value.value"
+					:error-messages="password.errorMessage.value"
+					label="Password"
 					type="password"
 				></v-text-field>
-				<div v-show="toggle" class="tw-flex tw-justify-center tw-mt-8">
-					<v-btn
-						position="relative"
-						size="x-large"
-						class="bg-blue"
-						@click="toggleForm"
-					>
-						Edit profile
-					</v-btn>
-				</div>
-				<div v-show="!toggle" class="tw-flex tw-justify-center tw-mt-8">
-					<v-btn
-						position="relative"
-						size="x-large"
-						class="bg-blue"
-						@click="toggleForm"
-					>
-						Cancel
-					</v-btn>
-				</div>
-				<div v-show="!toggle" class="tw-flex tw-justify-center tw-mt-8">
-					<v-btn
-						type="submit"
-						position="relative"
-						size="x-large"
-						class="bg-blue"
-						@click="toggleForm"
-					>
-						Confirmed
-					</v-btn>
-				</div>
-				<div v-show="toggle" class="tw-flex tw-justify-center tw-mt-4">
-					<v-btn size="x-large" class="bg-blue mt-4"> Delete account</v-btn>
-				</div>
+
+				<v-switch
+					v-model="toggle.value.value"
+					:error-messages="toggle.errorMessage.value"
+					inset
+					true-value="yes"
+					false-value="no"
+					color="info"
+					label="Validate changes"
+				></v-switch>
+
+				<v-btn class="me-4" type="submit" :disabled="!model"> submit </v-btn>
+
+				<v-btn @click="handleReset" :disabled="!model"> clear </v-btn>
 			</v-form>
+			<v-switch
+				v-model="model"
+				hide-details
+				inset
+				:label="model ? 'Editing' : 'Edit'"
+				color="success"
+			></v-switch>
 		</v-sheet>
 	</NuxtLayout>
 </template>
-
-<script setup>
+<script>
+	import { ref } from "vue";
+	import { useField, useForm } from "vee-validate";
 	definePageMeta({
 		title: "Mon profil",
 		description: "Page de profil utilisateur",
 		layout: "custom-admin",
 	});
 
-	const handleSubmit = async (e) => {
-		const form = e.target;
-		const accessToken = localStorage.getItem("accessToken");
-		$fetch("http://localhost:3001/api/profile/edit", {
-			method: "PUT",
-			headers: {
-				contentType: "application/json",
-			},
-			body: JSON.stringify({
-				email: form.email.value,
-				firstname: form.firstname.value,
-				lastname: form.lastname.value,
-				password: form.password.value,
-				accessToken: accessToken,
-			}),
-		})
-			.then((res) => {
-				if (res.error) {
-					alert(res.error);
-				} else {
-					localStorage.setItem("accessToken", res.accessToken);
-					navigateTo({ path: "/user/profile" });
-				}
-			})
-			.catch((err) => console.log(err));
-	};
-</script>
-<script>
 	export default {
-		data: () => ({
-			toggle: true,
-			data: [],
-		}),
+		setup() {
+			const { handleSubmit, handleReset } = useForm({
+				validationSchema: {
+					firstname(value) {
+						if (value?.length >= 2) return true;
+
+						return "Name needs to be at least 2 characters.";
+					},
+					lastname(value) {
+						if (value?.length >= 2) return true;
+
+						return "Name needs to be at least 2 characters.";
+					},
+					email(value) {
+						if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
+
+						return "Must be a valid e-mail.";
+					},
+					password(value) {
+						if (value?.length >= 2) return true;
+
+						return "Name needs to be at least 2 characters.";
+					},
+					toggle(value) {
+						if (value === "yes") return true;
+
+						return "Must be checked.";
+					},
+				},
+			});
+			const firstname = useField("firstname");
+			const lastname = useField("lastname");
+			const email = useField("email");
+			const password = useField("password");
+			const toggle = useField("toggle");
+			const accessToken = localStorage.getItem("accessToken");
+			const alertShow = ref(false);
+			const status = ref("success");
+			const model = ref(false);
+			const messageStatus = ref("success edit");
+
+			const submit = handleSubmit((values) => {
+				console.log(values);
+				$fetch("http://localhost:3001/api/profile/edit", {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: {
+						email: values.email,
+						firstname: values.firstname,
+						lastname: values.lastname,
+						password: values.password,
+						accessToken: accessToken,
+					},
+				})
+					.then((res) => {
+						localStorage.setItem("accessToken", res.accessToken);
+						alertShow.value = true;
+						status.value = "success";
+						password.value.value = "";
+						toggle.value.value = "no";
+						messageStatus.value = "Your profile has been updated successfully";
+						model.value = false;
+						setTimeout(() => {
+							alertShow.value = false;
+						}, 3000);
+					})
+					.catch((err) => {
+						console.log(err);
+						console.log("erreur est ici");
+						messageStatus.value = err.message;
+						alertShow.value = true;
+						status.value = "error";
+						setTimeout(() => {
+							alertShow.value = false;
+						}, 3000);
+					});
+			});
+
+			return {
+				firstname,
+				lastname,
+				email,
+				password,
+				toggle,
+				alertShow,
+				status,
+				accessToken,
+				model,
+				messageStatus,
+				submit,
+				handleReset,
+			};
+		},
 		mounted() {
 			this.fetchData();
 		},
 		methods: {
-			toggleForm() {
-				this.toggle = !this.toggle;
-			},
 			fetchData() {
 				$fetch("http://localhost:3001/api/profile/", {
 					method: "GET",
@@ -113,8 +177,9 @@
 					},
 				})
 					.then((data) => {
-						this.data = data;
-						console.log(this.data);
+						this.firstname.value.value = data.firstname;
+						this.lastname.value.value = data.lastname;
+						this.email.value.value = data.email;
 					})
 					.catch((err) => console.log(err));
 			},
