@@ -1,47 +1,78 @@
 <template>
 	<ClientOnly>
-		<v-app>
-			<v-tabs fixed-tabs bg-color="#0F172A" height="70" hide-slider="true">
-				<NuxtLink to="/">
-					<NuxtImg
-						src="./logo-white-cropped.png"
-						class="tw-z-10 tw-h-20 tw-w-44 tw-ml-2 -tw-mt-4"
-					>
-					</NuxtImg>
-				</NuxtLink>
-				<v-tab
-					to="/admin/orders"
-					class="text-white"
-					:class="{
-						'text-blue': router.currentRoute.value.path == '/admin/orders',
-					}"
-				>
-					Orders
-				</v-tab>
-				<v-tab
-					to="/admin/appointments"
-					class="text-white"
-					:class="{
-						'text-blue':
-							router.currentRoute.value.path == '/admin/appointments',
-					}"
-				>
-					Appointments
-				</v-tab>
-				<v-tab
-					to="/admin/profile"
-					class="text-white"
-					:class="{
-						'text-blue': router.currentRoute.value.path == '/admin/profile',
-					}"
-				>
-					Profile
-				</v-tab>
-			</v-tabs>
-			<v-main> <slot /></v-main>
+		<v-app style="height: 100%">
+			<v-card style="height: 100%">
+				<v-layout style="height: 100%">
+					<v-navigation-drawer class="bg-blue" theme="dark" permanent>
+						<v-list-item
+							lines="two"
+							prepend-avatar="https://randomuser.me/api/portraits/women/81.jpg"
+							:title="fullName"
+							:subtitle="email"
+						></v-list-item>
+						<v-list color="transparent">
+							<v-list-item @click="navigateTo({ path: '/' })"
+								><Icon name="mdi:home" size="1.6em" /> Home</v-list-item
+							>
+							<v-list-item @click="navigateTo({ path: '/admin/profile' })"
+								><Icon
+									name="streamline:interface-user-edit-actions-close-edit-geometric-human-pencil-person-single-up-user-write"
+									size="1.5rem"
+								/>
+								Account</v-list-item
+							>
+							<v-list-item @click="navigateTo({ path: '/admin/appointments' })"
+								><Icon
+									name="material-symbols:calendar-month-outline-rounded"
+									size="1.5em"
+								/>
+								Appointments</v-list-item
+							>
+							<v-list-item @click="navigateTo({ path: '/admin/orders' })"
+								><Icon name="mdi:shopping-music" size="1.6em" />
+								Order</v-list-item
+							>
+						</v-list>
+
+						<template v-slot:append>
+							<div class="pa-2">
+								<v-btn block @click="logout">
+									<Icon name="ri:logout-box-r-line" size="1.4rem"></Icon>Logout
+								</v-btn>
+							</div>
+						</template>
+					</v-navigation-drawer>
+					<v-main> <slot /></v-main>
+				</v-layout>
+			</v-card>
 		</v-app>
 	</ClientOnly>
 </template>
 <script setup>
+	let fullName = ref("");
+	let email = ref("");
 	const router = useRouter();
+	const orderPath = router.currentRoute.value.path;
+	function logout() {
+		localStorage.removeItem("accessToken");
+		navigateTo({ path: "/" });
+	}
+
+	onMounted(() => {
+		const user = JSON.parse(localStorage.getItem("user"));
+		$fetch("http://localhost:3001/api/profile/", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: localStorage.getItem("accessToken"),
+			},
+		})
+			.then((data) => {
+				email.value = data.email;
+				fullName.value = data.firstname + " " + data.lastname;
+				console.log(fullName.value);
+				console.log(data.email);
+			})
+			.catch((err) => console.log(err));
+	});
 </script>
