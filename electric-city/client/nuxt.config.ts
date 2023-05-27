@@ -5,6 +5,7 @@ export default defineNuxtConfig({
 		"@nuxtjs/tailwindcss",
 		"@pinia/nuxt",
 		"@vueuse/nuxt",
+		"nuxt-icon",
 	],
 	plugins: [{ src: "~/plugins/pinia.client.js" }],
 	css: ["vuetify/lib/styles/main.sass"],
