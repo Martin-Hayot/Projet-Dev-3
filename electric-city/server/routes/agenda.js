@@ -5,7 +5,7 @@ const db = require("../utils/db.server.ts");
 
 router.post("/appointments", async (req, res) => {
 	const { accessToken, description, date, nbrOfTracks } = req.body;
-	const { email } = jwt.decode(JSON.parse(accessToken));
+	const { email } = jwt.decode(accessToken);
 	try {
 		const getClientId = await db.User.findUnique({
 			where: {
@@ -28,7 +28,7 @@ router.post("/appointments", async (req, res) => {
 		res.json({ status: "success" });
 	} catch (e) {
 		console.log(e);
-		res.status(500).json(e);
+		res.status(500);
 	}
 });
 
