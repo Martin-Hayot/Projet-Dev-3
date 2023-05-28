@@ -65,8 +65,15 @@
 					</div>
 					<div class="tw-group" v-show="isLogged">
 						<NuxtLink
+							v-if="isAdmin"
 							class="tw-text-white tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
-							to="/user/dashboard"
+							to="/admin/orders"
+							>Dashboard</NuxtLink
+						>
+						<NuxtLink
+							v-else
+							class="tw-text-white tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
+							to="/user/orders"
 							>Dashboard</NuxtLink
 						>
 					</div>
@@ -118,21 +125,35 @@
 <script setup>
 	let accessToken = "";
 	let isLogged = ref(false);
+	let isAdmin = ref(false);
 	onMounted(() => {
 		if (process.client) {
 			accessToken = localStorage.getItem("accessToken");
 		}
 		if (accessToken) {
 			isLogged.value = true;
-			console.log(isLogged.value);
-			console.log(accessToken);
-			console.log("test onmonted");
 		}
+		getRole();
 	});
+	const getRole = () => {
+		$fetch("http://localhost:3001/api/auth/role", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: accessToken,
+			},
+		})
+			.then((res) => {
+				if (res.role === "ADMIN") isAdmin.value = true;
+				else isAdmin.value = false;
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 	function logout() {
 		localStorage.removeItem("accessToken");
 		isLogged.value = false;
-		console.log(isLogged.value);
 	}
 </script>
 
