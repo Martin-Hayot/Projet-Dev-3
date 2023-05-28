@@ -1,7 +1,9 @@
 <template>
-	<NuxtLayout>
-		<Calendar></Calendar>
-	</NuxtLayout>
+	<ClientOnly>
+		<NuxtLayout>
+			<Calendar></Calendar>
+		</NuxtLayout>
+	</ClientOnly>
 </template>
 
 <script setup>
