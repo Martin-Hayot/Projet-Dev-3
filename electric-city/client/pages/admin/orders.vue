@@ -57,9 +57,11 @@
 					},
 				})
 					.then((data) => {
+						if (data.errors.msg) {
+							alert(data.errors.msg);
+						}
 						this.data = data;
 						this.formatedDateFromData();
-						console.log(this.data);
 					})
 					.catch((err) => console.log(err));
 			},
@@ -68,7 +70,6 @@
 					this.formatedDate.push(
 						format(new Date(this.data[i].createdAt), "dd/MM/yyyy")
 					);
-					console.log(this.formatedDate);
 				}
 			},
 		},

@@ -32,7 +32,8 @@
 						<NuxtLink
 							class="tw-text-white tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
 							to="/about"
-							>About</NuxtLink
+						>
+							About</NuxtLink
 						>
 						<div
 							class="tw-opacity-0 group-hover:tw-opacity-100 tw-mt-1 tw-duration-200 group-hover:tw-border-b group-hover:tw-border-blue-50"
@@ -48,19 +49,35 @@
 							class="tw-opacity-0 group-hover:tw-opacity-100 tw-mt-1 tw-duration-200 group-hover:tw-border-b group-hover:tw-border-blue-50"
 						></div>
 					</div>
-					<div class="tw-group">
+					<div class="tw-group" v-show="!isLogged">
 						<NuxtLink
 							class="tw-text-white tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10 tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200"
 							to="/login"
 							>Login</NuxtLink
 						>
 					</div>
-					<div class="tw-group">
+					<div class="tw-group" v-show="!isLogged">
 						<NuxtLink
 							class="tw-text-white tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
 							to="/signup"
 							>Sign Up</NuxtLink
 						>
+					</div>
+					<div class="tw-group" v-show="isLogged">
+						<NuxtLink
+							class="tw-text-white tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
+							to="/user/dashboard"
+							>Dashboard</NuxtLink
+						>
+					</div>
+					<div class="tw-group" v-show="isLogged">
+						<NuxtLink
+							class="tw-text-white tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
+							@click="logout"
+							to="/"
+						>
+							Logout
+						</NuxtLink>
 					</div>
 				</div>
 				<div class="md:tw-hidden tw-z-50 tw-mt-6">
@@ -97,6 +114,27 @@
 		</div>
 	</section>
 </template>
+
+<script setup>
+	let accessToken = "";
+	let isLogged = ref(false);
+	onMounted(() => {
+		if (process.client) {
+			accessToken = localStorage.getItem("accessToken");
+		}
+		if (accessToken) {
+			isLogged.value = true;
+			console.log(isLogged.value);
+			console.log(accessToken);
+			console.log("test onmonted");
+		}
+	});
+	function logout() {
+		localStorage.removeItem("accessToken");
+		isLogged.value = false;
+		console.log(isLogged.value);
+	}
+</script>
 
 <style scoped>
 	.hamburger {
