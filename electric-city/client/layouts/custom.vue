@@ -77,8 +77,6 @@
 			.then((data) => {
 				email.value = data.email;
 				fullName.value = data.firstname + " " + data.lastname;
-				console.log(fullName.value);
-				console.log(data.email);
 			})
 			.catch((err) => console.log(err));
 	});
