@@ -33,6 +33,43 @@ router.post("/appointments", async (req, res) => {
 });
 
 router.get("/appointments", async (req, res) => {
+	const accessToken = req.headers.authorization;
+	if (!accessToken) {
+		res.status(401).json({ message: "Unauthorized" });
+		return;
+	}
+	const { email } = jwt.decode(accessToken);
+	try {
+		const getClientId = await db.User.findUnique({
+			where: {
+				email: email,
+			},
+			select: {
+				id: true,
+			},
+		});
+		const getMeeting = await db.agenda.findMany({
+			where: {
+				clientId: getClientId.id,
+			},
+			select: {
+				id: true,
+				date: true,
+				description: true,
+				nbrOfTrack: true,
+			},
+			orderBy: {
+				date: "asc",
+			},
+		});
+		res.json({ data: getMeeting, status: "success" });
+	} catch (e) {
+		console.log(e);
+		res.status(500);
+	}
+});
+
+router.get("/admin/appointments", async (req, res) => {
 	try {
 		const allMeetings = await db.agenda.findMany({
 			select: {

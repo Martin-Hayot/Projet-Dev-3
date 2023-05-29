@@ -1,8 +1,6 @@
 <template>
 	<NuxtLayout>
-		<ClientOnly>
-			<div></div>
-		</ClientOnly>
+		<div></div>
 	</NuxtLayout>
 </template>
 

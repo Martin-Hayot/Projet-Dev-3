@@ -190,12 +190,11 @@
 </script>
 
 <template>
-	<div class="tw-flex tw-flex-col tw-justify-center tw-align-center tw-p-10">
-		<h1 class="tw-text-4xl">Pick a date</h1>
-		<p>Max of 3 tracks per day</p>
+	<div class="text-center tw-text-4xl tw-m-5 tw-mt-10">
+		<h1>Pick a date for an appointment</h1>
 	</div>
 	<div
-		class="tw-flex tw-items-center tw-justify-start tw-gap-8 tw-py-8 tw-px-4 tw-ml-5"
+		class="tw-flex tw-items-center tw-justify-center tw-gap-8 tw-py-8 tw-px-4 tw-ml-5"
 	>
 		<div class="tw-max-w-xl tw-w-full tw-shadow-lg">
 			<div
