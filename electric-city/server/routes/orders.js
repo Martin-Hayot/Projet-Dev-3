@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
 	},
 });
 const adminStorage = multer.diskStorage({
-	destination: (req, file, cb) =>{
+	destination: (req, file, cb) => {
 		cb(null, "adminStorage/");
 	},
 });
@@ -119,18 +119,6 @@ router.post("/admin/upload", uplaodAdmin, async (req, res) => {
 				id: true,
 			},
 		});
-		const newOrder = await db.Order.create({
-			data: {
-				feedback: description,
-				price: Number(price),
-				masteringType: typeMastering,
-				songName: songName,
-				clientFile: track.path,
-				client: {
-					connect: { id: getClientId.id },
-				},
-			},
-		});
 		res.json({ message: "Order created" });
 	} catch (e) {
 		console.log(e);
@@ -139,6 +127,5 @@ router.post("/admin/upload", uplaodAdmin, async (req, res) => {
 		// Do something with the form data and uploaded files
 	}
 });
-
 
 module.exports = router;
