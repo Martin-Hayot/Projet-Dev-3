@@ -57,9 +57,6 @@
 					},
 				})
 					.then((data) => {
-						if (data.errors.msg) {
-							alert(data.errors.msg);
-						}
 						this.data = data;
 						this.formatedDateFromData();
 					})
