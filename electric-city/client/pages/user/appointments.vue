@@ -18,7 +18,6 @@
 		<v-table theme="light">
 			<thead>
 				<tr>
-					<th>Status</th>
 					<th>Date</th>
 					<th>Number of tracks</th>
 					<th>Price</th>
@@ -27,8 +26,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(appointment, i) in data" :key="appointment.id">
-					<td>{{ i }}</td>
+				<tr v-for="appointment in data" :key="appointment.id">
 					<td>{{ appointment.date }}</td>
 					<td>{{ appointment.nbrOfTrack }}</td>
 					<td>{{ appointment.nbrOfTrack * 85 }}€</td>
@@ -56,6 +54,5 @@
 			data = res.data;
 		});
 	};
-
 	getAppointments();
 </script>
