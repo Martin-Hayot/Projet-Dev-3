@@ -32,7 +32,7 @@
 						<td>{{ i }}</td>
 						<td>{{ appointment.date }}</td>
 						<td>{{ appointment.nbrOfTrack }}</td>
-						<td>{{ appointment.nbrOfTrack * 85 }}</td>
+						<td>{{ appointment.nbrOfTrack * 85 }}€</td>
 						<td>{{ appointment.description }}</td>
 						<td>{{ appointment.id }}</td>
 					</tr>
@@ -47,7 +47,7 @@
 		layout: "custom",
 	});
 	let data = ref();
-	const getAppointment = () => {
+	const getAppointments = () => {
 		$fetch("http://localhost:3001/api/agenda/appointments/", {
 			method: "GET",
 			headers: {
@@ -60,7 +60,7 @@
 	};
 	onBeforeMount(() => {
 		if (process.client) {
-			getAppointment();
+			getAppointments();
 		}
 	});
 </script>

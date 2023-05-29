@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../utils/db.server.ts");
 
 router.post("/appointments", async (req, res) => {
-	const { accessToken, description, date, nbrOfTracks } = req.body;
+	const { accessToken, description, date, nbrTrack } = req.body;
 	const { email } = jwt.decode(accessToken);
 	try {
 		const getClientId = await db.User.findUnique({
@@ -19,7 +19,7 @@ router.post("/appointments", async (req, res) => {
 			data: {
 				date: date,
 				description: description,
-				nbrOfTrack: nbrOfTracks,
+				nbrOfTrack: Number(nbrTrack),
 				client: {
 					connect: { id: getClientId.id },
 				},
@@ -34,10 +34,6 @@ router.post("/appointments", async (req, res) => {
 
 router.get("/appointments", async (req, res) => {
 	const accessToken = req.headers.authorization;
-	if (!accessToken) {
-		res.status(401).json({ message: "Unauthorized" });
-		return;
-	}
 	const { email } = jwt.decode(accessToken);
 	try {
 		const getClientId = await db.User.findUnique({
@@ -69,7 +65,7 @@ router.get("/appointments", async (req, res) => {
 	}
 });
 
-router.get("/admin/appointments", async (req, res) => {
+router.get("/appointments/all", async (req, res) => {
 	try {
 		const allMeetings = await db.agenda.findMany({
 			select: {
