@@ -20,7 +20,7 @@
 			() => {
 				toggleAlert.value = false;
 				if (errorStatus.value == "success") {
-					navigateTo({ path: "/user/login" });
+					navigateTo({ path: "/login" });
 				}
 			},
 			errorStatus.value == "success" ? 1000 : 4000
