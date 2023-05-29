@@ -61,7 +61,6 @@
 	</NuxtLayout>
 </template>
 <script>
-	import { ref } from "vue";
 	import { useField, useForm } from "vee-validate";
 	definePageMeta({
 		title: "Mon profil",
@@ -105,17 +104,13 @@
 			const email = useField("email");
 			const password = useField("password");
 			const toggle = useField("toggle");
-			let accessToken = "";
-			if (process.client) {
-				accessToken = localStorage.getItem("accessToken");
-			}
+			const accessToken = localStorage.getItem("accessToken");
 			const alertShow = ref(false);
 			const status = ref("success");
 			const model = ref(false);
 			const messageStatus = ref("success edit");
 
 			const submit = handleSubmit((values) => {
-				console.log(values);
 				$fetch("http://localhost:3001/api/profile/edit", {
 					method: "PUT",
 					headers: {
@@ -143,7 +138,6 @@
 					})
 					.catch((err) => {
 						console.log(err);
-						console.log("erreur est ici");
 						messageStatus.value = err.message;
 						alertShow.value = true;
 						status.value = "error";

@@ -1,31 +1,29 @@
 <template>
 	<NuxtLayout>
-		<ClientOnly>
-			<v-table theme="light">
-				<thead>
-					<tr>
-						<th class="text-left">Name</th>
-						<th class="text-left">Date</th>
-						<th class="text-left">Feedback</th>
-						<th class="text-left">Type</th>
-						<th class="text-left">Price</th>
-						<th class="text-left">Command Id</th>
-						<th class="text-left">File path</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="(order, i) in data" :key="order.id">
-						<td>{{ order.songName }}</td>
-						<td>{{ formatedDate[i] }}</td>
-						<td>{{ order.feedback }}</td>
-						<td>{{ order.masteringType }}</td>
-						<td>{{ order.price }}€</td>
-						<td>{{ order.id }}</td>
-						<td>{{ order.filePath }}</td>
-					</tr>
-				</tbody>
-			</v-table>
-		</ClientOnly>
+		<v-table theme="light">
+			<thead>
+				<tr>
+					<th class="text-left">Name</th>
+					<th class="text-left">Date</th>
+					<th class="text-left">Feedback</th>
+					<th class="text-left">Type</th>
+					<th class="text-left">Price</th>
+					<th class="text-left">Command Id</th>
+					<th class="text-left">File path</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="(order, i) in data" :key="order.id">
+					<td>{{ order.songName }}</td>
+					<td>{{ formatedDate[i] }}</td>
+					<td>{{ order.feedback }}</td>
+					<td>{{ order.masteringType }}</td>
+					<td>{{ order.price }}€</td>
+					<td>{{ order.id }}</td>
+					<td>{{ order.filePath }}</td>
+				</tr>
+			</tbody>
+		</v-table>
 	</NuxtLayout>
 </template>
 

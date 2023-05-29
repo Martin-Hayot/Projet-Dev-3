@@ -7,6 +7,10 @@ export default defineNuxtConfig({
 		"@vueuse/nuxt",
 		"nuxt-icon",
 	],
+	routeRules: {
+		"/admin/**": { ssr: false },
+		"/user/**": { ssr: false },
+	},
 	plugins: [{ src: "~/plugins/pinia.client.js" }],
 	css: ["vuetify/lib/styles/main.sass"],
 	build: {

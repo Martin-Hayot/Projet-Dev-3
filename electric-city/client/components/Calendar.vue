@@ -128,11 +128,9 @@
 		});
 	}
 
-	onBeforeMount(() => {
+	onMounted(() => {
 		days.value = renderCalendar();
-		if (process.client) {
-			getDates();
-		}
+		getDates();
 	});
 
 	function PreviousMonth() {
