@@ -6,6 +6,9 @@ const [authenticateToken, generateAccessToken] = require("../middleware/auth");
 
 router.put("/edit", async (req, res) => {
 	let { accessToken, password, firstname, lastname, email } = req.body;
+	if (!accessToken) {
+		return res.json({ errors: { msg: "Token not found" } });
+	}
 	const oldAccessToken = jwt.decode(accessToken).email;
 	const user = { email, user_type: "user" };
 	try {
@@ -41,6 +44,9 @@ router.put("/edit", async (req, res) => {
 
 router.get("/", async (req, res) => {
 	const accessToken = req.headers.authorization;
+	if (!accessToken) {
+		return res.json({ errors: { msg: "Token not found" } });
+	}
 	const { email } = jwt.decode(accessToken);
 	try {
 		const user = await db.User.findUnique({

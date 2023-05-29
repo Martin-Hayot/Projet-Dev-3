@@ -5,6 +5,12 @@ const db = require("../utils/db.server.ts");
 
 router.post("/appointments", async (req, res) => {
 	const { accessToken, description, date, nbrTrack } = req.body;
+	if (!accessToken) {
+		return res.json({
+			errors: { msg: "Token not found" },
+			authenticated: false,
+		});
+	}
 	const { email } = jwt.decode(accessToken);
 	try {
 		const getClientId = await db.User.findUnique({
@@ -34,6 +40,12 @@ router.post("/appointments", async (req, res) => {
 
 router.get("/appointments", async (req, res) => {
 	const accessToken = req.headers.authorization;
+	if (!accessToken) {
+		return res.json({
+			errors: { msg: "Token not found" },
+			authenticated: false,
+		});
+	}
 	const { email } = jwt.decode(accessToken);
 	try {
 		const getClientId = await db.User.findUnique({

@@ -41,6 +41,21 @@
 <script setup>
 	definePageMeta({
 		layout: "custom",
+		middleware: () => {
+			$fetch("http://localhost:3001/api/auth/authenticate", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: localStorage.getItem("accessToken"),
+				},
+			}).then((res) => {
+				if (res.authenticated == true) {
+					return;
+				} else {
+					navigateTo("/login");
+				}
+			});
+		},
 	});
 	let data = ref();
 	const getAppointments = () => {

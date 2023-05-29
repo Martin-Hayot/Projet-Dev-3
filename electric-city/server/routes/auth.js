@@ -98,13 +98,17 @@ router.get("/all", authenticateToken, async (req, res) => {
 });
 
 router.get("/role", authenticateToken, async (req, res) => {
-	const accessToken = req.headers.authorization;
+	const { accessToken } = req;
 	const { user_type } = jwt.decode(accessToken);
 	if (user_type === "ADMIN") {
 		res.json({ role: "ADMIN" });
 	} else {
 		res.json({ role: "USER" });
 	}
+});
+
+router.get("/authenticate", authenticateToken, (req, res) => {
+	res.json({ authenticated: true });
 });
 
 module.exports = router;
