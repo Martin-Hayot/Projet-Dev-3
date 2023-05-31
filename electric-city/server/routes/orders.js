@@ -107,25 +107,13 @@ router.get("/admin", async (req, res) => {
 	}
 });
 
-router.post("/admin/upload", uplaodAdmin, async (req, res) => {
-	const { masteredFile } = req.body;
-	const track = req.file;
-	try {
-		const getClientId = await db.User.findUnique({
-			where: {
-				email: email,
-			},
-			select: {
-				id: true,
-			},
-		});
-		res.json({ message: "Order created" });
-	} catch (e) {
-		console.log(e);
-		res.status(500).json(e);
+router.post("/admin/upload", uploadAdmin, (req, res) => {
+	res.json({ message: "Successfully uploaded files" });
+});
 
-		// Do something with the form data and uploaded files
-	}
+router.post("/admin/download", async (req, res) => {
+	const filename = req.body.file;
+	res.download("./" + filename); // ./storage/file.file
 });
 
 module.exports = router;
