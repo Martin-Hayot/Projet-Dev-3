@@ -39,43 +39,25 @@
 </template>
 
 <script setup>
-	definePageMeta({
-		layout: "custom-admin",
-	});
-	const files = ref({});
-
-	const handleSubmit = async (orderId) => {
-		const file = files.value[orderId];
-		if (!file) {
-			alert("Please select a file.");
-			return;
-		}
-
-		const formData = new FormData();
-		formData.append("file", file);
-		formData.append("orderId", orderId);
-
-		console.log("Order ID:", orderId);
-		console.log("File:", file);
-		console.log("Form Data:", formData);
-
-		const response = await fetch(
-			"http://localhost:3001/api/orders/admin/upload",
-			{
-				headers: {
-					"Content-Type": "content-type: application/json",
-				},
-				method: "POST",
-				body: formData,
+definePageMeta({
+	layout: "custom-admin",
+	middleware: () => {
+		$fetch("http://localhost:3001/api/auth/authenticate", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: localStorage.getItem("accessToken"),
+			},
+		}).then((res) => {
+			if (res.authenticated == true) {
+				return;
+			} else {
+				navigateTo("/login");
 			}
-		)
-			.then((res) => {
-				navigateTo({ path: "/admin/orders" });
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
+		});
+	},
+});
+const files = ref({});
 </script>
 
 <script>
@@ -93,6 +75,33 @@
 			this.fetchData();
 		},
 		methods: {
+			handler(file, filename) {
+				const url = URL.createObjectURL(file);
+				const a = document.createElement('a');
+				a.setAttribute('href', url);
+				a.setAttribute('download', filename);
+				a.style.display = 'none';
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(url);
+			},
+			downloadSong(fileName) {
+				fetch("http://localhost:3001/api/orders/admin/download", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						file: fileName,
+					}),
+				})
+						.then((res) => res.blob())
+						.then((blob) => this.handler(blob, fileName))
+						.catch((error) => {
+							console.error("Une erreur s'est produite lors du téléchargement du fichier :", error);
+						});
+			},
       selectFile(event) {
         this.selectedFile = event.target.files[0];
       },
