@@ -24,23 +24,13 @@
 						<td>{{ order.price }}€</td>
 						<td>{{ order.id }}</td>
 						<td>{{ order.clientId }}</td>
-						<td>
-							<a :href="stringslicing(order.clientFile)" download="song.mp3"
-								>download</a
-							>
-						</td>
-						<td>
-							<form @submit.prevent="handleSubmit(order.id)">
-								<label>
-									<input
-										type="file"
-										style="display: none"
-										@change="handleFileChange($event, order.id)"
-									/>
-									<a>upload</a>
-								</label>
-							</form>
-						</td>
+            <td>
+              <button @click="downloadSong(order.clientFile)">Download</button>
+            </td>
+            <td>
+              <input type="file" @change="selectFile" />
+              <button @click="uploadFile">Upload</button>
+            </td>
 					</tr>
 				</tbody>
 			</v-table>
@@ -86,20 +76,6 @@
 				console.log(error);
 			});
 	};
-
-	const handleFileChange = (event, orderId) => {
-		const file = event.target.files[0];
-		files.value[orderId] = file;
-	};
-
-	function stringslicing(url) {
-		let cutoff = "storage/";
-		let result = url.substring(url.indexOf(cutoff) + cutoff.length);
-		let start =
-			"C:/Users/Basil/OneDrive/Documents/Projet-Dev-3/electric-city/server/storage/";
-		start += result;
-		return start;
-	}
 </script>
 
 <script>
@@ -110,12 +86,27 @@
 				data: [],
 				formatedDate: [],
 				dateObj: {},
+        selectedFile: null,
 			};
 		},
 		mounted() {
 			this.fetchData();
 		},
 		methods: {
+      selectFile(event) {
+        this.selectedFile = event.target.files[0];
+      },
+      uploadFile() {
+        const formData = new FormData();
+        formData.append("audioFile", this.selectedFile);
+        fetch("http://localhost:3001/api/orders/admin/upload", {
+					method: "POST",
+					headers: {},
+					body: formData,
+        }).then((res) => {
+					console.log(res);
+        });
+      },
 			fetchData() {
 				fetch("http://localhost:3001/api/orders/admin", {
 					method: "GET",
