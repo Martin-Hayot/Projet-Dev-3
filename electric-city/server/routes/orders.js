@@ -5,9 +5,18 @@ const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, "storage/");
 	},
+	filename: (req, file, cb) => {
+		cb(null, file.originalname);
+	},
+});
+const adminStorage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, "adminStorage/");
+	},
 });
 const [authenticateToken] = require("../middleware/auth");
 const upload = multer({ storage: storage }).single("audioFile");
+const uplaodAdmin = multer({ adminStorage: adminStorage }).single("audioFile");
 const db = require("../utils/db.server.ts");
 
 router.post("/order", upload, async (req, res) => {
@@ -30,7 +39,7 @@ router.post("/order", upload, async (req, res) => {
 				price: Number(price),
 				masteringType: typeMastering,
 				songName: songName,
-				filePath: track.path,
+				clientFile: track.path,
 				client: {
 					connect: { id: getClientId.id },
 				},
@@ -62,6 +71,8 @@ router.get("/", authenticateToken, async (req, res) => {
 				price: true,
 				masteringType: true,
 				createdAt: true,
+				clientId: true,
+				masteredFile: true,
 			},
 		});
 		res.json(orders);
@@ -81,7 +92,9 @@ router.get("/admin", async (req, res) => {
 				price: true,
 				masteringType: true,
 				createdAt: true,
-				filePath: true,
+				clientFile: true,
+				clientId: true,
+				masteredFile: true,
 			},
 			orderBy: {
 				createdAt: "asc",
@@ -91,6 +104,27 @@ router.get("/admin", async (req, res) => {
 	} catch (e) {
 		console.log(e);
 		res.status(500).json(e);
+	}
+});
+
+router.post("/admin/upload", uplaodAdmin, async (req, res) => {
+	const { masteredFile } = req.body;
+	const track = req.file;
+	try {
+		const getClientId = await db.User.findUnique({
+			where: {
+				email: email,
+			},
+			select: {
+				id: true,
+			},
+		});
+		res.json({ message: "Order created" });
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+
+		// Do something with the form data and uploaded files
 	}
 });
 

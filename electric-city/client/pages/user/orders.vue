@@ -21,6 +21,7 @@
 					<th class="text-left">Type</th>
 					<th class="text-left">Price</th>
 					<th class="text-left">Command Id</th>
+					<th class="text-left">Returned track</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -31,6 +32,10 @@
 					<td>{{ order.masteringType }}</td>
 					<td>{{ order.price }}€</td>
 					<td>{{ order.id }}</td>
+					<td>
+						<a v-if="order.masteredPath != NULL" :href="order.masteredPath" download="song.mp3">{{ order.masteredPath }}</a>
+						<span v-else>We are working on it</span>
+					</td>
 				</tr>
 			</tbody>
 		</v-table>
