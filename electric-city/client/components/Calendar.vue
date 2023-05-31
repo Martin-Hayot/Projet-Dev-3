@@ -128,7 +128,7 @@
 		});
 	}
 
-	onBeforeMount(() => {
+	onMounted(() => {
 		days.value = renderCalendar();
 		getDates();
 	});
@@ -160,12 +160,13 @@
 				.toISOString()
 				.slice(0, 10);
 	};
-	const takeDate = async (e) => {
+	const takeDate = (e) => {
+		console.log(e.target.nbrTracks.value);
 		$fetch("http://localhost:3001/api/agenda/appointments", {
 			method: "POST",
 			body: JSON.stringify({
 				date: selectedDate.value,
-				nbrTrack: nbrTrack.value,
+				nbrTrack: e.target.nbrTracks.value,
 				description: e.target.description.value,
 				accessToken: localStorage.getItem("accessToken"),
 			}),
@@ -176,8 +177,8 @@
 			}
 		});
 	};
-	const getDates = async (e) => {
-		$fetch("http://localhost:3001/api/agenda/appointments", {
+	const getDates = () => {
+		$fetch("http://localhost:3001/api/agenda/appointments/all", {
 			method: "GET",
 		}).then((res) => {
 			if (res.status == "success") {
@@ -190,21 +191,29 @@
 </script>
 
 <template>
-	<div class="tw-flex tw-flex-col tw-justify-center tw-align-center tw-p-10">
-		<h1 class="tw-text-4xl">Pick a date</h1>
-		<p>Max of 3 tracks per day</p>
+	<div class="text-left tw-text-6xl tw-m-10">
+		<Icon
+			name="ic:sharp-arrow-back"
+			@click="navigateTo('/user/appointments')"
+		/>
+		New appointment
+	</div>
+	<div class="text-center tw-text-5xl tw-m-5 tw-mt-44">
+		<h1>Pick a date for an appointment</h1>
 	</div>
 	<div
-		class="tw-flex tw-items-center tw-justify-start tw-gap-8 tw-py-8 tw-px-4 tw-ml-5"
+		class="tw-flex tw-items-center tw-justify-center tw-gap-8 tw-py-8 tw-px-4 tw-ml-5"
 	>
-		<div class="tw-max-w-xl tw-w-full tw-shadow-lg">
+		<div class="tw-max-w-2xl tw-w-full tw-shadow-lg">
 			<div
 				class="md:tw-p-6 tw-p-4 dark:tw-bg-gray-800 tw-bg-white tw-rounded-t"
 			>
-				<div class="tw-px-4 tw-flex tw-items-center tw-justify-between">
+				<div
+					class="tw-px-4 tw-py-2 tw-mt-2 tw-flex tw-items-center tw-justify-between"
+				>
 					<span
 						tabindex="0"
-						class="focus:tw-outline-none tw-text-3xl tw-font-bold dark:tw-text-gray-100 tw-text-gray-800"
+						class="focus:tw-outline-none tw-text-4xl tw-font-bold dark:tw-text-gray-100 tw-text-gray-800"
 						>{{ currentDate }}</span
 					>
 					<div class="tw-flex tw-items-center">
@@ -252,7 +261,7 @@
 						</button>
 					</div>
 				</div>
-				<div class="tw-pt-10 tw-pb-6 tw-text-xl tw-overflow-x-auto">
+				<div class="tw-pt-10 tw-pb-6 tw-text-2xl tw-overflow-x-auto">
 					<table class="tw-w-full">
 						<tr class="tw-grid tw-grid-cols-7">
 							<th>
@@ -326,7 +335,7 @@
 						<ul class="px-2 tw-grid tw-grid-cols-7 tw-gap-4">
 							<li
 								v-for="day in days"
-								class="tw-text-base tw-font-medium tw-text-center tw-text-gray-800 dark:tw-text-gray-100 tw-py-1"
+								class="tw-text-xl tw-font-medium tw-text-center tw-text-gray-800 dark:tw-text-gray-100 tw-py-6"
 								:class="{
 									inactive:
 										day.isInCurrMonth == 'prev' ||
@@ -374,7 +383,7 @@
 							<label for="nbrTrack">Number of tracks</label>
 							<input
 								type="number"
-								name="nbrTrack"
+								name="nbrTracks"
 								max="3"
 								min="1"
 								required

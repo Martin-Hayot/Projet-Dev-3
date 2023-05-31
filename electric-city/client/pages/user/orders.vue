@@ -42,48 +42,34 @@
 	</NuxtLayout>
 </template>
 
-<script>
-	import { format } from "date-fns";
-	export default {
-		data() {
-			return {
-				data: [],
-				formatedDate: [],
-				dateObj: {},
-			};
-		},
-		mounted() {
-			this.fetchData();
-		},
-		methods: {
-			fetchData() {
-				$fetch("http://localhost:3001/api/orders/", {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: localStorage.getItem("accessToken"),
-					},
-				})
-					.then((data) => {
-						this.data = data;
-						this.formatedDateFromData();
-						console.log(this.data);
-					})
-					.catch((err) => console.log(err));
-			},
-			formatedDateFromData() {
-				for (let i = 0; i < this.data.length; i++) {
-					this.formatedDate.push(
-						format(new Date(this.data[i].createdAt), "dd/MM/yyyy")
-					);
-				}
-			},
-		},
-	};
-</script>
-
 <script setup>
+	import { format } from "date-fns";
 	definePageMeta({
 		layout: "custom",
 	});
+	let data = ref();
+	let formatedDate = [];
+
+	const fetchData = () => {
+		$fetch("http://localhost:3001/api/orders/", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: localStorage.getItem("accessToken"),
+			},
+		})
+			.then((res) => {
+				data = res;
+				formatedDateFromData();
+				console.log(data);
+			})
+			.catch((err) => console.log(err));
+	};
+	const formatedDateFromData = () => {
+		for (let i = 0; i < data.length; i++) {
+			formatedDate.push(format(new Date(data[i].createdAt), "dd/MM/yyyy"));
+		}
+	};
+
+	fetchData();
 </script>

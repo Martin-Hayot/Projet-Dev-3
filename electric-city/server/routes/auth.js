@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const [authenticateToken, generateAccessToken] = require("../middleware/auth");
 const db = require("../utils/db.server.ts");
 
@@ -94,6 +95,20 @@ router.get("/all", authenticateToken, async (req, res) => {
 	} catch (e) {
 		res.status(500).json(e);
 	}
+});
+
+router.get("/role", authenticateToken, async (req, res) => {
+	const { accessToken } = req;
+	const { user_type } = jwt.decode(accessToken);
+	if (user_type === "ADMIN") {
+		res.json({ role: "ADMIN" });
+	} else {
+		res.json({ role: "USER" });
+	}
+});
+
+router.get("/authenticate", authenticateToken, (req, res) => {
+	res.json({ authenticated: true });
 });
 
 module.exports = router;

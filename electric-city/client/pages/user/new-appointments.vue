@@ -1,11 +1,11 @@
 <template>
 	<NuxtLayout>
-		<div></div>
+		<Calendar></Calendar>
 	</NuxtLayout>
 </template>
 
 <script setup>
 	definePageMeta({
-		layout: "custom-admin",
+		layout: "custom",
 	});
 </script>

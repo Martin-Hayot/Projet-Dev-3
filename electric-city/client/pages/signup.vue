@@ -14,52 +14,52 @@ function checkPasswordMatch() {
   }
 }
 
-function showStatus() {
-  toggleAlert.value = true;
-  setTimeout(
-    () => {
-      toggleAlert.value = false;
-      if (errorStatus.value == "success") {
-        navigateTo({ path: "/login" });
-      }
-    },
-    errorStatus.value == "success" ? 1000 : 4000
-  );
-}
-const handleSubmit = (e) => {
-  if (!isCorrect.value) {
-    errorStatus.value = "error";
-    errorMessage.value = "Passwords do not match!";
-    showStatus();
-    return;
-  }
-  $fetch("http://localhost:3001/api/auth/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: e.target.email.value,
-      password: e.target.password.value,
-      firstname: e.target.firstname.value,
-      lastname: e.target.lastname.value,
-    }),
-  })
-    .then((data) => {
-      if (data.errors) {
-        errorStatus.value = "error";
-        errorMessage.value = data.errors.msg;
-        showStatus();
-      } else {
-        errorStatus.value = "success";
-        errorMessage.value = "Account created successfully!";
-        showStatus();
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+	function showStatus() {
+		toggleAlert.value = true;
+		setTimeout(
+			() => {
+				toggleAlert.value = false;
+				if (errorStatus.value == "success") {
+					navigateTo({ path: "/login" });
+				}
+			},
+			errorStatus.value == "success" ? 1000 : 4000
+		);
+	}
+	const handleSubmit = (e) => {
+		if (!isCorrect.value) {
+			errorStatus.value = "error";
+			errorMessage.value = "Passwords do not match!";
+			showStatus();
+			return;
+		}
+		$fetch("http://localhost:3001/api/auth/signup", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				email: e.target.email.value,
+				password: e.target.password.value,
+				firstname: e.target.firstname.value,
+				lastname: e.target.lastname.value,
+			}),
+		})
+			.then((data) => {
+				if (data.errors) {
+					errorStatus.value = "error";
+					errorMessage.value = data.errors.msg;
+					showStatus();
+				} else {
+					errorStatus.value = "success";
+					errorMessage.value = "Account created successfully!";
+					showStatus();
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 </script>
 
 <template>

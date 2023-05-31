@@ -14,6 +14,7 @@ const adminStorage = multer.diskStorage({
 		cb(null, "adminStorage/");
 	},
 });
+const [authenticateToken] = require("../middleware/auth");
 const upload = multer({ storage: storage }).single("audioFile");
 const uplaodAdmin = multer({ adminStorage: adminStorage }).single("audioFile");
 const db = require("../utils/db.server.ts");
@@ -53,9 +54,8 @@ router.post("/order", upload, async (req, res) => {
 	}
 });
 
-router.get("/", async (req, res) => {
-	const accessToken = req.headers.authorization;
-	const { email } = jwt.decode(accessToken);
+router.get("/", authenticateToken, async (req, res) => {
+	const { email } = req.accessToken;
 
 	try {
 		const orders = await db.Order.findMany({

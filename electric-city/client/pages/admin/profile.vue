@@ -105,10 +105,7 @@
 			const email = useField("email");
 			const password = useField("password");
 			const toggle = useField("toggle");
-			let accessToken = "";
-			if (process.client) {
-				accessToken = localStorage.getItem("accessToken");
-			}
+			const accessToken = localStorage.getItem("accessToken");
 			const alertShow = ref(false);
 			const status = ref("success");
 			const model = ref(false);

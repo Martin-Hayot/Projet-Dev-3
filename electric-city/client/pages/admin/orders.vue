@@ -118,7 +118,6 @@
 					.then((data) => {
 						this.data = data;
 						this.formatedDateFromData();
-						console.log(this.data);
 					})
 					.catch((error) => console.log(error));
 			},
@@ -127,7 +126,6 @@
 					this.formatedDate.push(
 						format(new Date(this.data[i].createdAt), "dd/MM/yyyy")
 					);
-					console.log(this.formatedDate);
 				}
 			},
 		},

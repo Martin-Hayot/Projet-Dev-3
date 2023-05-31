@@ -27,10 +27,10 @@
 					sleep(800).then(() => {
 						if (data.role === "ADMIN") {
 							accessTokenLocal.value = data.accessToken;
-							navigateTo({ path: "/admin/dashboard" });
+							navigateTo({ path: "/admin/orders" });
 						} else {
 							accessTokenLocal.value = data.accessToken;
-							navigateTo({ path: "/user/dashboard" });
+							navigateTo({ path: "/user/orders" });
 						}
 					});
 				}
