@@ -64,27 +64,27 @@
 						>
 					</div>
 					<div class="tw-group" v-show="isLogged">
-						<NuxtLink
+						<a
 							v-if="isAdmin"
 							class="tw-text-white tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
-							to="/admin/orders"
-							>Dashboard</NuxtLink
+							href="/admin/orders"
+							>Dashboard</a
 						>
-						<NuxtLink
+						<a
 							v-else
 							class="tw-text-white tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
-							to="/user/orders"
-							>Dashboard</NuxtLink
+							href="/user/orders"
+							>Dashboard</a
 						>
 					</div>
 					<div class="tw-group" v-show="isLogged">
-						<NuxtLink
+						<a
 							class="tw-text-white tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
 							@click="logout"
-							to="/"
+							href="/"
 						>
 							Logout
-						</NuxtLink>
+						</a>
 					</div>
 				</div>
 				<div class="md:tw-hidden tw-z-50 tw-mt-6">
@@ -132,8 +132,8 @@
 		}
 		if (accessToken) {
 			isLogged.value = true;
-			getRole();
 		}
+		getRole();
 	});
 	const getRole = () => {
 		$fetch("http://localhost:3001/api/auth/role", {
