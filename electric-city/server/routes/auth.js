@@ -88,18 +88,9 @@ router.post("/login", async (req, res) => {
 	}
 });
 
-router.get("/all", authenticateToken, async (req, res) => {
-	try {
-		const users = await db.user.findMany();
-		console.log(users);
-	} catch (e) {
-		res.status(500).json(e);
-	}
-});
-
-router.get("/role", authenticateToken, async (req, res) => {
-	const { accessToken } = req;
-	const { user_type } = jwt.decode(accessToken);
+router.get("/role", async (req, res) => {
+	const accessToken = req.headers.authorization;
+	const { user_type } = await jwt.decode(accessToken);
 	if (user_type === "ADMIN") {
 		res.json({ role: "ADMIN" });
 	} else {

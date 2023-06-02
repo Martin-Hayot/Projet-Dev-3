@@ -33,7 +33,12 @@
 					<td>{{ order.price }}€</td>
 					<td>{{ order.id }}</td>
 					<td>
-						<a v-if="order.masteredPath != NULL" :href="order.masteredPath" download="song.mp3">{{ order.masteredPath }}</a>
+						<a
+							v-if="order.masteredPath != NULL"
+							:href="order.masteredPath"
+							download="song.mp3"
+							>{{ order.masteredPath }}</a
+						>
 						<span v-else>We are working on it</span>
 					</td>
 				</tr>
