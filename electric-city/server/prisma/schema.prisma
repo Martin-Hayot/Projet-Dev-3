@@ -53,6 +53,12 @@ model Agenda {
   orderId     String? @unique
 }
 
+model Messages {
+  id       String   @id @default(uuid())
+  email    String
+  message  String
+} 
+
 enum Role {
   BASIC
   ADMIN

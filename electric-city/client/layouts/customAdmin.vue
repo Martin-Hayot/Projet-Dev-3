@@ -41,6 +41,10 @@
 							><Icon name="material-symbols:contact-mail" size="1.5em" />
 							<strong> Contact Us</strong></v-list-item
 						>
+						<v-list-item @click="navigateTo({ path: '/admin/display' })"
+							><Icon name="material-symbols:mail-rounded" size="1.5em"/>
+							<strong> Messages</strong>
+						</v-list-item>
 					</v-list>
 
 					<template v-slot:append>
