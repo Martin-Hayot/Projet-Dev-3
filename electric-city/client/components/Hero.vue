@@ -132,8 +132,8 @@
 		}
 		if (accessToken) {
 			isLogged.value = true;
+			getRole();
 		}
-		getRole();
 	});
 	const getRole = () => {
 		$fetch("http://localhost:3001/api/auth/role", {
