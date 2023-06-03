@@ -38,7 +38,7 @@
 	</NuxtLayout>
 </template>
 
-<script setup>
+<script>
 	definePageMeta({
 		layout: "custom",
 		middleware: () => {
@@ -57,17 +57,27 @@
 			});
 		},
 	});
-	let data = ref();
-	const getAppointments = () => {
-		$fetch("http://localhost:3001/api/agenda/appointments/", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: localStorage.getItem("accessToken"),
+	export default {
+		data() {
+			return {
+				data: [],
+			};
+		},
+		methods: {
+			getAppointments() {
+				$fetch("http://localhost:3001/api/agenda/appointments/", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: localStorage.getItem("accessToken"),
+					},
+				}).then((res) => {
+					this.data = res.data;
+				});
 			},
-		}).then((res) => {
-			data = res.data;
-		});
+		},
+		mounted() {
+			this.getAppointments();
+		},
 	};
-	getAppointments();
 </script>
