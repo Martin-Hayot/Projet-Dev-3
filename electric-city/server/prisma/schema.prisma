@@ -57,6 +57,7 @@ model Messages {
   id       String   @id @default(uuid())
   email    String
   message  String
+  date     String
 } 
 
 enum Role {
