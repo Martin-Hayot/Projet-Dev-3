@@ -165,5 +165,22 @@
 		transform: translateY(14px);
 	}
 </style>
-<script scoped>
+<script setup>
+    definePageMeta({
+        middleware: () => {
+            $fetch("http://localhost:3001/api/auth/authenticate", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: localStorage.getItem("accessToken"),
+                },
+            }).then((res) => {
+                if (res.authenticated == true) {
+                    return;
+                } else {
+                    navigateTo("/login");
+                }
+            });
+        },
+    });
 </script>

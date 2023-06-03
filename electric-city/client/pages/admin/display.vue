@@ -40,6 +40,25 @@
   </template>
   
   <script setup>
+
+    definePageMeta({
+      middleware: () => {
+          $fetch("http://localhost:3001/api/auth/authenticate", {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: localStorage.getItem("accessToken"),
+              },
+          }).then((res) => {
+              if (res.authenticated == true) {
+                  return;
+              } else {
+                  navigateTo("/login");
+              }
+          });
+      },
+  });
+
     import { ref, computed } from 'vue';
   
     const getMessages = async () => {
