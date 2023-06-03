@@ -5,9 +5,6 @@ const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, "storage/");
 	},
-	filename: (req, file, cb) => {
-		cb(null, file.originalname);
-	},
 });
 const adminStorage = multer.diskStorage({
 	destination: (req, file, cb) => {

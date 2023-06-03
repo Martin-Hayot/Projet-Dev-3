@@ -48,32 +48,59 @@
 </template>
 
 <script setup>
-	import { format } from "date-fns";
 	definePageMeta({
 		layout: "custom",
+		middleware: () => {
+			$fetch("http://localhost:3001/api/auth/authenticate", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: localStorage.getItem("accessToken"),
+				},
+			}).then((res) => {
+				if (res.authenticated == true) {
+					return;
+				} else {
+					navigateTo("/login");
+				}
+			});
+		},
 	});
-	let data = ref();
-	let formatedDate = [];
-
-	const fetchData = () => {
-		$fetch("http://localhost:3001/api/orders/", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: localStorage.getItem("accessToken"),
+</script>
+<script>
+	import { format } from "date-fns";
+	export default {
+		data() {
+			return {
+				data: [],
+				formatedDate: [],
+			};
+		},
+		mounted() {
+			this.fetchData();
+		},
+		methods: {
+			fetchData() {
+				$fetch("http://localhost:3001/api/orders/", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: localStorage.getItem("accessToken"),
+					},
+				})
+					.then((res) => {
+						this.data = res;
+						this.formatedDateFromData();
+					})
+					.catch((err) => console.log(err));
 			},
-		})
-			.then((res) => {
-				data = res;
-				formatedDateFromData();
-			})
-			.catch((err) => console.log(err));
+			formatedDateFromData() {
+				for (let i = 0; i < this.data.length; i++) {
+					formatedDate.push(
+						format(new Date(this.data[i].createdAt), "dd/MM/yyyy")
+					);
+				}
+			},
+		},
 	};
-	const formatedDateFromData = () => {
-		for (let i = 0; i < data.length; i++) {
-			formatedDate.push(format(new Date(data[i].createdAt), "dd/MM/yyyy"));
-		}
-	};
-
-	fetchData();
 </script>

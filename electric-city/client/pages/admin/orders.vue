@@ -24,13 +24,13 @@
 						<td>{{ order.price }}€</td>
 						<td>{{ order.id }}</td>
 						<td>{{ order.clientId }}</td>
-            <td>
-              <button @click="downloadSong(order.clientFile)">Download</button>
-            </td>
-            <td>
-              <input type="file" @change="selectFile" />
-              <button @click="uploadFile">Upload</button>
-            </td>
+						<td>
+							<button @click="downloadSong(order.clientFile)">Download</button>
+						</td>
+						<td>
+							<input type="file" @change="selectFile" />
+							<button @click="uploadFile">Upload</button>
+						</td>
 					</tr>
 				</tbody>
 			</v-table>
@@ -39,25 +39,25 @@
 </template>
 
 <script setup>
-definePageMeta({
-	layout: "custom-admin",
-	middleware: () => {
-		$fetch("http://localhost:3001/api/auth/authenticate", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: localStorage.getItem("accessToken"),
-			},
-		}).then((res) => {
-			if (res.authenticated == true) {
-				return;
-			} else {
-				navigateTo("/login");
-			}
-		});
-	},
-});
-const files = ref({});
+	definePageMeta({
+		layout: "custom-admin",
+		middleware: () => {
+			$fetch("http://localhost:3001/api/auth/authenticate", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: localStorage.getItem("accessToken"),
+				},
+			}).then((res) => {
+				if (res.authenticated == true) {
+					return;
+				} else {
+					navigateTo("/login");
+				}
+			});
+		},
+	});
+	const files = ref({});
 </script>
 
 <script>
@@ -68,7 +68,7 @@ const files = ref({});
 				data: [],
 				formatedDate: [],
 				dateObj: {},
-        selectedFile: null,
+				selectedFile: null,
 			};
 		},
 		mounted() {
@@ -77,10 +77,10 @@ const files = ref({});
 		methods: {
 			handler(file, filename) {
 				const url = URL.createObjectURL(file);
-				const a = document.createElement('a');
-				a.setAttribute('href', url);
-				a.setAttribute('download', filename);
-				a.style.display = 'none';
+				const a = document.createElement("a");
+				a.setAttribute("href", url);
+				a.setAttribute("download", filename);
+				a.style.display = "none";
 				document.body.appendChild(a);
 				a.click();
 				document.body.removeChild(a);
@@ -96,26 +96,29 @@ const files = ref({});
 						file: fileName,
 					}),
 				})
-						.then((res) => res.blob())
-						.then((blob) => this.handler(blob, fileName))
-						.catch((error) => {
-							console.error("Une erreur s'est produite lors du téléchargement du fichier :", error);
-						});
+					.then((res) => res.blob())
+					.then((blob) => this.handler(blob, fileName))
+					.catch((error) => {
+						console.error(
+							"Une erreur s'est produite lors du téléchargement du fichier :",
+							error
+						);
+					});
 			},
-      selectFile(event) {
-        this.selectedFile = event.target.files[0];
-      },
-      uploadFile() {
-        const formData = new FormData();
-        formData.append("audioFile", this.selectedFile);
-        fetch("http://localhost:3001/api/orders/admin/upload", {
+			selectFile(event) {
+				this.selectedFile = event.target.files[0];
+			},
+			uploadFile() {
+				const formData = new FormData();
+				formData.append("audioFile", this.selectedFile);
+				fetch("http://localhost:3001/api/orders/admin/upload", {
 					method: "POST",
 					headers: {},
 					body: formData,
-        }).then((res) => {
+				}).then((res) => {
 					console.log(res);
-        });
-      },
+				});
+			},
 			fetchData() {
 				fetch("http://localhost:3001/api/orders/admin", {
 					method: "GET",
