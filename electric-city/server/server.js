@@ -9,6 +9,7 @@ const orders = require("./routes/orders");
 const profile = require("./routes/profile");
 const messages = require("./routes/messages");
 const adminMessages = require("./routes/adminMessages");
+const deleteMessages = require("./routes/deleteMessages");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -20,6 +21,7 @@ app.use("/api/profile", profile);
 app.use("/api/agenda", agenda);
 app.use("/api/messages", messages);
 app.use("/api/display", adminMessages);
+app.use("/api/deleteMessages", deleteMessages);
 
 app.listen(3001, () => {
 	console.log("listening on port 3001");
