@@ -70,6 +70,7 @@ router.get("/", authenticateToken, async (req, res) => {
 				createdAt: true,
 				clientId: true,
 				masteredFile: true,
+				status: true,
 			},
 		});
 		res.json(orders);
@@ -92,12 +93,58 @@ router.get("/admin", async (req, res) => {
 				clientFile: true,
 				clientId: true,
 				masteredFile: true,
+				status: true,
 			},
 			orderBy: {
 				createdAt: "asc",
 			},
 		});
 		res.json(orders);
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+	}
+});
+
+router.get("/details/:id", async (req, res) => {
+	const { id } = req.params;
+	try {
+		const order = await db.Order.findUnique({
+			where: {
+				id: id,
+			},
+			select: {
+				id: true,
+				songName: true,
+				feedback: true,
+				price: true,
+				masteringType: true,
+				createdAt: true,
+				clientFile: true,
+				clientId: true,
+				masteredFile: true,
+				status: true,
+			},
+		});
+		res.json(order);
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+	}
+});
+
+router.put("/edit/status", async (req, res) => {
+	const { id, status } = req.body;
+	try {
+		const updateStatus = await db.Order.update({
+			where: {
+				id: id,
+			},
+			data: {
+				status: status,
+			},
+		});
+		res.json({ message: "Successfully updated status" });
 	} catch (e) {
 		console.log(e);
 		res.status(500).json(e);
