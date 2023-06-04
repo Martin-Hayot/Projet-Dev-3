@@ -133,7 +133,7 @@ router.get("/details/:id", async (req, res) => {
 	}
 });
 
-router.put("/edit/status", async (req, res) => {
+router.put("/status/edit", async (req, res) => {
 	const { id, status } = req.body;
 	try {
 		const updateStatus = await db.Order.update({

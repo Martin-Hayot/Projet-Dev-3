@@ -205,7 +205,7 @@
 			},
 			statusOrder(status, id) {
 				console.log("j ai modifier le status");
-				fetch("http://localhost:3001/api/orders/edit/status", {
+				fetch("http://localhost:3001/api/orders/status/edit", {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
