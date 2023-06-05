@@ -1,5 +1,5 @@
 <template>
-	<section class="relative">
+	<section class="tw-min-h-screen tw-flex tw-flex-col">
 		<img
 			src="StudioFond.jpg"
 			class="tw-absolute -tw-z-20 tw-top-0 tw-left-0 tw-h-full tw-w-full tw-object-cover tw-brightness-75"
@@ -105,13 +105,13 @@
                                         class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white"
                                         >Your request</label
                                     >
-                                    <input
-                                        type="text"
-                                        name="message"
-                                        id="message"
-                                        class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-primary-600 focus:tw-border-primary-600 tw-block tw-w-full tw-p-20 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:tw-ring-blue-500 dark:focus:tw-border-blue-500"
-                                        required="true"
-                                    />
+                                    <textarea
+										name="message"
+										id="message"
+										class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-primary-600 focus:tw-border-primary-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:tw-ring-blue-500 dark:focus:tw-border-blue-500 tw-h-40"
+										required="true"
+									></textarea>
+
                                 </div>
                                 <div class="tw-flex tw-items-center tw-justify-between">
                                 </div>
@@ -132,7 +132,7 @@
 			</div>
 		</div>
 	</section>
-    <Footer></Footer>
+	<Footer/>
 </template>
 
 <style scoped>
