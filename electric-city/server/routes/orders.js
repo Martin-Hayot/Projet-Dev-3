@@ -19,7 +19,6 @@ const db = require("../utils/db.server.ts");
 router.post("/order", upload, async (req, res) => {
 	const { songName, description, typeMastering, price, accessToken } = req.body;
 	const { email } = jwt.decode(accessToken);
-	console.log(email);
 	const track = req.file;
 	try {
 		const getClientId = await db.User.findUnique({
@@ -41,8 +40,19 @@ router.post("/order", upload, async (req, res) => {
 					connect: { id: getClientId.id },
 				},
 			},
+			select: {
+				client: {
+					select: {
+						email: true
+					}
+				},
+				id: true
+			},
 		});
-		res.json({ message: "Order created" });
+		res.json({
+			message: "Order created",
+			newOrder
+		});
 	} catch (e) {
 		console.log(e);
 		res.status(500).json(e);

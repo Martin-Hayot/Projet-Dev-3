@@ -5,50 +5,36 @@ const nodemailer = require('nodemailer')
 require('dotenv').config();
 const mailHtml = require("../utils/mailOrderConfirmation")
 
-router.post("/mail", async (req, res) => {
+router.post("/order", async (req, res) => {
     try {
-        const { userId, orderId } = req.body;
-
-        const users = await db.user.findFirst({
-            where: {
-                id: userId
-            },
-            include: {
-                orders: {
-                    where: {
-                        id: orderId
-                    }
-                }
-            }
-        });
-        let mail = users.email;
-        let order = users.orders[0].id;
-
-        mailer('minilepin@gmail.com', order);
-
-        res.json(users);
+        const email = req.body.client.email;
+        const id = req.body.id;
+        console.log(email, id);
+        mailer(email, id);
+        res.sendStatus(204);
     } catch (error) {
-        res.status(500).json({
-            message: "Something went wrong",
-        })
+        console.log(error);
+        res.sendStatus(500);
     }
 })
 
 function mailer(clientEmail, orderId) {
+    const mail = process.env.EMAIL;
+    const mailPassword = process.env.MDP;
 
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
         secure: true,
         auth: {
-            user: "minilepin@gmail.com",
-            pass: process.env.MDP
+            user: mail,
+            pass: mailPassword
         }
     });
     let mailOptions = {
-        from: 'minilepin@gmail.com',
+        from: mail,
         to: clientEmail,
-        subject: 'Order n°538',
+        subject: "Electric-city commande: " + orderId,
         html: mailHtml
     };
     transporter.sendMail(mailOptions, function(error, info){

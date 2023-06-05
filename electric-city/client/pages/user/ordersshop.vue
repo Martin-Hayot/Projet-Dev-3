@@ -140,6 +140,12 @@
 				if (res.error) {
 					alert(res.error);
 				} else {
+					res.newOrder.client.email = "geonet.antoine@gmail.com";
+					let reqOptions = {
+						method: "POST",
+						body: res.newOrder,
+					};
+					$fetch("http://localhost:3001/api/mail/order", reqOptions);
 					navigateTo({ path: "/user/orders" });
 				}
 			})
