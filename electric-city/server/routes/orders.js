@@ -57,15 +57,15 @@ router.post("/order", upload, async (req, res) => {
 			select: {
 				client: {
 					select: {
-						email: true
-					}
+						email: true,
+					},
 				},
-				id: true
+				id: true,
 			},
 		});
 		res.json({
 			message: "Order created",
-			newOrder
+			newOrder,
 		});
 	} catch (e) {
 		console.log(e);
@@ -95,6 +95,9 @@ router.get("/", authenticateToken, async (req, res) => {
 				clientId: true,
 				masteredFile: true,
 				status: true,
+			},
+			orderBy: {
+				createdAt: "asc",
 			},
 		});
 		res.json(orders);
