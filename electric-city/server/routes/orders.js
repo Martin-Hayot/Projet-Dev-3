@@ -54,8 +54,19 @@ router.post("/order", upload, async (req, res) => {
 					connect: { id: getClientId.id },
 				},
 			},
+			select: {
+				client: {
+					select: {
+						email: true
+					}
+				},
+				id: true
+			},
 		});
-		res.json({ message: "Order created" });
+		res.json({
+			message: "Order created",
+			newOrder
+		});
 	} catch (e) {
 		console.log(e);
 		res.status(500).json(e);

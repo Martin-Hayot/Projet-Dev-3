@@ -1,4 +1,8 @@
 <script setup>
+	useSeoMeta({
+		title: "Login",
+		description: "Login",
+	});
 	let errorStatus = ref("success");
 	let errorMessage = ref("");
 	let toggleAlert = ref(false);

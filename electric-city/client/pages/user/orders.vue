@@ -7,7 +7,7 @@
 			<v-row align="center" class="justify-end">
 				<v-col cols="auto">
 					<v-btn
-						@click="navigateTo({ path: '/user/ordersshop' })"
+						@click="navigateTo({ path: '/user/new-order' })"
 						size="x-large"
 						class="bg-blue"
 						>+ New order</v-btn
@@ -78,6 +78,10 @@
 				}
 			});
 		},
+	});
+	useSeoMeta({
+		title: "Orders",
+		description: "Orders",
 	});
 </script>
 <script>
