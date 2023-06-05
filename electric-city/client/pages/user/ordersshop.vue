@@ -104,10 +104,30 @@
 				</div>
 			</div>
 		</section>
+		<div class="text-center">
+			<v-dialog
+					v-model="dialog"
+					width="auto"
+			>
+				<v-card>
+					<v-card-text>
+						Un mail de confirmation vous a été envoyé par mail
+					</v-card-text>
+					<v-card-actions>
+						<v-btn color="primary" block @click="returnToOrder">Close Dialog</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
+		</div>
 	</NuxtLayout>
 </template>
 
 <script setup>
+let dialog = ref(false)
+const returnToOrder = () => {
+	dialog.value = false;
+	navigateTo({ path: "/user/orders" });
+}
 	definePageMeta({
 		title: "Mon profil",
 		description: "Page de profil utilisateur",
@@ -127,6 +147,7 @@
 			price = 110;
 		}
 		formData.append("price", JSON.stringify(price));
+
 		formData.append("accessToken", localStorage.getItem("accessToken"));
 		$fetch("http://localhost:3001/api/orders/order", {
 			method: "POST",
@@ -140,13 +161,12 @@
 				if (res.error) {
 					alert(res.error);
 				} else {
-					res.newOrder.client.email = "geonet.antoine@gmail.com";
 					let reqOptions = {
 						method: "POST",
 						body: res.newOrder,
 					};
 					$fetch("http://localhost:3001/api/mail/order", reqOptions);
-					navigateTo({ path: "/user/orders" });
+					dialog.value = true;
 				}
 			})
 			.catch((err) => console.log(err));
