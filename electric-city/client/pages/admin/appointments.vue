@@ -6,36 +6,13 @@
 			</h1>
 		</div>
 		<v-table theme="light" class="tw-mt-16">
-			<thead>
-			<tr>
-				<th>Date</th>
-				<th>Number of tracks</th>
-				<th>Price</th>
-				<th>description</th>
-				<th>Appointment id</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr v-for="appointment in data" :key="appointment.id">
-				<td>{{ appointment.date }}</td>
-				<td>{{ appointment.nbrOfTrack }}</td>
-				<td>{{ appointment.nbrOfTrack * 85 }}€</td>
-				<td>{{ appointment.description }}</td>
-				<td>{{ appointment.id }}</td>
-			</tr>
-			</tbody>
-		</v-table>
-		<v-table theme="light">
 			<thead class="tw-border-b-2 tw-border-black">
 			<tr class="">
 				<th class="text-left tw-border tw-border-black">
 					<strong>Date</strong>
 				</th>
 				<th class="text-left tw-border tw-border-black">
-					<strong>Client</strong>
-				</th>
-				<th class="text-left tw-border tw-border-black">
-					<strong>Number of tracks</strong>
+					<strong>Appointment id</strong>
 				</th>
 				<th class="text-left tw-border tw-border-black">
 					<strong>Details</strong>
@@ -49,8 +26,7 @@
 					class="hover:tw-bg-gray-200"
 			>
 				<td class="tw-border tw-border-black">{{ appointment.date }}</td>
-				<td class="tw-border tw-border-black">{{ appointment.date }}</td>
-				<td class="tw-border tw-border-black">{{ appointment.nbrOfTrack }}</td>
+				<td class="tw-border tw-border-black">{{ appointment.id }}</td>
 				<td class="tw-border tw-border-black">
 					<v-btn
 							class="hover:tw-text-green-500"

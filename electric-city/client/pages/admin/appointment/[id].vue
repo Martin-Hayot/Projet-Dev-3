@@ -14,7 +14,7 @@
 				<v-row class="text-center">
 					<v-col cols="12">
 						<h1 class="display-1 text-white tw-text-2xl tw-mt-4">
-							<strong> Appointment Details {{ orderId }}</strong>
+							<strong> Appointment Details {{ appointmentId }}</strong>
 						</h1>
 					</v-col>
 				</v-row>
@@ -22,33 +22,27 @@
 					<v-col cols="12" class="d-flex align-center justify-center">
 						<ul style="color: #ffffff">
 							<li>
-								<strong class="tw-text-[#2563eb]">Id: &nbsp&nbsp</strong>
-								{{ data.id }}
+								<strong class="tw-text-[#2563eb]">Client: &nbsp&nbsp</strong>
+								{{ clientData.firstname }} {{ clientData.lastname }}
 							</li>
 							<li>
-								<strong class="tw-text-[#2563eb]">Price: &nbsp&nbsp</strong>
-								{{ data.price }}
+								<strong class="tw-text-[#2563eb]">Email: &nbsp&nbsp</strong>
+								{{ clientData.email }}
 							</li>
 							<li>
-								<strong class="tw-text-[#2563eb]"
-									>MasteringType: &nbsp&nbsp</strong
-								>
-								{{ data.masteringType }}
+								<strong class="tw-text-[#2563eb]">Date: &nbsp&nbsp</strong>
+								{{ data.date }}
 							</li>
 							<li>
-								<strong class="tw-text-[#2563eb]">CreatedAt: &nbsp&nbsp</strong>
-								{{ data.createdAt }}
-							</li>
-							<li>
-								<strong class="tw-text-[#2563eb]">ClientId: &nbsp&nbsp</strong>
-								{{ data.clientId }}
+								<strong class="tw-text-[#2563eb]">Number of tracks: &nbsp&nbsp</strong>
+								{{ data.nbrOfTrack }}
 							</li>
 						</ul>
 					</v-col>
 					<v-col cols="12" class="d-flex align-center justify-center">
 						<v-sheet
 							width="30em"
-							height="28em"
+							height="16em"
 							class="d-flex align-center justify-center"
 							color="#374151"
 							rounded="xl"
@@ -68,7 +62,7 @@
 									class="scrollable-textarea tw-bg-white tw-border tw-border-gray-300 tw-rounded-md tw-shadow-sm tw-p-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-200 focus:tw-border-blue-300"
 									rows="6"
 									cols="50"
-									v-model="data.feedback"
+									v-model="data.description"
 									readonly
 								></textarea>
 							</form>
@@ -116,41 +110,21 @@
 			return {
 				route: useRoute(),
 				data: [],
+				clientData: [],
 				files: [],
 			};
 		},
 		computed: {
-			orderId() {
+			appointmentId() {
 				return this.route.params.id;
 			},
 		},
 		mounted() {
-			this.getOrder();
+			this.getAppointment();
 		},
 		methods: {
-			handleSubmit(e) {
-				const form = e.target;
-				const formData = new FormData(form);
-				console.log(formData);
-				formData.append("orderId", this.orderId);
-				$fetch("http://localhost:3001/api/orders/admin/upload", {
-					method: "PUT",
-					headers: {
-						Accept: "application/json",
-						"Access-Control-Allow-Origin": "*",
-					},
-					body: formData,
-				})
-					.then((res) => {
-						console.log(res);
-						navigateTo("/admin/orders");
-					})
-					.catch((err) => {
-						console.log(err);
-					});
-			},
-			getOrder() {
-				$fetch("http://localhost:3001/api/orders/details/" + this.orderId, {
+			getAppointment() {
+				$fetch("http://localhost:3001/api/agenda/details/" + this.appointmentId, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -158,6 +132,7 @@
 				})
 					.then((res) => {
 						this.data = res;
+						this.clientData = res.client;
 					})
 					.catch((err) => {
 						console.log(err);
