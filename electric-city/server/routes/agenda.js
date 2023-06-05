@@ -77,13 +77,41 @@ router.get("/appointments", async (req, res) => {
 	}
 });
 
+router.get("/details/:id", async (req, res) => {
+	const { id } = req.params;
+	try {
+		const order = await db.agenda.findUnique({
+			where: {
+				id: id,
+			},
+			select: {
+				id: true,
+				date: true,
+				description: true,
+				nbrOfTrack: true,
+				client: {
+					select: {
+						firstname: true,
+						lastname: true,
+						email: true
+					}
+				}
+			},
+		});
+		res.json(order);
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+	}
+});
+
 router.get("/appointments/all", async (req, res) => {
 	try {
 		const allMeetings = await db.agenda.findMany({
 			select: {
 				date: true,
-				description: true,
-				nbrOfTrack: true,
+				id: true
+
 			},
 		});
 		res.json({ data: allMeetings, status: "success" });
