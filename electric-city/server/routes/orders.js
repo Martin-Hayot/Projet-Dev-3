@@ -13,13 +13,12 @@ const adminStorage = multer.diskStorage({
 });
 const [authenticateToken] = require("../middleware/auth");
 const upload = multer({ storage: storage }).single("audioFile");
-const uploadAdmin = multer({ adminStorage: adminStorage }).single("audioFile");
+const uploadAdmin = multer({ storage: adminStorage }).single("audioFile");
 const db = require("../utils/db.server.ts");
 
 router.post("/order", upload, async (req, res) => {
 	const { songName, description, typeMastering, price, accessToken } = req.body;
 	const { email } = jwt.decode(accessToken);
-	console.log(email);
 	const track = req.file;
 	try {
 		const getClientId = await db.User.findUnique({
@@ -151,8 +150,25 @@ router.put("/status/edit", async (req, res) => {
 	}
 });
 
-router.post("/admin/upload", uploadAdmin, (req, res) => {
-	res.json({ message: "Successfully uploaded files" });
+router.put("/admin/upload", uploadAdmin, async (req, res) => {
+	const { orderId } = req.body;
+	const track = req.file;
+	console.log(orderId);
+
+	try {
+		const uploadFile = await db.Order.update({
+			where: {
+				id: orderId,
+			},
+			data: {
+				masteredFile: track.path,
+			},
+		});
+		res.json({ message: "Successfully uploaded file" });
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+	}
 });
 
 router.post("/admin/download", async (req, res) => {

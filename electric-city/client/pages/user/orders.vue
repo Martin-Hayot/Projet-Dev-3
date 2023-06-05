@@ -1,5 +1,8 @@
 <template>
 	<NuxtLayout>
+		<div>
+			<h1 class="tw-text-4xl tw-m-5 tw-ml-16 tw-absolute">Orders</h1>
+		</div>
 		<v-container>
 			<v-row align="center" class="justify-end">
 				<v-col cols="auto">
