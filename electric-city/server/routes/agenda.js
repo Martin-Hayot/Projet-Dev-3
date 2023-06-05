@@ -84,6 +84,8 @@ router.get("/appointments/all", async (req, res) => {
 				date: true,
 				description: true,
 				nbrOfTrack: true,
+				id: true
+
 			},
 		});
 		res.json({ data: allMeetings, status: "success" });
