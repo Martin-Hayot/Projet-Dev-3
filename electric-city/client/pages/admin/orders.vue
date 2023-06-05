@@ -141,7 +141,7 @@
 				dateObj: {},
 				selectedFile: null,
 				colorToggle: {
-					PENDING: "grey",
+					PENDING: "red",
 					"IN-PROGRESS": "orange",
 					FINISH: "green",
 				},

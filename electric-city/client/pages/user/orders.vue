@@ -35,7 +35,25 @@
 					<td class="tw-border tw-border-black">{{ order.masteringType }}</td>
 					<td class="tw-border tw-border-black">{{ order.price }}€</td>
 					<td class="tw-border tw-border-black">{{ order.id }}</td>
-					<td class="tw-border tw-border-black">{{ order.status }}</td>
+					<td class="tw-border tw-border-black">
+						<span
+							:class="{
+								'tw-text-green-500': order.status == 'FINISH',
+								'tw-text-[#FF9800]': order.status == 'IN-PROGRESS',
+								'tw-text-[#F44336]': order.status == 'PENDING',
+							}"
+							>{{ order.status }}</span
+						>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<v-btn
+							v-if="order.masteredFile != 'NULL'"
+							@click="downloadSong(order.masteredFile)"
+							class="tw-border tw-border-black hover:tw-text-blue-500"
+						>
+							<Icon name="carbon:download" size="1.4em" color="black" />
+							<strong>Download</strong>
+						</v-btn>
+					</td>
 				</tr>
 			</tbody>
 		</v-table>
@@ -97,6 +115,36 @@
 						format(new Date(this.data[i].createdAt), "dd/MM/yyyy")
 					);
 				}
+			},
+			handler(file, filename) {
+				const url = URL.createObjectURL(file);
+				const a = document.createElement("a");
+				a.setAttribute("href", url);
+				a.setAttribute("download", filename);
+				a.style.display = "none";
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(url);
+			},
+			downloadSong(fileName) {
+				fetch("http://localhost:3001/api/orders/download", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						file: fileName,
+					}),
+				})
+					.then((res) => res.blob())
+					.then((blob) => this.handler(blob, fileName))
+					.catch((error) => {
+						console.error(
+							"Une erreur s'est produite lors du téléchargement du fichier :",
+							error
+						);
+					});
 			},
 		},
 	};

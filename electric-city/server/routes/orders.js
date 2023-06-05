@@ -1,14 +1,27 @@
 const router = require("express").Router();
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
+const path = require("path");
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, "storage/");
+	},
+	filename: (req, file, cb) => {
+		const originalName = file.originalname;
+		const extension = path.extname(originalName);
+		const uniqueFileName = Date.now() + extension;
+		cb(null, uniqueFileName);
 	},
 });
 const adminStorage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, "adminStorage/");
+	},
+	filename: (req, file, cb) => {
+		const originalName = file.originalname;
+		const extension = path.extname(originalName);
+		const uniqueFileName = Date.now() + extension;
+		cb(null, uniqueFileName);
 	},
 });
 const [authenticateToken] = require("../middleware/auth");
@@ -20,6 +33,7 @@ router.post("/order", upload, async (req, res) => {
 	const { songName, description, typeMastering, price, accessToken } = req.body;
 	const { email } = jwt.decode(accessToken);
 	const track = req.file;
+	console.log(track);
 	try {
 		const getClientId = await db.User.findUnique({
 			where: {
@@ -172,6 +186,11 @@ router.put("/admin/upload", uploadAdmin, async (req, res) => {
 });
 
 router.post("/admin/download", async (req, res) => {
+	const filename = req.body.file;
+	res.download("./" + filename); // ./storage/file.file
+	res.status(200);
+});
+router.post("/download", async (req, res) => {
 	const filename = req.body.file;
 	res.download("./" + filename); // ./storage/file.file
 	res.status(200);
