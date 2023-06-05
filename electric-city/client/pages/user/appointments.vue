@@ -59,6 +59,9 @@
 			});
 		},
 	});
+	useSeoMeta({
+		title: "Appointments",
+	});
 	export default {
 		data() {
 			return {

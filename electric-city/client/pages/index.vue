@@ -1,5 +1,5 @@
 <template>
-	<div class="">
+	<div>
 		<Hero />
 		<section class="tw-bg-black tw-mx-auto">
 			<h2 class="tw-text-4xl tw-text-white tw-text-center">
@@ -142,3 +142,11 @@
 		);
 	}
 </style>
+
+<script setup>
+	useSeoMeta({
+		title: "Home",
+		description: "Home page description",
+		keywords: "Home page keywords",
+	});
+</script>

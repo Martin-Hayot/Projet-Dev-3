@@ -83,7 +83,10 @@
 			});
 		},
 	});
-
+	useSeoMeta({
+		title: "My profile",
+		description: "Page de profil utilisateur",
+	});
 	export default {
 		setup() {
 			const { handleSubmit, handleReset } = useForm({

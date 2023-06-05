@@ -186,6 +186,10 @@
 	<Footer />
 </template>
 <script setup>
+	useSeoMeta({
+		title: "About us",
+		description: "About us page",
+	});
 	let accessToken = "";
 	let isLogged = ref(false);
 	let isAdmin = ref(false);

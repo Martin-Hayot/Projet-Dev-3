@@ -200,4 +200,7 @@
 			},
 		},
 	};
+	useSeoMeta({
+		title: "Order details",
+	});
 </script>
