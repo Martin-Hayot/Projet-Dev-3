@@ -20,6 +20,7 @@ app.use("/api/agenda", agenda);
 app.use("/api/messages", messages);
 app.use("/api/display", adminMessages);
 app.use("/api/deleteMessages", deleteMessages);
+app.use("/api/mail", require("./routes/mail"));
 
 app.listen(3001, () => {
 	console.log("listening on port 3001");
