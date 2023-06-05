@@ -106,7 +106,7 @@
 					password(value) {
 						if (value?.length >= 2) return true;
 
-						return "Name needs to be at least 2 characters.";
+						return "Password needs to be at least 2 characters.";
 					},
 					toggle(value) {
 						if (value === "yes") return true;
