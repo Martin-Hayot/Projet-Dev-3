@@ -7,6 +7,7 @@
 <script setup>
 	definePageMeta({
 		layout: "custom-admin",
+		title: "Admin Appointments",
 		middleware: () => {
 			$fetch("http://localhost:3001/api/auth/role", {
 				method: "GET",
@@ -22,5 +23,8 @@
 				}
 			});
 		},
+	});
+	useSeoMeta({
+		title: "Admin Appointments",
 	});
 </script>

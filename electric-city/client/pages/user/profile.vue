@@ -70,6 +70,9 @@
 		description: "Page de profil utilisateur",
 		layout: "custom",
 	});
+	useSeoMeta({
+		title: "My profile",
+	});
 
 	export default {
 		setup() {

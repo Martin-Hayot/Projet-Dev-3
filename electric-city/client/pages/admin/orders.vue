@@ -129,6 +129,9 @@
 		},
 	});
 	const files = ref({});
+	useSeoMeta({
+		title: "orders",
+	});
 </script>
 
 <script>

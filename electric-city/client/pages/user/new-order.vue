@@ -105,16 +105,15 @@
 			</div>
 		</section>
 		<div class="text-center">
-			<v-dialog
-					v-model="dialog"
-					width="auto"
-			>
+			<v-dialog v-model="dialog" width="auto">
 				<v-card>
 					<v-card-text>
 						Un mail de confirmation vous a été envoyé par mail
 					</v-card-text>
 					<v-card-actions>
-						<v-btn color="primary" block @click="returnToOrder">Close Dialog</v-btn>
+						<v-btn color="primary" block @click="returnToOrder"
+							>Close Dialog</v-btn
+						>
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
@@ -123,15 +122,33 @@
 </template>
 
 <script setup>
-let dialog = ref(false)
-const returnToOrder = () => {
-	dialog.value = false;
-	navigateTo({ path: "/user/orders" });
-}
+	let dialog = ref(false);
+	const returnToOrder = () => {
+		dialog.value = false;
+		navigateTo({ path: "/user/orders" });
+	};
 	definePageMeta({
 		title: "Mon profil",
 		description: "Page de profil utilisateur",
 		layout: "custom",
+		middleware: () => {
+			$fetch("http://localhost:3001/api/auth/authenticate", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: localStorage.getItem("accessToken"),
+				},
+			}).then((res) => {
+				if (res.authenticated == true) {
+					return;
+				} else {
+					navigateTo("/login");
+				}
+			});
+		},
+	});
+	useSeoMeta({
+		title: "New order",
 	});
 	const handleSubmit = async (e) => {
 		const form = e.target;

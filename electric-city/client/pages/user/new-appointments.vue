@@ -8,4 +8,7 @@
 	definePageMeta({
 		layout: "custom",
 	});
+	useSeoMeta({
+		title: "New appointments",
+	});
 </script>

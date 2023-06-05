@@ -14,6 +14,7 @@
 				<NuxtImg
 					src="./logo-white-cropped.png"
 					class="tw-z-10 tw-h-20 tw-w-44 tw-ml-2 -tw-mt-4"
+					@click="navigateTo({ path: '/' })"
 				></NuxtImg>
 				<div
 					class="tw-hidden tw-h-10 tw-font-alata tw-mt-2 md:tw-flex md:tw-space-x-6 tw-z-10"
@@ -186,6 +187,10 @@
 	<Footer />
 </template>
 <script setup>
+	useSeoMeta({
+		title: "About us",
+		description: "About us page",
+	});
 	let accessToken = "";
 	let isLogged = ref(false);
 	let isAdmin = ref(false);

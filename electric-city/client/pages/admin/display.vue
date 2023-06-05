@@ -158,6 +158,9 @@
 			});
 		},
 	});
+	useSeoMeta({
+		title: "Admin - Messages",
+	});
 </script>
 
 <style scoped>

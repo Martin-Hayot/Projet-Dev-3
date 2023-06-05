@@ -125,7 +125,6 @@
 </template>
 
 <script setup>
-	import { useRoute } from "vue-router";
 	definePageMeta({
 		layout: "custom-admin",
 		middleware: () => {
@@ -200,4 +199,7 @@
 			},
 		},
 	};
+	useSeoMeta({
+		title: "Order details",
+	});
 </script>
