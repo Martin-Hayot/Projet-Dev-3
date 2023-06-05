@@ -113,14 +113,14 @@
 	definePageMeta({
 		layout: "custom-admin",
 		middleware: () => {
-			$fetch("http://localhost:3001/api/auth/authenticate", {
+			$fetch("http://localhost:3001/api/auth/role", {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: localStorage.getItem("accessToken"),
 				},
 			}).then((res) => {
-				if (res.authenticated == true) {
+				if (res.role == "ADMIN") {
 					return;
 				} else {
 					navigateTo("/login");

@@ -195,6 +195,7 @@
 		<Icon
 			name="ic:sharp-arrow-back"
 			@click="navigateTo('/user/appointments')"
+			class="tw-cursor-pointer hover:-tw-translate-x-2 hover:tw-scale-105 tw-duration-200"
 		/>
 		New appointment
 	</div>
