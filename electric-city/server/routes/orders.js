@@ -13,13 +13,12 @@ const adminStorage = multer.diskStorage({
 });
 const [authenticateToken] = require("../middleware/auth");
 const upload = multer({ storage: storage }).single("audioFile");
-const uploadAdmin = multer({ adminStorage: adminStorage }).single("audioFile");
+const uploadAdmin = multer({ storage: adminStorage }).single("audioFile");
 const db = require("../utils/db.server.ts");
 
 router.post("/order", upload, async (req, res) => {
 	const { songName, description, typeMastering, price, accessToken } = req.body;
 	const { email } = jwt.decode(accessToken);
-	console.log(email);
 	const track = req.file;
 	try {
 		const getClientId = await db.User.findUnique({
@@ -70,6 +69,7 @@ router.get("/", authenticateToken, async (req, res) => {
 				createdAt: true,
 				clientId: true,
 				masteredFile: true,
+				status: true,
 			},
 		});
 		res.json(orders);
@@ -92,6 +92,7 @@ router.get("/admin", async (req, res) => {
 				clientFile: true,
 				clientId: true,
 				masteredFile: true,
+				status: true,
 			},
 			orderBy: {
 				createdAt: "asc",
@@ -104,8 +105,70 @@ router.get("/admin", async (req, res) => {
 	}
 });
 
-router.post("/admin/upload", uploadAdmin, (req, res) => {
-	res.json({ message: "Successfully uploaded files" });
+router.get("/details/:id", async (req, res) => {
+	const { id } = req.params;
+	try {
+		const order = await db.Order.findUnique({
+			where: {
+				id: id,
+			},
+			select: {
+				id: true,
+				songName: true,
+				feedback: true,
+				price: true,
+				masteringType: true,
+				createdAt: true,
+				clientFile: true,
+				clientId: true,
+				masteredFile: true,
+				status: true,
+			},
+		});
+		res.json(order);
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+	}
+});
+
+router.put("/status/edit", async (req, res) => {
+	const { id, status } = req.body;
+	try {
+		const updateStatus = await db.Order.update({
+			where: {
+				id: id,
+			},
+			data: {
+				status: status,
+			},
+		});
+		res.json({ message: "Successfully updated status" });
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+	}
+});
+
+router.put("/admin/upload", uploadAdmin, async (req, res) => {
+	const { orderId } = req.body;
+	const track = req.file;
+	console.log(orderId);
+
+	try {
+		const uploadFile = await db.Order.update({
+			where: {
+				id: orderId,
+			},
+			data: {
+				masteredFile: track.path,
+			},
+		});
+		res.json({ message: "Successfully uploaded file" });
+	} catch (e) {
+		console.log(e);
+		res.status(500).json(e);
+	}
 });
 
 router.post("/admin/download", async (req, res) => {

@@ -38,6 +38,7 @@ model Order {
   masteringType String
   clientFile    String
   masteredFile  String   @default("NULL")
+  status        String   @default("PENDING")
 
   Agenda        Agenda?
 }

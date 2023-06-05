@@ -55,8 +55,6 @@
 <script setup>
 	let fullName = ref("");
 	let email = ref("");
-	const router = useRouter();
-	const orderPath = router.currentRoute.value.path;
 	function logout() {
 		localStorage.removeItem("accessToken");
 		navigateTo({ path: "/" });

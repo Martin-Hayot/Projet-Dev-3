@@ -1,5 +1,8 @@
 <template>
 	<NuxtLayout>
+		<div>
+			<h1 class="tw-text-4xl tw-m-5 tw-ml-16 tw-absolute">Your account</h1>
+		</div>
 		<v-sheet width="300" class="mx-auto tw-mt-32">
 			<v-form @submit.prevent="submit" :disabled="!model">
 				<v-alert

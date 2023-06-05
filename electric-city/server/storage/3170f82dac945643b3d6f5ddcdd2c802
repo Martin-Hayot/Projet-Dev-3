@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Error: ENOENT: no such file or directory, stat &#39;C:\Users\gaeta\Desktop\Projet-Dev-3\electric-city\server\storage\attestation_grÃ¨ve nationale_10032023.pdf&#39;</pre>
+</body>
+</html>

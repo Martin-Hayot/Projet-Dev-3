@@ -33,10 +33,6 @@
 						><Icon name="mdi:shopping-music" size="1.6em" />
 						<strong> Order</strong></v-list-item
 					>
-					<v-list-item @click="navigateTo({ path: '/admin/statistics' })"
-						><Icon name="ion:stats-chart" size="1.6em" />
-						<strong> Statistics</strong></v-list-item
-					>
 					<v-list-item @click="navigateTo({ path: '/contact' })"
 						><Icon name="material-symbols:contact-mail" size="1.5em" />
 						<strong> Contact Us</strong></v-list-item
