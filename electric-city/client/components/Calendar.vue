@@ -57,6 +57,13 @@
 				)
 					.toISOString()
 					.slice(0, 10),
+				isWeekend: IsWeekend(
+					new Date(
+						currYear.value,
+						currMonth.value - 1,
+						lastDateofLastMonth - i + 2
+					)
+				),
 				isInCurrMonth: "prev",
 				isToday: false,
 				isTaken: false,
@@ -74,6 +81,9 @@
 					date: new Date(currYear.value, currMonth.value, i + 1)
 						.toISOString()
 						.slice(0, 10),
+					isWeekend: IsWeekend(
+						new Date(currYear.value, currMonth.value, i + 1)
+					),
 					isToday: true,
 					isTaken: false,
 				});
@@ -85,6 +95,7 @@
 				date: new Date(currYear.value, currMonth.value, i + 1)
 					.toISOString()
 					.slice(0, 10),
+				isWeekend: IsWeekend(new Date(currYear.value, currMonth.value, i + 1)),
 				isToday: false,
 				isTaken: false,
 			});
@@ -99,6 +110,9 @@
 				)
 					.toISOString()
 					.slice(0, 10),
+				isWeekend: IsWeekend(
+					new Date(currYear.value, currMonth.value + 1, i - lastDayOfMonth + 2)
+				),
 				isInCurrMonth: "next",
 				isToday: false,
 				isTaken: false,
@@ -187,6 +201,11 @@
 				}
 			}
 		});
+	};
+	const IsWeekend = (date) => {
+		let day = date.getDay();
+		if (day == 0 || day == 1) return true;
+		else return false;
 	};
 </script>
 
@@ -342,11 +361,13 @@
 										day.isInCurrMonth == 'prev' ||
 										day.isInCurrMonth == 'next' ||
 										day.isTaken ||
-										day.date < thisDate,
+										day.date < thisDate ||
+										day.isWeekend,
 									'hover:tw-rounded-full hover:tw-bg-slate-900 tw-cursor-pointer':
 										day.isInCurrMonth == 'curr' &&
 										!day.isTaken &&
-										day.date >= thisDate,
+										day.date >= thisDate &&
+										!day.isWeekend,
 									'tw-bg-blue-500': day.isToday,
 									'tw-rounded-full': day.isToday,
 								}"
@@ -354,7 +375,8 @@
 									if (
 										day.isInCurrMonth == 'curr' &&
 										!day.isTaken &&
-										day.date >= thisDate
+										day.date >= thisDate &&
+										!day.isWeekend
 									) {
 										isActive = true;
 										SelectDate(day.day, currMonth, currYear, day.isInCurrMonth);

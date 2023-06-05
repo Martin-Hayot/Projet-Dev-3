@@ -4,7 +4,7 @@
 			class="tw-h-screen tw-flex tw-justify-center tw-items-center tw-bg-[#111827]"
 		>
 			<v-sheet
-				height="55em"
+				height="40em"
 				width="50em"
 				:elevation="10"
 				color="#1F2937"
@@ -34,7 +34,9 @@
 								{{ data.date }}
 							</li>
 							<li>
-								<strong class="tw-text-[#2563eb]">Number of tracks: &nbsp&nbsp</strong>
+								<strong class="tw-text-[#2563eb]"
+									>Number of tracks: &nbsp&nbsp</strong
+								>
 								{{ data.nbrOfTrack }}
 							</li>
 						</ul>
@@ -69,7 +71,7 @@
 						</v-sheet>
 					</v-col>
 				</v-row>
-				<v-row class="text-right">
+				<v-row class="text-center">
 					<v-col cols="12">
 						<v-btn
 							class="hover:tw-text-[#03A9F4]"
@@ -124,12 +126,15 @@
 		},
 		methods: {
 			getAppointment() {
-				$fetch("http://localhost:3001/api/agenda/details/" + this.appointmentId, {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-					},
-				})
+				$fetch(
+					"http://localhost:3001/api/agenda/details/" + this.appointmentId,
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+				)
 					.then((res) => {
 						this.data = res;
 						this.clientData = res.client;

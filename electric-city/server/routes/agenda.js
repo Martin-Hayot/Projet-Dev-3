@@ -93,9 +93,9 @@ router.get("/details/:id", async (req, res) => {
 					select: {
 						firstname: true,
 						lastname: true,
-						email: true
-					}
-				}
+						email: true,
+					},
+				},
 			},
 		});
 		res.json(order);
@@ -110,8 +110,10 @@ router.get("/appointments/all", async (req, res) => {
 		const allMeetings = await db.agenda.findMany({
 			select: {
 				date: true,
-				id: true
-
+				id: true,
+			},
+			orderBy: {
+				date: "asc",
 			},
 		});
 		res.json({ data: allMeetings, status: "success" });

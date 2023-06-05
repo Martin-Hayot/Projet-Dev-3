@@ -53,6 +53,7 @@
 						<NuxtLink
 							class="tw-text-white tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10 tw-border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200"
 							to="/login"
+							v-show="!isLogged"
 							>Login</NuxtLink
 						>
 					</div>
@@ -60,6 +61,7 @@
 						<NuxtLink
 							class="tw-text-white border-2 tw-rounded-lg tw-px-4 tw-py-1 hover:tw-bg-white hover:tw-text-black tw-duration-200 tw-pb-2 tw-no-underline tw-text-2xl tw-font-semibold tw-z-10"
 							to="/signup"
+							v-show="!isLogged"
 							>Sign Up</NuxtLink
 						>
 					</div>
@@ -179,7 +181,7 @@
 			</div>
 		</div>
 	</section>
-	<Footer></Footer>
+	<Footer class="tw-absolute tw-bottom-0 tw-w-full"></Footer>
 </template>
 <script setup>
 	useSeoMeta({

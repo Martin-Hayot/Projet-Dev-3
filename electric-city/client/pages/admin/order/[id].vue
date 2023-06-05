@@ -110,7 +110,7 @@
 						</v-sheet>
 					</v-col>
 				</v-row>
-				<v-row class="text-right">
+				<v-row class="text-center">
 					<v-col cols="12">
 						<v-btn
 							class="hover:tw-text-[#03A9F4]"
