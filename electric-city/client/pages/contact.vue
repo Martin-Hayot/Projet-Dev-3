@@ -145,25 +145,24 @@
 										name="email"
 										id="email"
 										class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-blue-600 focus:tw-border-blue-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:tw-focus:ring-blue-500 dark:tw-focus:border-blue-500"
-                                        required="true"
-                                    />
-                                    <label
-                                        for="message"
-                                        class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white"
-                                        >Your request</label
-                                    >
-                                    <textarea
+										required="true"
+									/>
+									<label
+										for="message"
+										class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white"
+										>Your request</label
+									>
+									<input
+										type="text"
 										name="message"
 										id="message"
-										class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-primary-600 focus:tw-border-primary-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:tw-ring-blue-500 dark:focus:tw-border-blue-500 tw-h-40"
+										class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 sm:tw-text-sm tw-rounded-lg focus:tw-ring-primary-600 focus:tw-border-primary-600 tw-block tw-w-full tw-p-20 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:tw-ring-blue-500 dark:focus:tw-border-blue-500"
 										required="true"
-									></textarea>
-
-                                </div>
-                                <div class="tw-flex tw-items-center tw-justify-between">
-                                </div>
-                                <button
-                                    type="submit"
+									/>
+								</div>
+								<div class="tw-flex tw-items-center tw-justify-between"></div>
+								<button
+									type="submit"
 									onclick="alert('the message was sent')"
 									class="tw-w-full tw-text-white tw-bg-blue-600 hover:tw-bg-slate-900 tw-duration-200 focus:tw-ring-4 focus:tw-outline-none focus:tw-ring-slate-300 tw-font-medium tw-rounded-lg tw-text-sm tw-px-5 tw-py-2.5 tw-text-center"
 								>
@@ -179,7 +178,7 @@
 			</div>
 		</div>
 	</section>
-    <Footer></Footer>
+	<Footer></Footer>
 </template>
 <script setup>
 	let accessToken = "";
