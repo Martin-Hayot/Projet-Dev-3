@@ -1,7 +1,9 @@
 <template>
 	<NuxtLayout>
 		<div>
-			<h1 class="tw-text-4xl tw-m-5 tw-ml-16 tw-absolute">Appointments</h1>
+			<h1 class="tw-text-4xl tw-m-5 tw-ml-16 tw-absolute tw-hidden lg:tw-block">
+				Appointments
+			</h1>
 		</div>
 		<v-container>
 			<v-row align="center" class="justify-end">
