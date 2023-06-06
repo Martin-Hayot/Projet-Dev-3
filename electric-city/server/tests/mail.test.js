@@ -1,7 +1,7 @@
 const request = require("supertest")
 const baseURL = "http://localhost:3001/api"
-const [authenticateToken, generateAccessToken] = require("./middleware/auth");
-const db = require("./utils/db.server.ts")
+const [authenticateToken, generateAccessToken] = require("../middleware/auth");
+const db = require("../utils/db.server.ts")
 
 describe("POST /api/mail/order", () => {
     let emptyReq = {};
