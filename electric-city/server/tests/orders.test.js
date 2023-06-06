@@ -1,16 +1,42 @@
 const axios = require("axios");
 const db = require("../utils/db.server.ts");
 const fs = require("fs");
-const filePathOriginal =
-	"C:/Users/Martin_h/Desktop/Projet-Dev-3/electric-city/server/storage/track.mp3";
-const filePathMastered =
-	"C:/Users/Martin_h/Desktop/Projet-Dev-3/electric-city/server/adminStorage/track-mastered.mp3";
+const filePathOriginal = process.env.URL_FILE;
+const filePathMastered = process.env.URL_MASTERED_FILE;
+console.log(filePathOriginal);
+console.log(filePathMastered);
 let email = "";
 let accessToken = "";
 let orderId = "";
 let clientId = "";
 beforeAll(async () => {
 	const deleteOrders = await db.Order.deleteMany({});
+	const responseAdmin = await axios.post(
+		"http://localhost:3001/api/auth/signup",
+		{
+			email: "admin@admin.com",
+			password: "admin123",
+			firstname: "admin",
+			lastname: "admin",
+		}
+	);
+	const editRoleUser = await db.User.update({
+		where: {
+			email: "admin@admin.com",
+		},
+		data: {
+			role: "ADMIN",
+		},
+	});
+	const responseUser = await axios.post(
+		"http://localhost:3001/api/auth/signup",
+		{
+			email: "test@example.com",
+			password: "password123",
+			firstname: "jhon",
+			lastname: "Doe",
+		}
+	);
 	const responseLogin = await axios.post(
 		"http://localhost:3001/api/auth/login",
 		{
@@ -86,6 +112,7 @@ afterAll(async () => {
 	} else {
 		console.log("file doesn't exist, won't remove it");
 	}
+	const deleteUser = await db.User.deleteMany({});
 });
 
 describe("road to orders", () => {

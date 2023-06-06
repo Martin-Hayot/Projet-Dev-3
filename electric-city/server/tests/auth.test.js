@@ -20,6 +20,9 @@ beforeAll(async () => {
 		},
 	});
 });
+afterAll(async () => {
+	const deleteUser = await db.User.deleteMany({});
+});
 
 describe("road to auth", () => {
 	test("POST /signup", async () => {

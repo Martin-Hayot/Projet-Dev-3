@@ -1,7 +1,17 @@
 const axios = require("axios");
+const db = require("../utils/db.server.ts");
 let oldAccessToken = "";
 
 beforeAll(async () => {
+	const responseUser = await axios.post(
+		"http://localhost:3001/api/auth/signup",
+		{
+			email: "test@example.com",
+			password: "password123",
+			firstname: "jhon",
+			lastname: "Doe",
+		}
+	);
 	const responseLoginOld = await axios.post(
 		"http://localhost:3001/api/auth/login",
 		{
@@ -10,6 +20,10 @@ beforeAll(async () => {
 		}
 	);
 	oldAccessToken = responseLoginOld.data.accessToken;
+});
+
+afterAll(async () => {
+	const deleteUser = await db.User.deleteMany({});
 });
 
 describe("road to orders", () => {

@@ -5,6 +5,15 @@ let orderId = "";
 
 beforeAll(async () => {
 	const deleteAgenda = await db.Agenda.deleteMany({});
+	const responseAdmin = await axios.post(
+		"http://localhost:3001/api/auth/signup",
+		{
+			email: "test@example.com",
+			password: "password123",
+			firstname: "Jhon",
+			lastname: "Doe",
+		}
+	);
 	const res = await axios.post("http://localhost:3001/api/auth/login", {
 		email: "test@example.com",
 		password: "password123",
@@ -14,6 +23,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
 	const deleteAgenda = await db.Agenda.deleteMany({});
+	const deleteUser = await db.User.deleteMany({});
 });
 
 describe("Appointments", () => {
@@ -64,19 +74,17 @@ describe("Appointments", () => {
 				},
 			}
 		);
-		expect(response.data).toEqual(
-			expect.objectContaining({
-				id: orderId,
-				date: "2021-09-01",
-				description: "test",
-				nbrOfTrack: 1,
-				client: {
-					firstname: "jhon",
-					lastname: "Doe",
-					email: "test@example.com",
-				},
-			})
-		);
+		expect(response.data).toEqual({
+			id: orderId,
+			date: "2021-09-01",
+			description: "test",
+			nbrOfTrack: 1,
+			client: {
+				firstname: "Jhon",
+				lastname: "Doe",
+				email: "test@example.com",
+			},
+		});
 	});
 });
 
