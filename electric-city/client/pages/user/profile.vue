@@ -69,6 +69,21 @@
 		title: "Mon profil",
 		description: "Page de profil utilisateur",
 		layout: "custom",
+		middleware: () => {
+			$fetch("http://localhost:3001/api/auth/authenticate", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: localStorage.getItem("accessToken"),
+				},
+			}).then((res) => {
+				if (res.authenticated == true) {
+					return;
+				} else {
+					navigateTo("/login");
+				}
+			});
+		},
 	});
 	useSeoMeta({
 		title: "My profile",

@@ -10,7 +10,7 @@ router.put("/edit", async (req, res) => {
 		return res.json({ errors: { msg: "Token not found" } });
 	}
 	const oldAccessToken = jwt.decode(accessToken).email;
-	const user = { email, user_type: "user" };
+	const user = { email, user_type: "USER" };
 	try {
 		password = await bcrypt.hash(password, 10);
 		const newAccessToken = generateAccessToken(user);

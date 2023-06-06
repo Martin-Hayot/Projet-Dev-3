@@ -6,7 +6,7 @@ const db = require("../utils/db.server.ts");
 
 router.post("/signup", async (req, res) => {
 	let { email, password, firstname, lastname } = req.body;
-	const user = { email, user_type: "user" };
+	const user = { email, user_type: "USER" };
 	try {
 		const searchedUser = await db.User.findUnique({
 			where: {
@@ -17,19 +17,15 @@ router.post("/signup", async (req, res) => {
 			return res.json({ errors: { msg: "User already exists" } });
 		}
 		password = await bcrypt.hash(password, 10);
-		const accessToken = generateAccessToken(user);
 		const newUser = await db.User.create({
 			data: {
 				firstname: firstname,
 				lastname: lastname,
 				email: email,
 				password: password,
-				accessToken: accessToken,
 			},
 		});
-		console.log(newUser);
 		res.json({
-			accessToken: accessToken,
 			email: email,
 			user_type: user.user_type,
 			firstname: firstname,
