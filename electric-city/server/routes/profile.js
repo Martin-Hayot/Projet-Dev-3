@@ -9,9 +9,10 @@ router.put("/edit", async (req, res) => {
 	if (!accessToken) {
 		return res.json({ errors: { msg: "Token not found" } });
 	}
-	const oldAccessToken = jwt.decode(accessToken).email;
-	const user = { email, user_type: "USER" };
+
 	try {
+		const oldAccessToken = jwt.decode(accessToken).email;
+		const user = { email, user_type: "USER" };
 		password = await bcrypt.hash(password, 10);
 		const newAccessToken = generateAccessToken(user);
 		const updateUser = await db.User.update({
@@ -38,7 +39,7 @@ router.put("/edit", async (req, res) => {
 		});
 	} catch (e) {
 		console.log(e);
-		res.status(500).json(e);
+		res.status(500);
 	}
 });
 

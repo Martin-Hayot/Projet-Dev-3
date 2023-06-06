@@ -153,10 +153,13 @@ router.get("/details/:id", async (req, res) => {
 				status: true,
 			},
 		});
+		if (!order) {
+			res.json({ message: "Order not found", status: 204 });
+		}
 		res.json(order);
 	} catch (e) {
 		console.log(e);
-		res.status(500).json(e);
+		res.status(500);
 	}
 });
 
@@ -171,10 +174,13 @@ router.put("/status/edit", async (req, res) => {
 				status: status,
 			},
 		});
+		if (!updateStatus) {
+			res.json({ message: "Order not found", status: 204 });
+		}
 		res.json({ message: "Successfully updated status" });
 	} catch (e) {
 		console.log(e);
-		res.status(500).json(e);
+		res.status(500);
 	}
 });
 

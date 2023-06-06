@@ -137,6 +137,15 @@ describe("road to orders", () => {
 });
 
 describe("road to orders", () => {
+	test("GET / error accessToken", async () => {
+		const response = await axios.get("http://localhost:3001/api/orders/", {
+			headers: { Authorization: "122121212122" },
+		});
+		expect(response.data).toEqual({ errors: { msg: "Token not valid" } });
+	});
+});
+
+describe("road to orders", () => {
 	test("GET /admin", async () => {
 		const response = await axios.get("http://localhost:3001/api/orders/admin", {
 			headers: { Authorization: accessToken },
@@ -182,6 +191,18 @@ describe("road to orders", () => {
 });
 
 describe("road to orders", () => {
+	test("GET /details/:id ERROR id order", async () => {
+		const response = await axios.get(
+			"http://localhost:3001/api/orders/details/" + "123456788",
+			{
+				headers: { Authorization: accessToken },
+			}
+		);
+		expect(response.data).toEqual({ message: "Order not found", status: 204 });
+	});
+});
+
+describe("road to orders", () => {
 	test("PUT /status/edit", async () => {
 		const response = await axios.put(
 			"http://localhost:3001/api/orders/status/edit",
@@ -195,9 +216,9 @@ describe("road to orders", () => {
 });
 
 describe("road to orders", () => {
-	test("POST /admin/download", async () => {
+	test("POST /download", async () => {
 		const response = await axios.post(
-			"http://localhost:3001/api/orders/admin/download",
+			"http://localhost:3001/api/orders/download",
 			{
 				file: "/storage/track.mp3",
 			}

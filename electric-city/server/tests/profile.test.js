@@ -40,7 +40,7 @@ describe("road to profile", () => {
 });
 
 describe("road to profile", () => {
-	test("PUT /status/edit", async () => {
+	test("PUT /edit", async () => {
 		const response = await axios.put("http://localhost:3001/api/profile/edit", {
 			email: "test@example.be",
 			firstname: "quentin",

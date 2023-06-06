@@ -39,6 +39,15 @@ describe("road to auth", () => {
 			lastname: "Doe",
 		});
 	});
+	test("POST /signup error user already exist", async () => {
+		const response = await axios.post("http://localhost:3001/api/auth/signup", {
+			email: "test@example.com",
+			password: "password123",
+			firstname: "jhon",
+			lastname: "Doe",
+		});
+		expect(response.data).toEqual({ errors: { msg: "User already exists" } });
+	});
 });
 
 describe("road to auth", () => {
@@ -55,6 +64,26 @@ describe("road to auth", () => {
 			})
 		);
 		accessToken = response.data.accessToken;
+	});
+});
+
+describe("road to auth", () => {
+	test("POST /login error password", async () => {
+		const response = await axios.post("http://localhost:3001/api/auth/login", {
+			email: "test@example.com",
+			password: "password",
+		});
+		expect(response.data).toEqual({ errors: { msg: "Invalid credentials" } });
+	});
+});
+
+describe("road to auth ", () => {
+	test("POST /login error email", async () => {
+		const response = await axios.post("http://localhost:3001/api/auth/login", {
+			email: "test@error.com",
+			password: "password123",
+		});
+		expect(response.data).toEqual({ errors: { msg: "User not found" } });
 	});
 });
 
