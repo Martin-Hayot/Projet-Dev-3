@@ -118,7 +118,6 @@
 	});
 
 	function deleteMessages(id) {
-		console.log(id);
 		$fetch("http://localhost:3001/api/deleteMessages/", {
 			method: "PUT",
 			headers: {
