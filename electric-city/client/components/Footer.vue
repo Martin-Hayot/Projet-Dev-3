@@ -14,13 +14,13 @@
 						class="tw-flex tw-flex-col tw-items-center tw-space-y-4 tw-font-bold tw-text-white md:tw-flex-row md:tw-space-y-0 md:tw-space-x-6 md:tw-ml-3"
 					>
 						<div class="tw-h-10 tw-group">
-							<a href="#">About Us</a>
+							<NuxtLink to="/about">About Us</NuxtLink>
 							<div
 								class="tw-mx-2 group-hover:tw-border-b group-hover:tw-border-blue-50"
 							></div>
 						</div>
 						<div class="tw-h-10 tw-group">
-							<a href="#">Equipment</a>
+							<NuxtLink href="#">Equipment</NuxtLink>
 							<div
 								class="tw-mx-2 group-hover:tw-border-b group-hover:tw-border-blue-50"
 							></div>
@@ -32,7 +32,7 @@
 							></div>
 						</div>
 						<div class="tw-h-10 tw-group">
-							<a href="#">Contact Us</a>
+							<NuxtLink to="/contact">Contact Us</NuxtLink>
 							<div
 								class="tw-mx-2 group-hover:tw-border-b group-hover:tw-border-blue-50"
 							></div>
@@ -46,16 +46,24 @@
 						class="tw-flex tw-items-center tw-justify-center tw-space-x-4 tw-mx-auto md:tw-justify-end"
 					>
 						<div class="tw-h-8 tw-group">
-							<a href="#"><img src="/icon-facebook.svg" alt="" /></a>
+							<a href="https://facebook.com"
+								><img src="/icon-facebook.svg" alt=""
+							/></a>
 						</div>
 						<div class="tw-h-8 tw-group">
-							<a href="#"><img src="/icon-twitter.svg" alt="" /></a>
+							<a href="https://twitter.com"
+								><img src="/icon-twitter.svg" alt=""
+							/></a>
 						</div>
 						<div class="tw-h-8 tw-group">
-							<a href="#"><img src="/icon-pinterest.svg" alt="" /></a>
+							<a href="https://pinterest.com"
+								><img src="/icon-pinterest.svg" alt=""
+							/></a>
 						</div>
 						<div class="tw-h-8 tw-group">
-							<a href="#"><img src="/icon-instagram.svg" alt="" /></a>
+							<a href="https://instagram.com"
+								><img src="/icon-instagram.svg" alt=""
+							/></a>
 						</div>
 					</div>
 					<div class="tw-font-bold">
