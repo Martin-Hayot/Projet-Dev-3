@@ -5,18 +5,43 @@ const nodemailer = require('nodemailer')
 require('dotenv').config();
 const mailHtml = require("../utils/mailOrderConfirmation")
 
-router.post("/order", async (req, res) => {
+router.post("/order", orderValidator, async (req, res) => {
+    const email = req.body.client.email;
+    const orderId = req.body.id;
     try {
-        const email = req.body.client.email;
-        const id = req.body.id;
-        console.log(email, id);
-        mailer(email, id);
+        console.log(email, orderId);
+        //mailer(email, orderId);
         res.sendStatus(204);
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
     }
 })
+
+async function orderValidator(req, res, next) {
+    if (!req.body || !req.body.client || !req.body.client.email || !req.body.id) {
+        return res.sendStatus(400);
+    }
+    try {
+        await db.user.findUniqueOrThrow({
+            where: {
+                email: req.body.client.email
+            }
+        });
+    } catch (err) {
+        return res.sendStatus(400)
+    }
+    try {
+        await db.order.findUniqueOrThrow({
+            where: {
+                id: req.body.id
+            }
+        });
+    } catch (err) {
+        return res.sendStatus(400)
+    }
+    next();
+}
 
 function mailer(clientEmail, orderId) {
     const mail = process.env.EMAIL;
