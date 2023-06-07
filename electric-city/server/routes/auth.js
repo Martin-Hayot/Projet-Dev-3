@@ -39,12 +39,12 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
 	const { email, password } = req.body;
-	const user = { email, user_type: "USER" };
+	const user = { email: email, user_type: "USER" };
 
 	try {
 		const searchedUser = await db.User.findUnique({
 			where: {
-				email: user.email,
+				email: email,
 			},
 			select: {
 				email: true,

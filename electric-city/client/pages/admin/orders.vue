@@ -51,7 +51,7 @@
 						<td class="tw-border tw-border-black">{{ order.clientId }}</td>
 						<td class="tw-border tw-border-black">
 							<v-btn
-								@click="downloadSong(order.clientFile)"
+								@click="downloadSong(order.clientFile, order.id)"
 								class="tw-border tw-border-black hover:tw-text-blue-500"
 							>
 								<Icon name="carbon:download" size="1.4em" color="black" />
@@ -165,7 +165,7 @@
 				document.body.removeChild(a);
 				URL.revokeObjectURL(url);
 			},
-			downloadSong(fileName) {
+			downloadSong(fileName, id) {
 				fetch("http://localhost:3001/api/orders/admin/download", {
 					method: "POST",
 					headers: {
@@ -176,7 +176,12 @@
 					}),
 				})
 					.then((res) => res.blob())
-					.then((blob) => this.handler(blob, fileName))
+					.then((blob) => {
+						const orderId = id;
+						const extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+						const newFileName = orderId + "." + extension;
+						this.handler(blob, newFileName);
+					})
 					.catch((error) => {
 						console.error(
 							"Une erreur s'est produite lors du téléchargement du fichier :",
@@ -207,7 +212,6 @@
 				}
 			},
 			statusOrder(status, id) {
-				console.log("j ai modifier le status");
 				fetch("http://localhost:3001/api/orders/status/edit", {
 					method: "PUT",
 					headers: {

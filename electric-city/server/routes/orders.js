@@ -187,7 +187,6 @@ router.put("/status/edit", async (req, res) => {
 router.put("/admin/upload", uploadAdmin, async (req, res) => {
 	const { orderId } = req.body;
 	const track = req.file;
-	console.log(orderId);
 
 	try {
 		const uploadFile = await db.Order.update({

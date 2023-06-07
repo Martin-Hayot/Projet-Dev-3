@@ -47,7 +47,7 @@
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<v-btn
 							v-if="order.masteredFile != 'NULL'"
-							@click="downloadSong(order.masteredFile)"
+							@click="downloadSong(order.masteredFile, order.id)"
 							class="tw-border tw-border-black hover:tw-text-blue-500"
 						>
 							<Icon name="carbon:download" size="1.4em" color="black" />
@@ -85,7 +85,7 @@
 	});
 </script>
 <script>
-	import { format } from "date-fns";
+	import { format, set } from "date-fns";
 	export default {
 		data() {
 			return {
@@ -107,8 +107,6 @@
 				})
 					.then((res) => {
 						this.data = res;
-						console.log(this.data);
-						console.log(this.data.status);
 						this.formatedDateFromData();
 					})
 					.catch((err) => console.log(err));
@@ -122,16 +120,18 @@
 			},
 			handler(file, filename) {
 				const url = URL.createObjectURL(file);
-				const a = document.createElement("a");
+				let a = document.createElement("a");
 				a.setAttribute("href", url);
 				a.setAttribute("download", filename);
 				a.style.display = "none";
 				document.body.appendChild(a);
 				a.click();
 				document.body.removeChild(a);
-				URL.revokeObjectURL(url);
+				setTimeout(() => {
+					URL.revokeObjectURL(url);
+				}, 500);
 			},
-			downloadSong(fileName) {
+			downloadSong(fileName, id) {
 				fetch("http://localhost:3001/api/orders/download", {
 					method: "POST",
 					headers: {
@@ -139,10 +139,16 @@
 					},
 					body: JSON.stringify({
 						file: fileName,
+						orderId: id,
 					}),
 				})
 					.then((res) => res.blob())
-					.then((blob) => this.handler(blob, fileName))
+					.then((blob) => {
+						const orderId = id;
+						const extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+						const newFileName = orderId + "." + extension;
+						this.handler(blob, newFileName);
+					})
 					.catch((error) => {
 						console.error(
 							"Une erreur s'est produite lors du téléchargement du fichier :",
